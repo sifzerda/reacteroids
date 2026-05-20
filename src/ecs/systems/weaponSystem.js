@@ -18,13 +18,8 @@ export function weaponSystem(delta) {
       const muzzleDistance = 0.7;
 
       spawnBullet({
-        x:
-          ship.x +
-          Math.cos(ship.rotation) * muzzleDistance,
-
-        y:
-          ship.y +
-          Math.sin(ship.rotation) * muzzleDistance,
+        x: ship.x + Math.cos(ship.rotation) * muzzleDistance,
+        y: ship.y + Math.sin(ship.rotation) * muzzleDistance,
 
         rotation: ship.rotation,
       });
