@@ -1,4 +1,4 @@
-import './App.css'
+//import './App.css'
 
 import { Outlet } from 'react-router-dom';
 import { BrowserRouter } from "react-router-dom";
@@ -6,10 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
-
-// src/App.jsx
-
-//import Home from './pages/Home';
 
 export default function App({ children }) {
   return (
