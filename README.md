@@ -41,3 +41,5 @@ If you are developing a production application, we recommend using TypeScript wi
 - [ ] how to play screen
 - [ ] submit highscores
 - [ ] sfx
+- [ ] optimization
+- [ ] effect enhancement, 
