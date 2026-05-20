@@ -1,7 +1,6 @@
 // src/ecs/systems/bulletLifetimeSystem.js
 
 import { bullets } from '../queries';
-
 import { world } from '../world';
 
 export function bulletLifetimeSystem(delta) {
