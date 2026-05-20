@@ -29,7 +29,7 @@ export default function AboutPage() {
                             {[
                                 {
                                     title: "FRAMEWORKS AND LIBRARIES",
-                                    desc: "React Next.js."
+                                    desc: "React."
                                 },
                                 {
                                     title: "GAME ENGINE",
