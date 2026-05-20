@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AboutPage({
-    title = "ACCESS",
+    title = "ABOUT",
     footer,
     children,
 }) {
