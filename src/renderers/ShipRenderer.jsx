@@ -1,9 +1,7 @@
 // src/renderers/ShipRenderer.jsx
 
 import { useRef } from 'react';
-
 import { useFrame } from '@react-three/fiber';
-
 import { ships } from '../ecs/queries';
 
 export default function ShipRenderer() {
@@ -19,7 +17,7 @@ export default function ShipRenderer() {
       );
 
       meshRef.current.rotation.z =
-        ship.rotation;
+        ship.rotation - Math.PI / 2;
     }
   });
 

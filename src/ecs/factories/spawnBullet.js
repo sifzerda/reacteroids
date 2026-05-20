@@ -15,9 +15,8 @@ export function spawnBullet({
     x,
     y,
 
-    vx: Math.sin(rotation) * speed,
-
-    vy: Math.cos(rotation) * speed,
+    vx: Math.cos(rotation) * speed,
+    vy: Math.sin(rotation) * speed,
 
     rotation,
 

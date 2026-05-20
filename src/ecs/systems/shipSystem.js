@@ -22,12 +22,12 @@ export function shipSystem(delta) {
     // THRUST
     if (keys['ArrowUp']) {
       ship.vx +=
-        Math.sin(ship.rotation) *
+        Math.cos(ship.rotation) *
         THRUST *
         delta;
 
       ship.vy +=
-        Math.cos(ship.rotation) *
+        Math.sin(ship.rotation) *
         THRUST *
         delta;
     }
