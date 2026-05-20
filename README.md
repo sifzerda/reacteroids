@@ -27,3 +27,17 @@ If you are developing a production application, we recommend using TypeScript wi
 - miniplex
 
 - zustand?
+
+
+
+
+## Tasks
+
+- [ ] add different weapons with an easy system to add more
+- [ ] levels/difficulty
+- [ ] score system
+- [ ] start screen, end screen, game over screen
+- [ ] pause screen
+- [ ] how to play screen
+- [ ] submit highscores
+- [ ] sfx
