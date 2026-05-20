@@ -18,5 +18,12 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## tech
 
+- React Vite
+- React Three Fiber
+- Tailwind
+- react-router-dom
+- Three.js WebGL renderer
 - ECS World system
 - miniplex
+
+- zustand?
