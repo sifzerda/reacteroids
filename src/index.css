@@ -1,4 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-audiowide: 'Audiowide', sans-serif;
+}
 
 :root {
   --text: #6b6375;
@@ -48,6 +53,7 @@
   }
 
 }
+
 
 * {
   box-sizing: border-box;

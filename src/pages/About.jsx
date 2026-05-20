@@ -17,7 +17,7 @@ export default function AboutPage() {
                         <h1 className="text-5xl md:text-7xl tracking-[0.2em] text-cyan-300 drop-shadow-[0_0_12px_#00ffff]">
                             ABOUT
                         </h1>
-                        <p className="uppercase text-sm md:text-base text-cyan-400 tracking-widest">React Next.js Asteroids 2.0</p>
+                        <p className="uppercase text-sm md:text-base text-cyan-400 tracking-widest">React Asteroids 2.0</p>
                     </section>
 
                     {/* WHAT WE DO */}
