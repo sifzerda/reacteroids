@@ -17,5 +17,7 @@ export function spawnShip() {
     radius: 0.45,
 
     cooldown: 0,
+
+    weapon: 'normal',
   });
 }

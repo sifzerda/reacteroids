@@ -15,17 +15,19 @@ export function weaponSystem(delta) {
     ) {
       ship.cooldown = 0.15;
 
-      const muzzleDistance = 0.7;
+const muzzleDistance = 0.7;
 
-      spawnBullet({
-        x: ship.x +
-          Math.cos(ship.rotation) * muzzleDistance,
+spawnBullet({
+  x:
+    ship.x +
+    Math.cos(ship.rotation) * muzzleDistance,
 
-        y:ship.y +
-          Math.sin(ship.rotation) * muzzleDistance,
+  y:
+    ship.y +
+    Math.sin(ship.rotation) * muzzleDistance,
 
-        rotation: ship.rotation,
-      });
+  rotation: ship.rotation,
+});
     }
   }
 }

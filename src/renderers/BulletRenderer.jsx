@@ -12,7 +12,7 @@ export default function BulletRenderer() {
 
   const meshRef = useRef();
   const geometry = useMemo(() => new THREE.BoxGeometry(0.08, 0.4, 0.08), []);
-  const material = useMemo(() => new THREE.MeshBasicMaterial({color: '#ff66ff', }), []);
+  const material = useMemo(() => new THREE.MeshBasicMaterial({ color: '#ff66ff', }), []);
 
   useFrame(() => {
     let i = 0;
@@ -26,7 +26,7 @@ export default function BulletRenderer() {
       );
 
       temp.rotation.z =
-        bullet.rotation;
+        bullet.rotation - Math.PI / 2;
 
       temp.updateMatrix();
 

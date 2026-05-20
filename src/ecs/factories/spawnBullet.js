@@ -6,9 +6,19 @@ export function spawnBullet({
   x,
   y,
   rotation,
-}) {
-  const speed = 20;
 
+  speed = 20,
+
+  damage = 100,
+
+  radius = 0.15,
+
+  colorR = 1,
+  colorG = 0,
+  colorB = 1,
+
+  life = 1.2,
+}) {
   world.add({
     bullet: true,
 
@@ -20,6 +30,14 @@ export function spawnBullet({
 
     rotation,
 
-    life: 1.2,
+    damage,
+
+    radius,
+
+    colorR,
+    colorG,
+    colorB,
+
+    life,
   });
 }
