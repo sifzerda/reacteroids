@@ -7,6 +7,7 @@ import { spawnShip } from '../ecs/factories/spawnShip';
 import GameLoop from '../ecs/GameLoop';
 import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
+import AsteroidRenderer from '../renderers/AsteroidRenderer';
 
 export default function Play() {
 
@@ -27,6 +28,8 @@ export default function Play() {
       <ShipRenderer />
 
       <BulletRenderer />
+
+      <AsteroidRenderer />
 
     </Canvas>
   );

@@ -12,3 +12,6 @@ export const movable = world.with(
   'vx',
   'vy'
 );
+
+export const asteroids =
+  world.with('asteroid');
