@@ -31,7 +31,7 @@ export default function AboutPage({
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.10),transparent_70%)]" />
 
             {/* noise texture */}
-            <div className="pointer-events-none absolute inset-0 opacity-[0.5] mix-blend-screen bg-[url('http://www.transparenttextures.com/patterns/cream-pixels.png')]" />
+            <div className="pointer-events-none absolute inset-0 opacity-[0.5] mix-blend-screen bg-[url('/cream-pixels.png')]" />
 
             {/* scanlines */}
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-size-[100%_4px]" />
