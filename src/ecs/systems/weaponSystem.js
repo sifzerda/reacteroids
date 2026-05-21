@@ -2,32 +2,50 @@
 
 import { ships } from '../queries';
 import { keys } from '../input';
-import { spawnBullet } from '../factories/spawnBullet';
+//import { spawnBullet } from '../factories/spawnBullet';
+import { weapons } from '../weapons';
 
 export function weaponSystem(delta) {
   for (const ship of ships) {
 
+    // SWITCH WEAPONS
+
+    if (keys['Digit1']) {
+      ship.weapon = 'raygun';
+    }
+
+    if (keys['Digit2']) {
+      ship.weapon = 'shotgun';
+    }
+
+    if (keys['Digit3']) {
+      ship.weapon = 'machinegun';
+    }
+
+    // CURRENT WEAPON
+
+    const weapon =
+      weapons[ship.weapon];
+
+    if (!weapon) continue;
+
+    // COOLDOWN
+
     ship.cooldown -= delta;
+
+    // FIRE
 
     if (
       keys['Space'] &&
       ship.cooldown <= 0
     ) {
-      ship.cooldown = 0.15;
+      ship.cooldown = weapon.cooldown;
 
-const muzzleDistance = 0.7;
+      //const muzzleDistance = 0.7;
 
-spawnBullet({
-  x:
-    ship.x +
-    Math.cos(ship.rotation) * muzzleDistance,
-
-  y:
-    ship.y +
-    Math.sin(ship.rotation) * muzzleDistance,
-
-  rotation: ship.rotation,
-});
+      weapon.fire(ship);
+    }
+    
     }
   }
-}
+ 

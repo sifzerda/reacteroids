@@ -20,9 +20,7 @@ export default function Navigation() {
 
             return (
               <li key={label}>
-                <Link
-                  to={href}
-                  className={`
+                <Link to={href} className={`
                     px-4 py-1 text-sm border rounded-sm transition-all inline-block
                     ${isActive
                       ? 'border-cyan-400 text-cyan-300 shadow-[0_0_6px_#00eaff]'

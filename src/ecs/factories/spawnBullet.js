@@ -8,9 +8,7 @@ export function spawnBullet({
   rotation,
 
   speed = 20,
-
   damage = 100,
-
   radius = 0.15,
 
   colorR = 1,
@@ -29,9 +27,7 @@ export function spawnBullet({
     vy: Math.sin(rotation) * speed,
 
     rotation,
-
     damage,
-
     radius,
 
     colorR,

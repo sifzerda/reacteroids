@@ -23,10 +23,10 @@ If you are developing a production application, we recommend using TypeScript wi
 - Tailwind
 - react-router-dom
 - Three.js WebGL renderer
-- ECS World system
+- ECS folder structure: factories, queries, systems, renderers
 - miniplex
 
-- zustand?
+- ~~zustand~~
 
 
 
@@ -42,4 +42,4 @@ If you are developing a production application, we recommend using TypeScript wi
 - [ ] submit highscores
 - [ ] sfx
 - [ ] optimization
-- [ ] effect enhancement, 
+- [ ] effect enhancement

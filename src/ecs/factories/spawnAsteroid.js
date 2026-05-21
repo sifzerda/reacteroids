@@ -9,9 +9,7 @@ function rand(min, max) {
 export function spawnAsteroid() {
 
   const limit = 9;
-
-  const edge =
-    Math.floor(Math.random() * 4);
+  const edge = Math.floor(Math.random() * 4);
 
   let x = 0;
   let y = 0;
@@ -46,12 +44,8 @@ export function spawnAsteroid() {
     vy: rand(-2, 2),
 
     rotation: 0,
-
-    rotationSpeed:
-      rand(-1, 1),
-
+    rotationSpeed: rand(-1, 1),
     radius: 0.8,
-
     health: 100,
   });
 }

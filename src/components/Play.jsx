@@ -16,19 +16,12 @@ export default function Play() {
   }, []);
 
   return (
-    <Canvas
-      camera={{
-        position: [0, 0, 10],
-      }}
-    >
+    <Canvas camera={{ position: [0, 0, 10] }}>
       <ambientLight intensity={1} />
 
       <GameLoop />
-
       <ShipRenderer />
-
       <BulletRenderer />
-
       <AsteroidRenderer />
 
     </Canvas>

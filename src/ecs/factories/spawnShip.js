@@ -13,9 +13,7 @@ export function spawnShip() {
     vy: 0,
 
     rotation: 0,
-
     radius: 0.45,
-
     cooldown: 0,
 
     weapon: 'normal',
