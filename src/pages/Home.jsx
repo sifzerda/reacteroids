@@ -1,6 +1,4 @@
  
-//'use client';
-
 import { useState } from 'react';
 
 import StartScreen from '../screens/StartScreen';
