@@ -1,5 +1,4 @@
-import { spawnBullet }
-  from '../factories/spawnBullet';
+import { spawnBullet } from '../factories/spawnBullet';
 
 export const normalWeapon = {
 
@@ -11,13 +10,8 @@ export const normalWeapon = {
 
     spawnBullet({
 
-      x:
-        ship.x +
-        Math.cos(ship.rotation) * muzzle,
-
-      y:
-        ship.y +
-        Math.sin(ship.rotation) * muzzle,
+      x: ship.x + Math.cos(ship.rotation) * muzzle,
+      y: ship.y + Math.sin(ship.rotation) * muzzle,
 
       rotation: ship.rotation,
     });

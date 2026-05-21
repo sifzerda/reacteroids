@@ -25,11 +25,8 @@ export function spawnBullet({
   life = 1.2,
 }) {
 
-  const vx =
-    Math.cos(rotation) * speed;
-
-  const vy =
-    Math.sin(rotation) * speed;
+  const vx = Math.cos(rotation) * speed;
+  const vy = Math.sin(rotation) * speed;
 
   return world.add({
 

@@ -1,15 +1,28 @@
  
-//import Asteroids from '../components/game/Asteroids';
-import Play from '../components/Play';
+//'use client';
+
+import { useState } from 'react';
+
+import StartScreen from '../screens/StartScreen';
+import PlayScreen from '../screens/PlayScreen';
+import GameOverScreen from '../screens/GameOverScreen';
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        
-      {/*  <Asteroids />   */ }
+  const [screen, setScreen] = useState('start');
 
-      <Play />
-        
+  return (
+        <div className="w-screen h-screen overflow-hidden bg-black">
+
+      {screen === 'start' && ( <StartScreen onStart={() => setScreen('play')} /> )}
+      {screen === 'play' && ( <PlayScreen onGameOver={() => setScreen('gameover')} /> )}
+      {screen === 'gameover' && ( <GameOverScreen onRestart={() => setScreen('play')} /> )}
+          
     </div>
   );
 }
+
+
+
+
+ 
+ 
