@@ -15,7 +15,6 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
-
 ## tech
 
 - React Vite
@@ -25,24 +24,24 @@ If you are developing a production application, we recommend using TypeScript wi
 - Three.js WebGL renderer
 - ECS folder structure: factories, queries, systems, renderers
 - miniplex
+- useMemo
 
 - ~~zustand~~
 
-
-
-
 ## Tasks
 
-- [ ] add different weapons with an easy system to add more
+- [x] add different weapons with an easy system to add more
 - [ ] levels/difficulty
-- [ ] score system
-- [ ] start screen, end screen, game over screen
-- [ ] pause screen
+- [x] score system
+- [x] start screen, end screen, game over screen
+- [x] pause screen
 - [ ] how to play screen
 - [ ] submit highscores
 - [ ] sfx
 - [ ] optimization
 - [ ] effect enhancement
+
+- [x] data-flow driven ECS system architecture
 
 
 

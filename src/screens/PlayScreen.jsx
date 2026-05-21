@@ -1,61 +1,47 @@
 // src/components/PlayScreen.jsx
 
 import { useEffect } from 'react';
-
-import { Canvas }
-  from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 
 import GameLoop from '../ecs/GameLoop';
 
-import { startGame }
-  from '../ecs/startGame';
+import { startGame } from '../ecs/startGame';
+import { resetGame } from '../ecs/resetGame';
 
-import { resetGame }
-  from '../ecs/resetGame';
+import ShipRenderer from '../renderers/ShipRenderer';
+import BulletRenderer from '../renderers/BulletRenderer';
+import AsteroidRenderer from '../renderers/AsteroidRenderer';
+import ExhaustRenderer from '../renderers/ExhaustRenderer';
 
-import ShipRenderer
-  from '../renderers/ShipRenderer';
+import HUD from '../components/HUD';
 
-import BulletRenderer
-  from '../renderers/BulletRenderer';
-
-import AsteroidRenderer
-  from '../renderers/AsteroidRenderer';
-
-export default function PlayScreen({
-
-  onGameOver,
-
-}) {
+export default function PlayScreen({ onGameOver }) {
 
   useEffect(() => {
 
     resetGame();
-
     startGame();
 
   }, []);
 
   return (
+    <>
 
-    <Canvas
-      camera={{
-        position: [0, 0, 10],
-      }}
-    >
+      <HUD />
 
-      <ambientLight intensity={1} />
+      <Canvas camera={{ position: [0, 0, 10] }}>
 
-      <GameLoop
-        onGameOver={onGameOver}
-      />
+        <ambientLight intensity={1} />
 
-      <ShipRenderer />
+        <GameLoop onGameOver={onGameOver} />
 
-      <BulletRenderer />
+        <ShipRenderer />
+        <BulletRenderer />
+        <AsteroidRenderer />
+        <ExhaustRenderer />
 
-      <AsteroidRenderer />
+      </Canvas>
 
-    </Canvas>
+    </>
   );
 }

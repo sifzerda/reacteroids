@@ -14,6 +14,10 @@ export const normalWeapon = {
       y: ship.y + Math.sin(ship.rotation) * muzzle,
 
       rotation: ship.rotation,
+
+      colorR: 1,
+      colorG: 0,
+      colorB: 1,
     });
   },
 };

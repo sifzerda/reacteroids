@@ -6,6 +6,8 @@ import {
 } from '../queries';
 
 import { world } from '../world';
+import { spawnAsteroid } from '../factories/spawnAsteroid';
+import { gameState } from '../gameState';
 
 export function collisionSystem() {
 
@@ -30,6 +32,30 @@ export function collisionSystem() {
 
         world.remove(bullet);
         world.remove(asteroid);
+        gameState.score += 100;
+
+        // Split asteroids
+
+        if (asteroid.size > 1) {
+
+          for (let i = 0; i < 2; i++) {
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 1 + Math.random() * 2;
+
+            spawnAsteroid({
+
+              x: asteroid.x,
+              y: asteroid.y,
+
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+
+              radius: asteroid.radius * 0.6,
+              size: asteroid.size - 1,
+            });
+          }
+        }
 
         break;
       }

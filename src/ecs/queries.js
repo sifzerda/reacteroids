@@ -2,7 +2,36 @@
 
 import { world } from './world';
 
-export const ships = world.with('ship');
-export const bullets = world.with('bullet');
-export const movable = world.with( 'x', 'y', 'vx', 'vy' );
-export const asteroids = world.with('asteroid');
+export const ships =
+  world.with('ship');
+
+export const bullets =
+  world.with('bullet');
+
+export const asteroids =
+  world.with('asteroid');
+
+export const exhaustParticles =
+  world.with('exhaust');
+
+export const movable =
+  world.with(
+    'x',
+    'y',
+    'vx',
+    'vy'
+  );
+
+export const collidable =
+  world.with(
+    'x',
+    'y',
+    'radius'
+  );
+
+export const wrappable =
+  world.with(
+    'wrap',
+    'x',
+    'y'
+  );

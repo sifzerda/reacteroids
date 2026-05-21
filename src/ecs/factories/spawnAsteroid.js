@@ -14,11 +14,16 @@ export function spawnAsteroid({
   vy = 0,
 
   radius = 1,
+  size = 3,
 }) {
 
   return world.add({
 
     asteroid: true,
+
+    size,
+
+    wrap: true,
 
     ...transform(x, y),
 

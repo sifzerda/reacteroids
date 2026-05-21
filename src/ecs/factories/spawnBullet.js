@@ -39,11 +39,8 @@ export function spawnBullet({
     ),
 
     ...velocity(vx, vy),
-
     ...collider(radius),
-
     ...lifespan(life),
-
     ...renderColor(
       colorR,
       colorG,
