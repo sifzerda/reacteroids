@@ -1,0 +1,21 @@
+import { movable } from '../queries';
+
+const LIMIT = 9;
+
+export function wrapSystem() {
+
+  for (const entity of movable) {
+
+    if (entity.x > LIMIT)
+      entity.x = -LIMIT;
+
+    if (entity.x < -LIMIT)
+      entity.x = LIMIT;
+
+    if (entity.y > LIMIT)
+      entity.y = -LIMIT;
+
+    if (entity.y < -LIMIT)
+      entity.y = LIMIT;
+  }
+}

@@ -2,6 +2,12 @@
 
 import { world } from '../world';
 
+import { transform } from '../components/transform';
+import { velocity } from '../components/velocity';
+import { collider } from '../components/collider';
+import { lifespan } from '../components/lifespan';
+import { renderColor } from '../components/renderColor';
+
 export function spawnBullet({
   x,
   y,
@@ -9,6 +15,7 @@ export function spawnBullet({
 
   speed = 20,
   damage = 100,
+
   radius = 0.15,
 
   colorR = 1,
@@ -17,23 +24,35 @@ export function spawnBullet({
 
   life = 1.2,
 }) {
-  world.add({
+
+  const vx =
+    Math.cos(rotation) * speed;
+
+  const vy =
+    Math.sin(rotation) * speed;
+
+  return world.add({
+
     bullet: true,
 
-    x,
-    y,
+    ...transform(
+      x,
+      y,
+      rotation
+    ),
 
-    vx: Math.cos(rotation) * speed,
-    vy: Math.sin(rotation) * speed,
+    ...velocity(vx, vy),
 
-    rotation,
+    ...collider(radius),
+
+    ...lifespan(life),
+
+    ...renderColor(
+      colorR,
+      colorG,
+      colorB
+    ),
+
     damage,
-    radius,
-
-    colorR,
-    colorG,
-    colorB,
-
-    life,
   });
 }

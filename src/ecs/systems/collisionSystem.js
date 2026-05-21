@@ -1,10 +1,11 @@
 // src/ecs/systems/collisionSystem.js
 
-import { bullets, asteroids }
-  from '../queries';
+import {
+  bullets,
+  asteroids,
+} from '../queries';
 
-import { world }
-  from '../world';
+import { world } from '../world';
 
 export function collisionSystem() {
 
@@ -13,31 +14,22 @@ export function collisionSystem() {
     for (const asteroid of asteroids) {
 
       const dx =
-        asteroid.x - bullet.x;
+        bullet.x - asteroid.x;
 
       const dy =
-        asteroid.y - bullet.y;
+        bullet.y - asteroid.y;
 
-      const distSq =
-        dx * dx + dy * dy;
-
-      const radius =
-        asteroid.radius + 0.15;
+      const dist =
+        Math.sqrt(dx * dx + dy * dy);
 
       if (
-        distSq <
-        radius * radius
+        dist <
+        bullet.radius +
+        asteroid.radius
       ) {
 
-        asteroid.health -= 50;
-
         world.remove(bullet);
-
-        if (
-          asteroid.health <= 0
-        ) {
-          world.remove(asteroid);
-        }
+        world.remove(asteroid);
 
         break;
       }

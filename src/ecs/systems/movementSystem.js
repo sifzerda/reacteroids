@@ -3,8 +3,10 @@
 import { movable } from '../queries';
 
 export function movementSystem(delta) {
-  for (const e of movable) {
-    e.x += e.vx * delta;
-    e.y += e.vy * delta;
+
+  for (const entity of movable) {
+
+    entity.x += entity.vx * delta;
+    entity.y += entity.vy * delta;
   }
 }

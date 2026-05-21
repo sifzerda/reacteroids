@@ -43,3 +43,18 @@ If you are developing a production application, we recommend using TypeScript wi
 - [ ] sfx
 - [ ] optimization
 - [ ] effect enhancement
+
+
+
+
+
+
+Ideal ECS structure
+
+Layer	            Responsibility
+...................................
+Components	        Data only
+Systems	            Behavior
+Factories       	Create entities
+Renderers	        Visuals only
+Weapons	Modular     firing logic

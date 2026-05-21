@@ -2,18 +2,26 @@
 
 import { world } from '../world';
 
+import { transform } from '../components/transform';
+import { velocity } from '../components/velocity';
+import { collider } from '../components/collider';
+
 export function spawnShip() {
+
   return world.add({
+
     ship: true,
 
-    x: 0,
-    y: 0,
+    ...transform(
+      0,
+      0,
+      0
+    ),
 
-    vx: 0,
-    vy: 0,
+    ...velocity(),
 
-    rotation: 0,
-    radius: 0.45,
+    ...collider(0.45),
+
     cooldown: 0,
 
     weapon: 'normal',

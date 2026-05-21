@@ -2,26 +2,39 @@
 
 import { useFrame } from '@react-three/fiber';
 
-import { shipSystem } from './systems/shipSystem';
-import { weaponSystem } from './systems/weaponSystem';
-import { movementSystem } from './systems/movementSystem';
-import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
-import { asteroidSpawnSystem } from './systems/asteroidSpawnSystem';
-import { asteroidSystem } from './systems/asteroidSystem';
-import { collisionSystem } from './systems/collisionSystem';
+import { shipControlSystem }
+  from './systems/shipControlSystem';
+
+import { movementSystem }
+  from './systems/movementSystem';
+
+import { weaponSystem }
+  from './systems/weaponSystem';
+
+import { wrapSystem }
+  from './systems/wrapSystem';
+
+import { collisionSystem }
+  from './systems/collisionSystem';
+
+import { bulletLifetimeSystem }
+  from './systems/bulletLifetimeSystem';
 
 export default function GameLoop() {
 
   useFrame((_, delta) => {
 
-    shipSystem(delta);
+    shipControlSystem(delta);
+
     weaponSystem(delta);
+
     movementSystem(delta);
-    bulletLifetimeSystem(delta);
-    asteroidSpawnSystem(delta);
-    asteroidSystem(delta);
+
+    wrapSystem();
+
     collisionSystem();
 
+    bulletLifetimeSystem(delta);
   });
 
   return null;

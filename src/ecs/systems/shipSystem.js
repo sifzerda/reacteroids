@@ -1,48 +1,28 @@
 // src/ecs/systems/shipSystem.js
 
-import { ships } from '../queries';
-import { keys } from '../input';
+import { world } from '../world';
 
-const TURN_SPEED = 4;
-const THRUST = 12;
-const DRAG = 0.985;
+import { transform } from '../components/transform';
+import { velocity } from '../components/velocity';
+import { collider } from '../components/collider';
+import { weapon } from '../components/weapon';
 
-export function shipSystem(delta) {
-  for (const ship of ships) {
+export function spawnShip() {
 
-    // ROTATION
-    if (keys['ArrowLeft']) {
-      ship.rotation += TURN_SPEED * delta;
-    }
+  return world.add({
 
-    if (keys['ArrowRight']) {
-      ship.rotation -= TURN_SPEED * delta;
-    }
+    ship: true,
 
-    // THRUST
-    if (keys['ArrowUp']) {
-      ship.vx +=
-        Math.cos(ship.rotation) *
-        THRUST *
-        delta;
+    ...transform(
+      0,
+      0,
+      0
+    ),
 
-      ship.vy +=
-        Math.sin(ship.rotation) *
-        THRUST *
-        delta;
-    }
+    ...velocity(),
 
-    // DRAG
-    ship.vx *= DRAG;
-    ship.vy *= DRAG;
+    ...collider(0.45),
 
-    // SCREEN WRAP
-    const limit = 9;
-
-    if (ship.x > limit) ship.x = -limit;
-    if (ship.x < -limit) ship.x = limit;
-
-    if (ship.y > limit) ship.y = -limit;
-    if (ship.y < -limit) ship.y = limit;
-  }
+    ...weapon('normal'),
+  });
 }
