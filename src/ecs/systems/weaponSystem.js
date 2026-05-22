@@ -2,7 +2,6 @@
 
 import { ships } from '../queries';
 import { keys } from '../input';
-
 import { weapons } from '../weapons';
 
 export function weaponSystem(delta) {
@@ -28,8 +27,7 @@ for (const ship of ships) {
     if (!weapon) continue;
 
     if (
-      keys['Space'] &&
-      ship.cooldown <= 0
+      keys['Space'] && ship.cooldown <= 0
     ) {
 
       ship.cooldown = weapon.cooldown;
