@@ -33,12 +33,12 @@ export function bombSystem() {
 
   gameState.bombReady = false;
   gameState.bombCharge = 0;
-
-  gameEffects.screenShake = 1;
+  gameEffects.screenShake = 1.5;
 
   spawnBombWave({
 
     x: ship.x,
     y: ship.y,
+    radius: 0,
   });
 }
