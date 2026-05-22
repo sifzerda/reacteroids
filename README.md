@@ -54,6 +54,7 @@ Extras once full base game working:
 - [ ] enhance ship and rock vfx/appearance
 - [ ] sfx
 - [ ] fix up start screen UI
+- [ ] asteroid destroyed bar not aligned with play
 
 
 
