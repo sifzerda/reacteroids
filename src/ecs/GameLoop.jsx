@@ -1,4 +1,5 @@
 // src/ecs/GameLoop.jsx
+// imports the systems
 
 import { useFrame, useThree } from '@react-three/fiber';
 import { shipControlSystem } from './systems/shipControlSystem';
@@ -10,6 +11,8 @@ import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
 import { exhaustLifetimeSystem } from './systems/exhaustLifetimeSystem';
 import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { exhaustSystem } from './systems/exhaustSystem';
+//import { waveSystem } from './systems/waveSystem';
+import { bombSystem } from './systems/bombSystem';
 
 export default function GameLoop({
   onGameOver,
@@ -30,6 +33,9 @@ export default function GameLoop({
     shipCollisionSystem(delta, onGameOver);
     bulletLifetimeSystem(delta);
     exhaustLifetimeSystem(delta);
+
+    //waveSystem();
+    bombSystem();
   });
 
   return null;

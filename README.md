@@ -44,6 +44,16 @@ If you are developing a production application, we recommend using TypeScript wi
 - [x] data-flow driven ECS system architecture
 
 
+Extras once full base game working:
+- [ ] more guns types
+- [ ] powerups, ship health etc
+- [ ] add damage bar which when it goes down, ship loses a life
+- [ ] add health packs which restore health
+- [ ] enhance bullet vfx
+- [ ] enhance exhaust particle vfx
+- [ ] enhance ship and rock vfx/appearance
+- [ ] sfx
+- [ ] fix up start screen UI
 
 
 

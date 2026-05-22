@@ -12,15 +12,13 @@ export function spawnShip() {
   return world.add({
 
     ship: true,
-
     wrap: true,
-
     lives: 3,
     invulnerable: 0,
 
     ...transform(0, 0, 0),
     ...velocity(),
     ...collider(0.45),
-    ...weapon('normal'),
+    ...weapon('raygun'),
   });
 }

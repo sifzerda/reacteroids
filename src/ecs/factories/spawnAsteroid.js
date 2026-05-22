@@ -20,15 +20,11 @@ export function spawnAsteroid({
   return world.add({
 
     asteroid: true,
-
     size,
-
     wrap: true,
 
     ...transform(x, y),
-
     ...velocity(vx, vy),
-
     ...collider(radius),
   });
 }

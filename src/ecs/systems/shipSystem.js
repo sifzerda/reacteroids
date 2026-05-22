@@ -20,9 +20,7 @@ export function spawnShip() {
     ),
 
     ...velocity(),
-
     ...collider(0.45),
-
-    ...weapon('normal'),
+    ...weapon('raygun'),
   });
 }

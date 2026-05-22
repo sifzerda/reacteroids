@@ -10,26 +10,17 @@ export function shipControlSystem(delta) {
   for (const ship of ships) {
 
     if (keys['ArrowLeft']) {
-      ship.rotation +=
-        TURN_SPEED * delta;
+      ship.rotation += TURN_SPEED * delta;
     }
 
     if (keys['ArrowRight']) {
-      ship.rotation -=
-        TURN_SPEED * delta;
+      ship.rotation -= TURN_SPEED * delta;
     }
 
     if (keys['ArrowUp']) {
 
-      ship.vx +=
-        Math.cos(ship.rotation) *
-        THRUST *
-        delta;
-
-      ship.vy +=
-        Math.sin(ship.rotation) *
-        THRUST *
-        delta;
+      ship.vx += Math.cos(ship.rotation) * THRUST * delta;
+      ship.vy += Math.sin(ship.rotation) * THRUST * delta;
     }
 
     ship.vx *= DRAG;
