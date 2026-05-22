@@ -1,5 +1,5 @@
-import { normalWeapon }
-  from './normalWeapon';
+import { raygunWeapon }
+  from './raygunWeapon';
 
   import { shotgunWeapon }
   from './shotgunWeapon';
@@ -8,7 +8,7 @@ import { normalWeapon }
   from './machinegunWeapon';
 
 export const weapons = {
-  normal: normalWeapon,
+  raygun: raygunWeapon,
   shotgun: shotgunWeapon,
   machinegun: machinegunWeapon,
 };

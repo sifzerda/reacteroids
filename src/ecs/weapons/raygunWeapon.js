@@ -1,6 +1,9 @@
+// default weapon
+// src/ecs/weapons/raygunWeapon.js
+
 import { spawnBullet } from '../factories/spawnBullet';
 
-export const normalWeapon = {
+export const raygunWeapon = {
 
   cooldown: 0.15,
 

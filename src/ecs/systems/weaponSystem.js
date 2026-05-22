@@ -10,7 +10,7 @@ export function weaponSystem(delta) {
 for (const ship of ships) {
 
     if (keys['Digit1']) {
-      ship.weapon = 'normal';
+      ship.weapon = 'raygun';
     }
 
     if (keys['Digit2']) {
