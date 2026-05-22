@@ -1,4 +1,4 @@
- 
+ // src/pages/Home.jsx
 import { useState } from 'react';
 
 import StartScreen from '../screens/StartScreen';

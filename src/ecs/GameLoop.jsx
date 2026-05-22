@@ -1,6 +1,6 @@
 // src/ecs/GameLoop.jsx
 
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { shipControlSystem } from './systems/shipControlSystem';
 import { movementSystem } from './systems/movementSystem';
 import { weaponSystem } from './systems/weaponSystem';
@@ -15,6 +15,8 @@ export default function GameLoop({
   onGameOver,
 }) {
 
+  const { viewport } = useThree();
+
   useFrame((_, delta) => {
 
     shipControlSystem(delta);
@@ -22,7 +24,7 @@ export default function GameLoop({
     exhaustSystem(delta);
     movementSystem(delta);
 
-    wrapSystem();
+    wrapSystem(viewport);
     collisionSystem();
     
     shipCollisionSystem(delta, onGameOver);

@@ -25,7 +25,7 @@ export default function PlayScreen({ onGameOver }) {
   }, []);
 
   return (
-    <>
+    <div className="relative w-full h-full">
 
       <HUD />
 
@@ -42,6 +42,6 @@ export default function PlayScreen({ onGameOver }) {
 
       </Canvas>
 
-    </>
+    </div>
   );
 }

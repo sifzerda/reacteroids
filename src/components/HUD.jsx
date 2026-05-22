@@ -1,4 +1,4 @@
-
+// src/components/HUD.jsx
 import { useState, useEffect } from 'react';
 import { ships } from '../ecs/queries.js';
 import { gameState } from '../ecs/gameState.js';

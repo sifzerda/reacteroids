@@ -1,23 +1,27 @@
 // makes the game world wrap around
+// src/ecs/systems/wrapSystem.js
 
 import { wrappable } from '../queries';
 
-const LIMIT = 9;
+export function wrapSystem(viewport) {
 
-export function wrapSystem() {
+  const limitX = viewport.width / 2;
+  const limitY = viewport.height / 2;
 
   for (const entity of wrappable) {
 
-    if (entity.x > LIMIT)
-      entity.x = -LIMIT;
+    const padding = entity.radius || 0;
 
-    if (entity.x < -LIMIT)
-      entity.x = LIMIT;
+    if (entity.x > limitX + padding)
+      entity.x = -limitX - padding;
 
-    if (entity.y > LIMIT)
-      entity.y = -LIMIT;
+    if (entity.x < -limitX - padding)
+      entity.x = limitX + padding;
 
-    if (entity.y < -LIMIT)
-      entity.y = LIMIT;
+    if (entity.y > limitY + padding)
+      entity.y = -limitY - padding;
+
+    if (entity.y < -limitY - padding)
+      entity.y = limitY + padding;
   }
 }
