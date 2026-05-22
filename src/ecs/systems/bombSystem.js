@@ -1,16 +1,11 @@
 // src/ecs/systems/bombSystem.js
 
-import { ships, asteroids }
-  from '../queries';
-
-import { world }
-  from '../world';
-
-import { gameState }
-  from '../gameState';
-
-import { keys }
-  from '../input';
+import { ships, asteroids } from '../queries';
+import { world } from '../world';
+import { gameState } from '../gameState';
+import { keys } from '../input';
+import { spawnBombWave } from '../factories/spawnBombWave';
+import { gameEffects } from '../effects/gameEffects';
 
 let bombPressed = false;
 
@@ -39,24 +34,11 @@ export function bombSystem() {
   gameState.bombReady = false;
   gameState.bombCharge = 0;
 
-  const radius = 6;
+  gameEffects.screenShake = 1;
 
-  for (const asteroid of asteroids) {
+  spawnBombWave({
 
-    const dx =
-      asteroid.x - ship.x;
-
-    const dy =
-      asteroid.y - ship.y;
-
-    const dist =
-      Math.sqrt(dx * dx + dy * dy);
-
-    if (dist <= radius) {
-
-      world.remove(asteroid);
-
-      gameState.score += 200;
-    }
-  }
+    x: ship.x,
+    y: ship.y,
+  });
 }

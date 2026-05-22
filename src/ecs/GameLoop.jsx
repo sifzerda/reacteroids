@@ -11,8 +11,9 @@ import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
 import { exhaustLifetimeSystem } from './systems/exhaustLifetimeSystem';
 import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { exhaustSystem } from './systems/exhaustSystem';
-//import { waveSystem } from './systems/waveSystem';
+import { waveSystem } from './systems/waveSystem';
 import { bombSystem } from './systems/bombSystem';
+import { bombWaveSystem } from './systems/bombWaveSystem';
 
 export default function GameLoop({
   onGameOver,
@@ -22,20 +23,29 @@ export default function GameLoop({
 
   useFrame((_, delta) => {
 
-    shipControlSystem(delta);
-    weaponSystem(delta);
-    exhaustSystem(delta);
-    movementSystem(delta);
+shipControlSystem(delta);
 
-    wrapSystem(viewport);
-    collisionSystem();
-    
-    shipCollisionSystem(delta, onGameOver);
-    bulletLifetimeSystem(delta);
-    exhaustLifetimeSystem(delta);
+weaponSystem(delta);
 
-    //waveSystem();
-    bombSystem();
+bombSystem();
+
+exhaustSystem(delta);
+
+movementSystem(delta);
+
+bombWaveSystem(delta);
+
+wrapSystem(viewport);
+
+collisionSystem();
+
+waveSystem();
+
+shipCollisionSystem(delta, onGameOver);
+
+bulletLifetimeSystem(delta);
+
+exhaustLifetimeSystem(delta);
   });
 
   return null;

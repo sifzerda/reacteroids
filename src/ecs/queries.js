@@ -10,3 +10,5 @@ export const exhaustParticles = world.with('exhaust');
 export const movable = world.with('x', 'y', 'vx', 'vy');
 export const collidable = world.with('x', 'y', 'radius');
 export const wrappable = world.with('wrap', 'x', 'y');
+
+export const bombWaves = world.with('bombWave');

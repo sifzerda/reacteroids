@@ -9,29 +9,49 @@ let spawningWave = false;
 
 export function waveSystem() {
 
+  // count manually
+
+  let asteroidCount = 0;
+
+  for (const asteroid of asteroids) {
+    asteroidCount++;
+  }
+
   // still asteroids alive
-  if (asteroids.length > 0)
+
+  if (asteroidCount > 0)
     return;
 
-  // already spawning
+  // prevent duplicate spawning
+
   if (spawningWave)
     return;
 
   spawningWave = true;
-  const count = gameState.asteroidsRequired;
+
+  const count =
+    gameState.asteroidsRequired;
 
   for (let i = 0; i < count; i++) {
 
+    const angle =
+      Math.random() * Math.PI * 2;
+
+    const distance =
+      10 + Math.random() * 4;
+
     spawnAsteroid({
 
-      x: (Math.random() - 0.5) * 18,
-      y: (Math.random() - 0.5) * 18,
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
 
-      vx: (Math.random() - 0.5) * 2,
-      vy: (Math.random() - 0.5) * 2,
+      vx: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
+      vy: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
 
       radius:
         0.7 + Math.random() * 1.5,
+
+      size: 3,
     });
   }
 
