@@ -11,6 +11,9 @@ import { world }
 import { gameState }
   from '../gameState';
 
+import { destroyAsteroid }
+  from '../destroyAsteroid.js';
+
 export function bombWaveSystem(delta) {
 
   for (const wave of bombWaves) {
@@ -38,9 +41,7 @@ export function bombWaveSystem(delta) {
         wave.radius + asteroid.radius
       ) {
 
-        world.remove(asteroid);
-
-        gameState.score += 200;
+        destroyAsteroid(asteroid, 200);
       }
     }
 

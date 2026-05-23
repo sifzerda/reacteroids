@@ -4,13 +4,9 @@
 import { gameState }
   from '../gameState';
 
-import { asteroids }
-  from '../queries';
-
 import { spawnAsteroid }
   from '../factories/spawnAsteroid';
 
-let spawningWave = false;
 let waveCooldown = 0;
 
 export function waveSystem() {
@@ -20,36 +16,30 @@ export function waveSystem() {
     return;
   // count living asteroids
 
-  let asteroidCount = 0;
+     // wave still active
 
-  for (const asteroid of asteroids) {
-    asteroidCount++;
+  if (
+    gameState.waveProgress <
+    gameState.waveProgressRequired
+  ) {
+    return;
   }
 
-  // wave still active
-
-  if (asteroidCount > 0)
-    return;
-
-  // avoid duplicate spawning
-
-  if (spawningWave)
-    return;
-
-  spawningWave = true;
-
-  // NEXT WAVE
+      // NEXT WAVE
 
   gameState.wave++;
 
   const count =
     7 + gameState.wave;
 
-  gameState.waveAsteroidsTotal =
-    count;
+  // reset progress
 
-  gameState.waveAsteroidsRemaining =
-    count;
+  gameState.waveProgress = 0;
+
+  // each asteroid tree = 3
+
+  gameState.waveProgressRequired =
+    count * 3;
 
   for (let i = 0; i < count; i++) {
 
@@ -82,6 +72,7 @@ export function waveSystem() {
     });
 
   }
+    // prevent instant duplicate spawn
   waveCooldown = 30;
-  spawningWave = false;
+
 }

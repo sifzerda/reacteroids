@@ -10,10 +10,14 @@ export const gameState = {
 
   lives: 3,
 
-  // wave tracking
+  // WAVE PROGRESS
 
-  waveAsteroidsTotal: 8,
-  waveAsteroidsRemaining: 8,
+  waveProgress: 0,
+
+  // total progress required
+  // to complete current wave
+
+  waveProgressRequired: 24,
 
   // bomb meter
 

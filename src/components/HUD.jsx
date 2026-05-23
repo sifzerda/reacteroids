@@ -35,23 +35,10 @@ export default function HUD() {
 
         wave: gameState.wave,
 
-        waveProgress:
-
-          1 -
-
-          (
-            gameState.waveAsteroidsRemaining /
-            gameState.waveAsteroidsTotal
-          ),
-
         waveProgress: Math.min(
 
-          1 -
-
-          (
-            gameState.waveAsteroidsRemaining /
-            gameState.waveAsteroidsTotal
-          ),
+          gameState.waveProgress /
+          gameState.waveProgressRequired,
 
           1
         ),
