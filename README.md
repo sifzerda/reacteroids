@@ -22,7 +22,7 @@ If you are developing a production application, we recommend using TypeScript wi
 - Tailwind
 - react-router-dom
 - Three.js WebGL renderer
-- ECS folder structure: factories, queries, systems, renderers
+- ECS architecture: Entities, Components, Systems, & factories, renderers
 - miniplex
 - useMemo
 
@@ -41,7 +41,7 @@ If you are developing a production application, we recommend using TypeScript wi
 - [ ] optimization
 - [ ] effect enhancement
 
-- [x] data-flow driven ECS system architecture
+- [x] ECS system architecture which is data-flow driven rather than creates objects and classes
 
 
 Extras once full base game working:
