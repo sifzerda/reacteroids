@@ -18,40 +18,27 @@ export function bombWaveSystem(delta) {
 
   for (const wave of bombWaves) {
 
-    wave.radius +=
-      wave.speed * delta;
-
+    wave.radius += wave.speed * delta;
     wave.life -= delta;
 
     // asteroid destruction
 
     for (const asteroid of asteroids) {
 
-      const dx =
-        asteroid.x - wave.x;
-
-      const dy =
-        asteroid.y - wave.y;
-
-      const dist =
-        Math.sqrt(dx * dx + dy * dy);
+      const dx = asteroid.x - wave.x;
+      const dy = asteroid.y - wave.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (
-        dist <
-        wave.radius + asteroid.radius
+        dist < wave.radius + asteroid.radius
       ) {
 
-        destroyAsteroid(
-          asteroid,
-          200,
-          false
-        );
+        destroyAsteroid(asteroid, 200, false);
       }
     }
 
     if (
-      wave.radius >= wave.maxRadius ||
-      wave.life <= 0
+      wave.radius >= wave.maxRadius || wave.life <= 0
     ) {
       world.remove(wave);
     }

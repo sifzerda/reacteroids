@@ -24,7 +24,6 @@ export function shipCollisionSystem(delta, onGameOver) {
                 // TEMP INVULNERABILITY
                 ship.invulnerable = 2;
                 // RESET SHIP POSITION
-
                 ship.x = 0;
                 ship.y = 0;
 

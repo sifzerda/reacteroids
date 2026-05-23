@@ -23,11 +23,9 @@ export function bombSystem() {
     return;
   }
 
-  if (bombPressed)
-    return;
+  if (bombPressed) return;
 
-  if (!gameState.bombReady)
-    return;
+  if (!gameState.bombReady) return;
 
   bombPressed = true;
 
