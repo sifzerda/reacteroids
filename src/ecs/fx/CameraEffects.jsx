@@ -1,4 +1,4 @@
-// src/ecs/effects/CameraEffects.jsx
+// src/ecs/fx/CameraEffects.jsx
 
 import { useThree, useFrame }
   from '@react-three/fiber';

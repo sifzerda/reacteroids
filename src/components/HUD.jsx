@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ships } from '../ecs/queries.js';
 import { gameState } from '../ecs/gameState.js';
-import { gameEffects } from '../ecs/effects/gameEffects';
+import { gameEffects } from '../ecs/fx/gameEffects';
 
 export default function HUD() {
 
@@ -36,8 +36,25 @@ export default function HUD() {
         wave: gameState.wave,
 
         waveProgress:
-          gameState.asteroidsDestroyed /
-          gameState.asteroidsRequired,
+
+          1 -
+
+          (
+            gameState.waveAsteroidsRemaining /
+            gameState.waveAsteroidsTotal
+          ),
+
+        waveProgress: Math.min(
+
+          1 -
+
+          (
+            gameState.waveAsteroidsRemaining /
+            gameState.waveAsteroidsTotal
+          ),
+
+          1
+        ),
 
         bombProgress:
           gameState.bombCharge /
@@ -104,7 +121,8 @@ export default function HUD() {
 
         <div style={{
 
-          width: `${ui.waveProgress * 100}%`,
+          width:
+            `${Math.min(ui.waveProgress, 1) * 100}%`,
           height: '100%',
           background: 'white',
           transition: 'width 0.15s linear',

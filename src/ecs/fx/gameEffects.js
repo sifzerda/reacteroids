@@ -1,4 +1,4 @@
-// src/ecs/effects/gameEffects.js
+// src/ecs/fx/gameEffects.js
 
 export const gameEffects = {
 

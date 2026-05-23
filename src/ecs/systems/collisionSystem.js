@@ -36,24 +36,12 @@ export function collisionSystem() {
           gameState.bombReady = true;
         }
 
-        // ONLY count full asteroid kills
+        // ONLY root asteroids count
         if (asteroid.size === 3) {
 
-          gameState.asteroidsDestroyed++;
+          gameState.waveAsteroidsRemaining--;
 
-          // advance wave
-          if (
-            gameState.asteroidsDestroyed >=
-            gameState.asteroidsRequired
-          ) {
 
-            gameState.wave++;
-
-            gameState.asteroidsDestroyed = 0;
-
-            gameState.asteroidsRequired =
-              5 + (gameState.wave - 1);
-          }
         }
 
         // Split asteroids

@@ -5,7 +5,7 @@ import { world } from '../world';
 import { gameState } from '../gameState';
 import { keys } from '../input';
 import { spawnBombWave } from '../factories/spawnBombWave';
-import { gameEffects } from '../effects/gameEffects';
+import { gameEffects } from '../fx/gameEffects';
 
 let bombPressed = false;
 

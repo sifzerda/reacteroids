@@ -15,7 +15,7 @@ import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import BombWaveRenderer from '../renderers/BombWaveRenderer';
 
-import CameraEffects from '../ecs/effects/CameraEffects';
+import CameraEffects from '../ecs/fx/CameraEffects';
 import HUD from '../components/HUD';
 
 export default function PlayScreen({ onGameOver }) {
