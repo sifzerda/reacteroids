@@ -12,7 +12,8 @@ import { spawnAsteroid }
 
 export function destroyAsteroid(
   asteroid,
-  scoreValue = 100
+  scoreValue = 100,
+  giveBombCharge = true
 ) {
 
   world.remove(asteroid);
@@ -43,17 +44,22 @@ export function destroyAsteroid(
 
   // BOMB CHARGE
 
-  gameState.bombCharge += 15;
+  // BOMB CHARGE
 
-  if (
-    gameState.bombCharge >=
-    gameState.bombChargeRequired
-  ) {
+  if (giveBombCharge) {
 
-    gameState.bombCharge =
-      gameState.bombChargeRequired;
+    gameState.bombCharge += 15;
 
-    gameState.bombReady = true;
+    if (
+      gameState.bombCharge >=
+      gameState.bombChargeRequired
+    ) {
+
+      gameState.bombCharge =
+        gameState.bombChargeRequired;
+
+      gameState.bombReady = true;
+    }
   }
 
   // SPLIT ASTEROIDS

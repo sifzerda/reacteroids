@@ -13,13 +13,15 @@ export function startGame() {
 
   spawnShip();
 
+  // RESET GAME STATE
+
+gameState.score = 0;
+gameState.wave = 1;
+gameState.waveProgress = 0;
+gameState.bombCharge = 0;
+gameState.bombReady = false;
+
   const count = 8;
-
-  // reset wave progress
-
-  gameState.wave = 1;
-
-  gameState.waveProgress = 0;
 
   // each asteroid tree = 3 progress
 

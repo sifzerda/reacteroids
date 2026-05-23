@@ -41,7 +41,11 @@ export function bombWaveSystem(delta) {
         wave.radius + asteroid.radius
       ) {
 
-        destroyAsteroid(asteroid, 200);
+        destroyAsteroid(
+          asteroid,
+          200,
+          false
+        );
       }
     }
 
