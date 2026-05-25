@@ -25,7 +25,7 @@ export default function FlightLayout({
     }, [title]);
 
     return (
-        <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-black text-[#39ff14]">
+        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black text-[#39ff14]">
 
             {/* ================= BACKGROUND ================= */}
 

@@ -1,5 +1,7 @@
 // ecs/screens/StartScreen.jsx
 
+import FlightLayout from '../components/FlightLayout2';
+
 export default function StartScreen({
   onPlay,
   onHowToPlay,
@@ -9,11 +11,12 @@ export default function StartScreen({
 
   return (
 
-    <div className="menu">
+    <FlightLayout
+      title="ASTEROIDS"
+      footer="SECTOR CLEAR"
+    >
 
-      <h1>ASTEROIDS</h1>
-
-      <div className="flex flex-col gap-4">
+      <div className="mt-8 flex flex-col gap-4">
 
         <button onClick={onPlay}>
           PLAY
@@ -33,6 +36,6 @@ export default function StartScreen({
 
       </div>
 
-    </div>
+    </FlightLayout>
   );
 }

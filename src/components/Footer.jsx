@@ -12,7 +12,7 @@ export default function Footer() {
                 <div className="scanlines" />
 
                 <h1 className="flex items-center justify-center gap-2 text-xs font-audiowide text-green-300 drop-shadow-[0_0_6px_rgba(0,255,0,0.9)]">
-                    <span> DAMON</span>
+                    <span> sifzerda</span>
                     <a
                         href="https://github.com/sifzerda/reacteroids"
                         target="_blank"

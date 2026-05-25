@@ -35,7 +35,7 @@ If you are developing a production application, we recommend using TypeScript wi
 - [x] score system
 - [x] start screen, end screen, game over screen
 - [x] pause screen
-- [ ] how to play screen
+- [x] how to play screen
 - [ ] submit highscores
 - [ ] sfx
 - [ ] optimization
@@ -53,7 +53,7 @@ Extras once full base game working:
 - [ ] enhance exhaust particle vfx
 - [ ] enhance ship and rock vfx/appearance
 - [ ] sfx
-- [ ] fix up start screen UI
+- [x] fix up start screen UI
 - [x] asteroid destroyed bar not aligned with play
 
 
