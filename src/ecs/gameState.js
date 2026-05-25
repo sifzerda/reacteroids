@@ -11,8 +11,7 @@ export const gameState = {
   // WAVE PROGRESS
   waveProgress: 0,
 
-  // total progress required
-  // to complete current wave
+  // total progress required to complete current wave
   waveProgressRequired: 24,
 
   // bomb meter
