@@ -1,4 +1,4 @@
-# Reacteroids (Asteroids 3.0)
+# Asteroids 3.0
 
 ## Table of Contents
 
