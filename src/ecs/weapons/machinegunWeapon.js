@@ -21,11 +21,12 @@ export const machinegunWeapon = {
 
             rotation: ship.rotation,
 
-            speed: 26,
+            speed: 34,
 
             damage: 35,
 
-            life: 0.7,
+            life: 0.35,
+            radius: 0.08,
 
             colorR: 0,
             colorG: 1,

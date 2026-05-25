@@ -18,9 +18,13 @@ export const raygunWeapon = {
 
       rotation: ship.rotation,
 
-      colorR: 1,
-      colorG: 0,
-      colorB: 1,
+      speed: 26,
+      life: 1.5,
+      radius: 0.24,
+
+      colorR: 2,
+      colorG: 0.1,
+      colorB: 2.5,
     });
   },
 };
