@@ -1,32 +1,107 @@
-# React + Vite
+# Reacteroids (Asteroids 3.0)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
 
-Currently, two official plugins are available:
+- [Description](#description)
+- [Badges](#badges)
+- [Visuals](#visuals)
+- [Installation](#installation)
+- [Tech](#tech)
+- [Support](#support)
+- [Contributing](#contributing)
+- [Authors and Acknowledgment](#authors-and-acknowledgment)
+- [License](#license)
+- [Project Status](#project-status)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Description
 
-## React Compiler
+This is second rebuild of my first two asteroids games. The first was a fullstack app built in React + Express, with a MongoDB + graphQl and Matter.js game engine. The second was a serverless Next.js version + Prisma Postgres DB and Three.js game engine + Zustand. Version III was built with React, Three.js game engine, Miniplex ECS architecture.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Badges
 
-## Expanding the ESLint configuration
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Create React App](https://img.shields.io/badge/Create%20React%20App-09D3AC.svg?style=for-the-badge&logo=Create-React-App&logoColor=white) ![React Router](https://img.shields.io/badge/React%20Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Three.js](https://img.shields.io/badge/Three.js-000000.svg?style=for-the-badge&logo=threedotjs&logoColor=white) 
 
-## tech
+~~![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)~~  
+~~![JSON Web Tokens](https://img.shields.io/badge/JSON%20Web%20Tokens-000000.svg?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)~~ 
+## Visuals
 
-- React Vite
-- React Three Fiber
-- Tailwind
+This app has been deployed to Vercel. Visit the site: [React Asteroids](https://.../)
+
+![pic1](...)
+![pic2](...)
+![pic4](...)
+
+## Installation
+
+Play through app site, no installation required. Otherwise clone into local machine and open on IDE:
+
+```bash
+# clone the repo
+git clone https://github.com/sifzerda/reacteroids.git
+
+# move into directory
+cd reacteroids
+
+# install dependencies
+npm install
+
+# run server
+npm run start
+```
+
+## Tech
+
+- React
+- Tailwind CSS
 - react-router-dom
-- Three.js WebGL renderer
+- Three.js
+- Miniplex
 - ECS architecture: Entities, Components, Systems, & factories, renderers
-- miniplex
 - useMemo
 
-- ~~zustand~~
+- ~~JWTs~~
+- ~~bcrypt~~
+- ~~babel~~
+- ~~Vercel~~ 
+
+## Support
+
+For support, users can contact me through my portfolio contact form: [here](https://next-portfolio-sifzerdas-projects.vercel.app/contact)
+
+## Contributing
+
+Any contributions you make are greatly appreciated.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". 
+1.	Fork the Project
+2.	Create your Feature Branch (git checkout -b feature/NewFeature)
+3.	Commit your Changes (git commit -m 'Add some NewFeature')
+4.	Push to the Branch (git push origin feature/NewFeature)
+5.	Open a Pull Request
+
+## Authors and acknowledgment
+
+The author acknowledges and credits those who have contributed to this project.
+
+## License
+
+Distributed under the MIT License. See LICENSE.txt for more information.
+
+## Project status
+
+This project is incomplete and requires further development. Currently the highscores page, if any, is just for display, further development is needed to allow users to submit their scores.
+
+## ECS structure
+
+Layer	            Responsibility
+...................................
+Components	        Data only
+Systems	            Behavior
+Factories       	Create entities
+Renderers	        Visuals only
+Weapons	Modular     firing logic
 
 ## Tasks
 
@@ -43,7 +118,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 - [x] ECS system architecture which is data-flow driven rather than creates objects and classes
 
-
 Extras once full base game working:
 - [ ] more guns types
 - [ ] powerups, ship health etc
@@ -55,16 +129,3 @@ Extras once full base game working:
 - [ ] sfx
 - [x] fix up start screen UI
 - [x] asteroid destroyed bar not aligned with play
-
-
-
-
-Ideal ECS structure
-
-Layer	            Responsibility
-...................................
-Components	        Data only
-Systems	            Behavior
-Factories       	Create entities
-Renderers	        Visuals only
-Weapons	Modular     firing logic
