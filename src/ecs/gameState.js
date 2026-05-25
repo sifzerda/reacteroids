@@ -1,7 +1,7 @@
 // src/ecs/gameState.js
 
 export const gameState = {
-
+// initialize game state variables
   score: 0,
   combo: 1,
   wave: 1,
