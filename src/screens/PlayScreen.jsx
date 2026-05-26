@@ -15,6 +15,7 @@ import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import BombWaveRenderer from '../renderers/BombWaveRenderer';
+import MuzzleFlashRenderer from '../renderers/MuzzleFlashRenderer';
 
 import CameraEffects from '../ecs/fx/CameraEffects';
 import HUD from '../components/HUD';
@@ -43,6 +44,7 @@ export default function PlayScreen({ onGameOver }) {
 
         <ShipRenderer />
         <BulletRenderer />
+        <MuzzleFlashRenderer />
         <AsteroidRenderer />
         <ExhaustRenderer />
         <BombWaveRenderer />

@@ -18,9 +18,10 @@ export function spawnExhaustParticle({
         vx,
         vy,
 
-    life: 0.35,
+    life: 0.90,
     radius: 0.04,
-    colorR: 1,colorG: 0.4,
+    colorR: 1,
+    colorG: 0.4,
     colorB: 0,
 
     });
