@@ -9,12 +9,16 @@ import HowToPlayScreen from '../screens/HowToPlayScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import HighscoresScreen from '../screens/HighscoresScreen';
 
+import BG from '../components/BG';
+
 
 export default function Home() {
   const [screen, setScreen] = useState('start');
 
   return (
     <div className="w-screen h-screen overflow-hidden bg-black">
+     
+      <BG />
 
       {screen === 'start' && (
         <StartScreen

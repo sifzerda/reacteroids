@@ -25,17 +25,7 @@ export default function FlightLayout({
     }, [title]);
 
     return (
-               <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-black text-[#39ff14]">
-
-            {/* ================= BACKGROUND ================= */}
-
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.10),transparent_70%)]" />
-
-            {/* noise texture */}
-            <div className="pointer-events-none absolute inset-0 opacity-[0.5] mix-blend-screen bg-[url('/cream-pixels.png')]" />
-
-            {/* scanlines */}
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-size-[100%_4px]" />
+        <main className="relative flex flex-1 items-center justify-center overflow-hidden text-[#39ff14]">
 
             {/* ================= HUD OVERLAY ================= */}
 
@@ -158,7 +148,7 @@ export default function FlightLayout({
                     </div>
                 </div>
 
-                                {/* left floating indicators */}
+                {/* left floating indicators */}
                 <div className="absolute left-[18%] top-1/2 flex flex-col gap-8 text-[#39ff14]">
                     <div className="h-2 w-2 rotate-45 bg-[#39ff14]" />
                     <div className="h-2 w-2 rounded-full border border-[#39ff14]" />
@@ -239,7 +229,7 @@ export default function FlightLayout({
                             <div key={i} className="h-2 w-2 rounded-full border border-[#39ff14]" />
                         ))}
                     </div>
- 
+
                 </div>
             </div>
 

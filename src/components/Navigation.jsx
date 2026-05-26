@@ -6,7 +6,7 @@ export default function Navigation() {
   const pathname = useLocation().pathname;
 
   const links = [
-    { href: '/', label: 'Play' },
+    { href: '/', label: 'Game' },
     { href: '/about', label: 'About' },
   ];
 

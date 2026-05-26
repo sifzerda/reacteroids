@@ -101,7 +101,7 @@ Weapons	Modular     firing logic
 ## Tasks
 
 - [x] add different weapons with an easy system to add more
-- [ ] levels/difficulty
+- [x] levels/difficulty
 - [x] score system
 - [x] start screen, end screen, game over screen
 - [x] pause screen

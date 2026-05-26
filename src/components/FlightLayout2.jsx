@@ -46,35 +46,15 @@ export default function FlightLayout({
 
   return (
 
-    <main
-      className="
-        relative flex min-h-screen
-        items-center justify-center
-
-        overflow-hidden
-
-        bg-black
-        px-6 py-16
-
-        text-[#39ff14]
-      "
-    >
-
-      {/* ========================================================= */}
-      {/* BACKGROUND */}
-      {/* ========================================================= */}
-
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.10),transparent_70%)]" />
-
-      {/* noise */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.35] mix-blend-screen bg-[url('http://www.transparenttextures.com/patterns/cream-pixels.png')]" />
-
-      {/* scanlines */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-size-[100%_4px]" />
-
-      {/* vignette */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,transparent_45%,rgba(0,0,0,0.85)_100%)]" />
-
+<main
+  className="
+    relative flex flex-1 items-center justify-center
+    overflow-hidden
+    px-6 py-16
+    text-[#39ff14]
+  "
+>
+ 
       {/* ========================================================= */}
       {/* HUD OVERLAY */}
       {/* ========================================================= */}
@@ -178,40 +158,8 @@ export default function FlightLayout({
         {/* ========================================================= */}
 
         <div className="absolute -bottom-10 left-1/2 hidden h-40 w-40 -translate-x-1/2 opacity-60 xl:block">
-
           <div className="absolute left-1/2 top-6 bottom-6 w-px -translate-x-1/2 bg-[#39ff14]/70" />
-
-          {[...Array(48)].map((_, i) => {
-
-            const long = i % 2 === 0;
-
-            return (
-
-              <div
-                key={i}
-                className="absolute left-1/2 top-1/2 origin-center"
-                style={{
-                  transform: `translate(-50%, -50%) rotate(${i * 7.5}deg)`,
-                }}
-              >
-
-                <div
-                  className="bg-[#39ff14]"
-                  style={{
-                    width: '2px',
-                    height: long ? '12px' : '6px',
-                    transform: 'translateY(-95px)',
-                  }}
-                />
-
-              </div>
-
-            );
-
-          })}
-
         </div>
-
       </div>
 
       {/* ========================================================= */}
@@ -301,15 +249,6 @@ export default function FlightLayout({
       shadow-[0_0_12px_#00ffff]
     "
   />
-
-
-
-
-
-
-
-
-  
 
 <div className="relative flex justify-center">
 
