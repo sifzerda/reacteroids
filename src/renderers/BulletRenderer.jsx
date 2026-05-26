@@ -14,7 +14,7 @@ export default function BulletRenderer() {
   const meshRef = useRef();
   // Long laser streak
   const geometry = useMemo(() => {
-    return new THREE.PlaneGeometry(0.18, 2.4);
+    return new THREE.PlaneGeometry(0.18, 1.0);
   }, []);
 
   const colorArray = useMemo(() => new Float32Array(MAX * 3), []);
@@ -89,30 +89,16 @@ float trail = smoothstep(1.0, 0.15, vUv.y);
 
     for (const bullet of bullets) {
       // POSITION
-      tempObj.position.set(
-        bullet.x,
-        bullet.y,
-        0
-      );
+      tempObj.position.set(bullet.x, bullet.y, 0);
 
-      tempObj.rotation.z =
-        bullet.rotation - Math.PI / 2;
+      tempObj.rotation.z = bullet.rotation - Math.PI / 2;
 
       // STRETCH
-      tempObj.scale.set(
-        0.35,
-        1.8,
-        1
-      );
+      tempObj.scale.set(0.28, 1.0, 1);
 
       tempObj.updateMatrix();
-
-      meshRef.current.setMatrixAt(
-        i,
-        tempObj.matrix
-      );
+      meshRef.current.setMatrixAt(i, tempObj.matrix);
       // COLOR
-
       colorArray[i * 3 + 0] = bullet.colorR ?? 1;
       colorArray[i * 3 + 1] = bullet.colorG ?? 1;
       colorArray[i * 3 + 2] = bullet.colorB ?? 1;
@@ -121,7 +107,6 @@ float trail = smoothstep(1.0, 0.15, vUv.y);
     }
 
     mesh.geometry.attributes.instanceColor.needsUpdate = true;
-
     meshRef.current.count = i;
     meshRef.current.instanceMatrix.needsUpdate = true;
 
