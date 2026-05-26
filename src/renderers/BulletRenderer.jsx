@@ -55,29 +55,24 @@ export default function BulletRenderer() {
     uv.y *= 0.35;
 
     // trail taper (increase values for soft, decrease for hard)
-float trail =
-  smoothstep(0.9, -0.6, vUv.y);
+    float trail = smoothstep(0.9, -0.6, vUv.y);
 
     // radial glow
     float d = length(uv);
 
-    float glow =
-      smoothstep(0.6, 0.0, d);
+    float glow = smoothstep(0.6, 0.0, d);
 
     // bright core
-    float core =
-      smoothstep(0.12, 0.0, d);
+    float core = smoothstep(0.12, 0.0, d);
 
     // combine
-    float alpha =
-      glow * trail;
+    float alpha = glow * trail;
 
     vec3 color =
       vColor * glow * 1.5 +
       vColor * core * 4.0;
 
-    gl_FragColor =
-      vec4(color, alpha);
+    gl_FragColor = vec4(color, alpha);
   }
 `
     });
