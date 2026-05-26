@@ -6,7 +6,7 @@ import { bullets } from '../ecs/queries';
 import * as THREE from 'three';
 
 const MAX = 2000;
-const temp = new THREE.Object3D();
+const tempObj = new THREE.Object3D();
 const tempColor = new THREE.Color();
 
 export default function BulletRenderer() {
@@ -20,19 +20,19 @@ export default function BulletRenderer() {
 
     for (const bullet of bullets) {
       // POSITION
-      temp.position.set(
+      tempObj.position.set(
         bullet.x,
         bullet.y,
         0
       );
 
-      temp.rotation.z = bullet.rotation;
+      tempObj.rotation.z = bullet.rotation;
 
-      temp.updateMatrix();
+      tempObj.updateMatrix();
 
       meshRef.current.setMatrixAt(
         i,
-        temp.matrix
+        tempObj.matrix
       );
       // COLOR
 
