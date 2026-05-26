@@ -42,6 +42,16 @@ export default function StartScreen({
     <div className="absolute inset-0 bg-[conic-gradient(from_0deg,rgba(0,255,255,0.0),rgba(0,255,255,0.18),rgba(0,255,255,0.0))]" />
   </div>
 
+  {/* asteroid blips */}
+<div className="absolute w-[420px] h-[420px]">
+
+  <div className="blip blip1" />
+  <div className="blip blip2" />
+  <div className="blip blip3" />
+  <div className="blip blip4" />
+
+</div>
+
   {/* rings */}
   <div className="absolute w-105 h-105 rounded-full border border-green-500/40" />
   <div className="absolute w-75 h-75 rounded-full border border-green-500/40" />

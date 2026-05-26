@@ -286,3 +286,39 @@ body {
   filter: blur(1px);
   opacity: 0.8;
 }
+
+.blip {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #00ccff;
+  border-radius: 999px;
+  box-shadow: 0 0 10px #39ff14;
+  opacity: 0.8;
+}
+
+/* orbiting motion */
+@keyframes orbit1 {
+  0%   { transform: translate(210px, 210px) rotate(0deg) translate(120px) rotate(0deg); }
+  100% { transform: translate(210px, 210px) rotate(360deg) translate(120px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+  0%   { transform: translate(210px, 210px) rotate(90deg) translate(90px) rotate(-90deg); }
+  100% { transform: translate(210px, 210px) rotate(450deg) translate(90px) rotate(-450deg); }
+}
+
+@keyframes orbit3 {
+  0%   { transform: translate(210px, 210px) rotate(180deg) translate(70px) rotate(-180deg); }
+  100% { transform: translate(210px, 210px) rotate(540deg) translate(70px) rotate(-540deg); }
+}
+
+@keyframes orbit4 {
+  0%   { transform: translate(210px, 210px) rotate(270deg) translate(140px) rotate(-270deg); }
+  100% { transform: translate(210px, 210px) rotate(630deg) translate(140px) rotate(-630deg); }
+}
+
+.blip1 { animation: orbit1 6s linear infinite; }
+.blip2 { animation: orbit2 8s linear infinite; }
+.blip3 { animation: orbit3 5s linear infinite; }
+.blip4 { animation: orbit4 10s linear infinite; }

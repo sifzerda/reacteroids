@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function FlightLayout({
-    title = "ACCESS",
+    title,
     footer,
     children,
 }) {
@@ -25,14 +25,14 @@ export default function FlightLayout({
     }, [title]);
 
     return (
-        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black text-[#39ff14]">
+               <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-black text-[#39ff14]">
 
             {/* ================= BACKGROUND ================= */}
 
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(57,255,20,0.10),transparent_70%)]" />
 
             {/* noise texture */}
-            <div className="pointer-events-none absolute inset-0 opacity-[0.5] mix-blend-screen bg-[url('http://www.transparenttextures.com/patterns/cream-pixels.png')]" />
+            <div className="pointer-events-none absolute inset-0 opacity-[0.5] mix-blend-screen bg-[url('/cream-pixels.png')]" />
 
             {/* scanlines */}
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-size-[100%_4px]" />
@@ -253,7 +253,7 @@ export default function FlightLayout({
                 {/* scanline overlay */}
                 <div className="scanlines" />
 
-                <h1 className="font-mono text-center text-xl tracking-[0.3em] uppercase text-green-300 drop-shadow-[0_0_6px_rgba(0,255,0,0.6)]">
+                <h1 className="font-audiowide text-center text-xl tracking-[0.3em] uppercase text-green-300 drop-shadow-[0_0_6px_rgba(0,255,0,0.6)]">
                     {typedTitle}
                     <span className="cursor-blink">▍</span>
                 </h1>
