@@ -70,7 +70,7 @@ export default function FlightLayout({
       <div className="pointer-events-none absolute inset-0 opacity-[0.35] mix-blend-screen bg-[url('http://www.transparenttextures.com/patterns/cream-pixels.png')]" />
 
       {/* scanlines */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-[size:100%_4px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(57,255,20,0.03)_51%)] bg-size-[100%_4px]" />
 
       {/* vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,transparent_45%,rgba(0,0,0,0.85)_100%)]" />
@@ -256,63 +256,105 @@ export default function FlightLayout({
               FLIGHT CONTROL SYSTEM
             </div>
 
-            <div className="relative">
+<div className="
+    relative overflow-hidden
+    border-b border-cyan-400/60
+    bg-linear-to-b
+    from-[#120018]/90
+    via-black/80
+    to-[#050510]/95
+    px-6 py-4
+    shadow-[0_0_30px_rgba(0,255,255,0.15)]
+    backdrop-blur-md">
 
-              {/* main */}
+  {/* synthwave glow */}
+  <div className="
+      pointer-events-none
+      absolute inset-0
+      bg-[radial-gradient(circle_at_top,rgba(255,0,180,0.14),transparent_55%),
+      radial-gradient(circle_at_bottom,rgba(0,255,255,0.10),transparent_60%)]
+    "
+  />
 
-              <h1
-                className="
-                  relative z-10
-                  text-center
-                  font-mono
-                  text-2xl font-bold
-                  uppercase
-                  tracking-[0.35em]
+  {/* scanlines */}
+  <div
+    className="
+      pointer-events-none
+      absolute inset-0
 
-                  text-[#b7ff9d]
+      bg-[linear-gradient(to_bottom,transparent_50%,rgba(255,255,255,0.035)_51%)]
 
-                  drop-shadow-[0_0_6px_rgba(57,255,20,0.6)]
-                "
-              >
-                {typedTitle}
-                <span className="animate-pulse">▍</span>
-              </h1>
+      bg-size-[100%_4px]
 
-              {/* chromatic aberration */}
+      opacity-40
+    "
+  />
 
-              <h1
-                className="
-                  pointer-events-none
-                  absolute inset-0
-                  -translate-x-[2px]
-                  text-center
-                  font-mono
-                  text-2xl font-bold
-                  uppercase
-                  tracking-[0.35em]
-                  text-pink-500/50
-                "
-              >
-                {typedTitle}
-              </h1>
+  {/* top neon line */}
+  <div
+    className="
+      absolute left-0 top-0 h-px w-full
+      bg-linear-to-r
+      from-transparent
+      via-cyan-400
+      to-transparent
+      shadow-[0_0_12px_#00ffff]
+    "
+  />
 
-              <h1
-                className="
-                  pointer-events-none
-                  absolute inset-0
-                  translate-x-[2px]
-                  text-center
-                  font-mono
-                  text-2xl font-bold
-                  uppercase
-                  tracking-[0.35em]
-                  text-cyan-400/50
-                "
-              >
-                {typedTitle}
-              </h1>
+<div className="relative flex justify-center">
 
-            </div>
+  {/* width stabilizer (prevents box resizing while typing) */}
+  <span className="invisible font-audiowide text-2xl md:text-3xl uppercase whitespace-nowrap tracking-[0.28em]">
+    {title}
+  </span>
+
+  {/* layered title system */}
+  <div className="absolute inset-0 flex justify-center">
+
+        {/* RED */}
+    <span
+      aria-hidden="true"
+      className="
+        absolute
+        font-audiowide text-2xl md:text-3xl uppercase whitespace-nowrap tracking-widest blur-[2px]
+        text-red-500/80
+        -translate-x-1
+      "
+    >
+      {typedTitle}
+    </span>
+
+
+        {/* BLUE */}
+    <span
+      aria-hidden="true"
+      className="
+        absolute
+        font-audiowide text-2xl md:text-3xl uppercase whitespace-nowrap tracking-widest blur-[2px]
+        text-cyan-400/80
+        translate-x-1
+      "
+    >
+      {typedTitle}
+    </span>
+
+            {/* WHITE */}
+    <span
+      aria-hidden="true"
+      className="
+        absolute
+        font-audiowide text-2xl md:text-3xl uppercase whitespace-nowrap tracking-widest
+        text-white
+      "
+    >
+      {typedTitle}
+    </span>
+
+  </div>
+</div>
+
+</div>
 
           </div>
 
@@ -327,10 +369,9 @@ export default function FlightLayout({
 
               ${centered ? 'items-center text-center' : ''}
 
-              ${
-                scrollable
-                  ? 'max-h-[55vh] overflow-y-auto pr-2'
-                  : ''
+              ${scrollable
+                ? 'max-h-[55vh] overflow-y-auto pr-2'
+                : ''
               }
             `}
           >
