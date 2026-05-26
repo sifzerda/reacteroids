@@ -54,17 +54,12 @@ npm run start
 ## Tech
 
 - React
-- Tailwind CSS
+- TailwindCSS
 - react-router-dom
-- Three.js
+- Three.js + post-processing
 - Miniplex
 - ECS architecture: Entities, Components, Systems, & factories, renderers
 - useMemo
-
-- ~~JWTs~~
-- ~~bcrypt~~
-- ~~babel~~
-- ~~Vercel~~ 
 
 ## Support
 
@@ -123,8 +118,8 @@ Extras once full base game working:
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life
 - [ ] add health packs which restore health
-- [ ] enhance bullet vfx
-- [ ] enhance exhaust particle vfx
+- [x] enhance bullet vfx
+- [x] enhance exhaust particle vfx
 - [ ] enhance ship and rock vfx/appearance
 - [ ] sfx
 - [x] fix up start screen UI
