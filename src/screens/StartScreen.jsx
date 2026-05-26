@@ -44,8 +44,8 @@ export default function StartScreen({
 
   {/* rings */}
   <div className="absolute w-[420px] h-[420px] rounded-full border border-green-500/40" />
-  <div className="absolute w-[300px] h-[300px] rounded-full border border-cyan-400/40" />
-  <div className="absolute w-[180px] h-[180px] rounded-full border border-cyan-400/40" />
+  <div className="absolute w-[300px] h-[300px] rounded-full border border-green-500/40" />
+  <div className="absolute w-[180px] h-[180px] rounded-full border border-green-500/40" />
 
   {/* cross lines */}
   <div className="absolute w-[420px] h-px bg-cyan-400/5" />
@@ -65,12 +65,10 @@ export default function StartScreen({
               onClick={item.action}
               onMouseEnter={() => setSelected(i)}
               className={`
-                relative w-56 py-3 uppercase tracking-[0.45em] text-sm
-
-                border transition-all duration-200
+                relative w-56 py-3 uppercase tracking-[0.45em] text-sm border transition-all duration-200
 
                 ${active
-                  ? "border-cyan-300 text-white bg-cyan-500/10 shadow-[0_0_18px_rgba(0,255,255,0.35)]"
+                  ? "border-green-300 text-cyan-300 bg-cyan-500/10 shadow-[0_0_18px_rgba(0,255,255,0.35)]"
                   : "border-[#39ff14]/40 text-[#39ff14]/70 bg-black/40"
                 }
               `}
