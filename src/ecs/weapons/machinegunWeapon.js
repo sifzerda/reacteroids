@@ -7,7 +7,7 @@ export const machinegunWeapon = {
 
     fire(ship) {
 
-        const muzzle = 0.7;
+        const muzzle = 1.5;
 
         spawnBullet({
 
