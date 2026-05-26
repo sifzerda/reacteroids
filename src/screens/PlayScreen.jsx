@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, ChromaticAberration, Vignette, Noise } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 
 import GameLoop from '../ecs/GameLoop';
 
@@ -49,13 +50,25 @@ export default function PlayScreen({ onGameOver }) {
         <EffectComposer>
 
           <Bloom
-            intensity={1.5}
-            luminanceThreshold={0}
-            luminanceSmoothing={0.9}
+            intensity={2.5}
+            luminanceThreshold={0.02}
+            luminanceSmoothing={0.2}
+            mipmapBlur
           />
 
           <ChromaticAberration
-            offset={[0.0015, 0.0015]}
+            blendFunction={BlendFunction.NORMAL}
+            offset={[0.0015, 0.0012]}
+          />
+
+          <Noise
+            opacity={0.025}
+          />
+
+          <Vignette
+            eskil={false}
+            offset={0.12}
+            darkness={0.9}
           />
 
         </EffectComposer>
