@@ -38,18 +38,18 @@ export default function StartScreen({
      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-80">
 
   {/* sweep (reduced brightness) */}
-  <div className="radar-sweep absolute w-[420px] h-[420px] rounded-full overflow-hidden opacity-80">
+  <div className="radar-sweep absolute w-105 h-105 rounded-full overflow-hidden opacity-80">
     <div className="absolute inset-0 bg-[conic-gradient(from_0deg,rgba(0,255,255,0.0),rgba(0,255,255,0.18),rgba(0,255,255,0.0))]" />
   </div>
 
   {/* rings */}
-  <div className="absolute w-[420px] h-[420px] rounded-full border border-green-500/40" />
-  <div className="absolute w-[300px] h-[300px] rounded-full border border-green-500/40" />
-  <div className="absolute w-[180px] h-[180px] rounded-full border border-green-500/40" />
+  <div className="absolute w-105 h-105 rounded-full border border-green-500/40" />
+  <div className="absolute w-75 h-75 rounded-full border border-green-500/40" />
+  <div className="absolute w-45 h-45 rounded-full border border-green-500/40" />
 
   {/* cross lines */}
-  <div className="absolute w-[420px] h-px bg-cyan-400/5" />
-  <div className="absolute w-px h-[420px] bg-cyan-400/5" />
+  <div className="absolute w-105 h-px bg-cyan-400/5" />
+  <div className="absolute w-px h-05 bg-cyan-400/5" />
 
 </div>
 
