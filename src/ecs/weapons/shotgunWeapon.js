@@ -9,7 +9,7 @@ export const shotgunWeapon = {
   fire(ship) {
 
     const spread = 0.18;
-    const muzzle = 0.7;
+    const muzzle = 0.7; // position of bullet emission
 
     for (let i = -2; i <= 2; i++) {
 

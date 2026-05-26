@@ -55,7 +55,7 @@ export default function BulletRenderer() {
     uv.y *= 0.35;
 
     // trail taper (increase values for soft, decrease for hard)
-    float trail = smoothstep(0.9, -0.6, vUv.y);
+float trail = smoothstep(1.0, 0.15, vUv.y);
 
     // radial glow
     float d = length(uv);
@@ -63,7 +63,8 @@ export default function BulletRenderer() {
     float glow = smoothstep(0.6, 0.0, d);
 
     // bright core
-    float core = smoothstep(0.12, 0.0, d);
+    float core =
+      smoothstep(0.12, 0.0, d);
 
     // combine
     float alpha = glow * trail;
@@ -72,7 +73,8 @@ export default function BulletRenderer() {
       vColor * glow * 1.5 +
       vColor * core * 4.0;
 
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor =
+      vec4(color, alpha);
   }
 `
     });
@@ -93,9 +95,8 @@ export default function BulletRenderer() {
         0
       );
 
-      tempObj.rotation.z = bullet.rotation - Math.PI / 2
-
-      tempObj.updateMatrix();
+      tempObj.rotation.z =
+        bullet.rotation - Math.PI / 2;
 
       // STRETCH
       tempObj.scale.set(
@@ -104,7 +105,12 @@ export default function BulletRenderer() {
         1
       );
 
-      meshRef.current.setMatrixAt(i, tempObj.matrix);
+      tempObj.updateMatrix();
+
+      meshRef.current.setMatrixAt(
+        i,
+        tempObj.matrix
+      );
       // COLOR
 
       colorArray[i * 3 + 0] = bullet.colorR ?? 1;

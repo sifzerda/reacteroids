@@ -7,7 +7,7 @@ export const machinegunWeapon = {
 
     fire(ship) {
 
-        const muzzle = 1.5;
+        const muzzle = 1.5; // position of bullet emission
 
         spawnBullet({
 
