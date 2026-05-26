@@ -14,7 +14,7 @@ export default function BulletRenderer() {
   const meshRef = useRef();
   // Long laser streak
   const geometry = useMemo(() => {
-    return new THREE.PlaneGeometry(0.18, 1.0);
+    return new THREE.PlaneGeometry(0.45, 2.4);
   }, []);
 
   const colorArray = useMemo(() => new Float32Array(MAX * 3), []);
@@ -51,8 +51,32 @@ export default function BulletRenderer() {
     // center UV
     vec2 uv = vUv - 0.5;
 
+      // center horizontally
+  float x = (uv.x - 0.5);
+
+      // bullet stretches vertically
+  x *= 2.2;
+
     // stretch vertically
     uv.y *= 0.35;
+
+        // BULLET SHAPE
+
+  // width tapers toward rear
+  float width =
+    mix(
+      0.02,   // tip width
+      0.22,   // rear width
+      1.0 - uv.y
+    ); 
+
+      // front flare
+  float tip =
+    smoothstep(
+      0.7,
+      1.0,
+      uv.y
+    );
 
     // trail taper (increase values for soft, decrease for hard)
 float trail = smoothstep(1.0, 0.15, vUv.y);
@@ -70,6 +94,7 @@ float trail = smoothstep(1.0, 0.15, vUv.y);
     float alpha = glow * trail;
 
     vec3 color =
+
       vColor * glow * 1.5 +
       vColor * core * 4.0;
 
@@ -94,7 +119,7 @@ float trail = smoothstep(1.0, 0.15, vUv.y);
       tempObj.rotation.z = bullet.rotation - Math.PI / 2;
 
       // STRETCH
-      tempObj.scale.set(0.28, 1.0, 1);
+      tempObj.scale.set(0.22, 1.5, 1);
 
       tempObj.updateMatrix();
       meshRef.current.setMatrixAt(i, tempObj.matrix);
