@@ -12,31 +12,31 @@ const tempColor = new THREE.Color();
 export default function BulletRenderer() {
 
   const meshRef = useRef();
-    // Long laser streak
+  // Long laser streak
   const geometry = useMemo(() => {
-    return new THREE.PlaneGeometry(0.18, 1.0);
+    return new THREE.PlaneGeometry(0.18, 2.4);
   }, []);
 
-const colorArray = useMemo(
-  () => new Float32Array(MAX * 3),
-  []
-);
+  const colorArray = useMemo(
+    () => new Float32Array(MAX * 3),
+    []
+  );
 
-const material = useMemo(() => {
+  const material = useMemo(() => {
 
-  return new THREE.ShaderMaterial({
+    return new THREE.ShaderMaterial({
 
-    transparent: true,
+      transparent: true,
 
-    blending: THREE.AdditiveBlending,
+      blending: THREE.AdditiveBlending,
 
-    depthWrite: false,
+      depthWrite: false,
 
-    toneMapped: false,
+      toneMapped: false,
 
-    side: THREE.DoubleSide,
+      side: THREE.DoubleSide,
 
-    vertexShader: `
+      vertexShader: `
 
       attribute vec3 instanceColor;
       varying vec3 vColor;
@@ -50,31 +50,53 @@ const material = useMemo(() => {
       }
     `,
 
-    fragmentShader: `
+      fragmentShader: `
 
-      varying vec3 vColor;
-      varying vec2 vUv;
+  varying vec3 vColor;
+  varying vec2 vUv;
 
-      void main() {
-        vec2 uv = vUv - 0.5;
-        uv.x *= 2.5;
-        
-        float d = length(uv);
-        float glow = smoothstep(0.5, 0.0, d);
-        float core = smoothstep(0.15, 0.0, d);
+  void main() {
 
-        vec3 color = vColor * glow * 1.5 + vColor * core * 3.0;
-        gl_FragColor = vec4(color, glow);
-      }
-    `
-  });
+    // center UV
+    vec2 uv = vUv - 0.5;
 
-}, []);
+    // stretch vertically
+    uv.y *= 0.35;
+
+    // trail taper
+float trail =
+  smoothstep(0.9, -0.6, vUv.y);
+
+    // radial glow
+    float d = length(uv);
+
+    float glow =
+      smoothstep(0.6, 0.0, d);
+
+    // bright core
+    float core =
+      smoothstep(0.12, 0.0, d);
+
+    // combine
+    float alpha =
+      glow * trail;
+
+    vec3 color =
+      vColor * glow * 1.5 +
+      vColor * core * 4.0;
+
+    gl_FragColor =
+      vec4(color, alpha);
+  }
+`
+    });
+
+  }, []);
 
 
   useFrame(() => {
     const mesh = meshRef.current;
-     if (!mesh) return;
+    if (!mesh) return;
     let i = 0;
 
     for (const bullet of bullets) {
@@ -89,35 +111,42 @@ const material = useMemo(() => {
 
       tempObj.updateMatrix();
 
+      // STRETCH
+      tempObj.scale.set(
+        0.35,
+        1.8,
+        1
+      );
+
       meshRef.current.setMatrixAt(i, tempObj.matrix);
       // COLOR
 
-colorArray[i * 3 + 0] = bullet.colorR ?? 1;
-colorArray[i * 3 + 1] = bullet.colorG ?? 1;
-colorArray[i * 3 + 2] = bullet.colorB ?? 1;
+      colorArray[i * 3 + 0] = bullet.colorR ?? 1;
+      colorArray[i * 3 + 1] = bullet.colorG ?? 1;
+      colorArray[i * 3 + 2] = bullet.colorB ?? 1;
 
       i++;
     }
 
     mesh.geometry.attributes.instanceColor.needsUpdate = true;
-    
-      meshRef.current.count = i;
-      meshRef.current.instanceMatrix.needsUpdate = true;
 
-    });
+    meshRef.current.count = i;
+    meshRef.current.instanceMatrix.needsUpdate = true;
+
+  });
 
   return (
-<instancedMesh
-  ref={meshRef}
-  args={[geometry, material, MAX]}
-  frustumCulled={false}
->
+    <instancedMesh
+      ref={meshRef}
+      args={[geometry, material, MAX]}
+      frustumCulled={false}
+    >
 
-  <instancedBufferAttribute
-    attach="geometry-attributes-instanceColor"
-    args={[colorArray, 3]}
-  />
+      <instancedBufferAttribute
+        attach="geometry-attributes-instanceColor"
+        args={[colorArray, 3]}
+      />
 
-</instancedMesh>
+    </instancedMesh>
   );
 }
