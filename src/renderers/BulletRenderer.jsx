@@ -17,25 +17,16 @@ export default function BulletRenderer() {
     return new THREE.PlaneGeometry(0.18, 2.4);
   }, []);
 
-  const colorArray = useMemo(
-    () => new Float32Array(MAX * 3),
-    []
-  );
+  const colorArray = useMemo(() => new Float32Array(MAX * 3), []);
 
   const material = useMemo(() => {
 
     return new THREE.ShaderMaterial({
-
       transparent: true,
-
       blending: THREE.AdditiveBlending,
-
       depthWrite: false,
-
       toneMapped: false,
-
       side: THREE.DoubleSide,
-
       vertexShader: `
 
       attribute vec3 instanceColor;
@@ -63,7 +54,7 @@ export default function BulletRenderer() {
     // stretch vertically
     uv.y *= 0.35;
 
-    // trail taper
+    // trail taper (increase values for soft, decrease for hard)
 float trail =
   smoothstep(0.9, -0.6, vUv.y);
 
