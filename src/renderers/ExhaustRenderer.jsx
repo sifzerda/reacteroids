@@ -19,52 +19,28 @@ export default function ExhaustRenderer() {
     let i = 0;
 
     for (const exhaust of exhaustParticles) {
-      
+
       // POSITION
-      temp.position.set(
-        exhaust.x,
-        exhaust.y,
-        0
-      );
-
-      temp.scale.setScalar(
-        exhaust.life * 2
-      );
-
+      temp.position.set(exhaust.x, exhaust.y, 0);
+      temp.scale.setScalar(exhaust.life * 2);
       temp.updateMatrix();
-
-      meshRef.current.setMatrixAt(
-        i,
-        temp.matrix
-      );
+      meshRef.current.setMatrixAt(i, temp.matrix);
 
       // COLOR
-      tempColor.setRGB(
-        exhaust.colorR,
-        exhaust.colorG,
-        exhaust.colorB
-      );
-
-            meshRef.current.setColorAt(
-        i,
-        tempColor
-      );
-
+      tempColor.setRGB(exhaust.colorR, exhaust.colorG, exhaust.colorB);
+      meshRef.current.setColorAt(i, tempColor);
       i++;
     }
-    
-      meshRef.current.count = i;
-      meshRef.current.instanceMatrix.needsUpdate = true;
 
-      if (meshRef.current.instanceColor) {
-        meshRef.current.instanceColor.needsUpdate = true;
-      }
-    });
+    meshRef.current.count = i;
+    meshRef.current.instanceMatrix.needsUpdate = true;
+
+    if (meshRef.current.instanceColor) {
+      meshRef.current.instanceColor.needsUpdate = true;
+    }
+  });
 
   return (
-    <instancedMesh
-      ref={meshRef}
-      args={[geometry, material, MAX]}
-    />
+    <instancedMesh ref={meshRef} args={[geometry, material, MAX]} />
   );
 }
