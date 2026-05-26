@@ -12,7 +12,7 @@ const tempColor = new THREE.Color();
 export default function ExhaustRenderer() {
 
   const meshRef = useRef();
-  const geometry = useMemo(() => new THREE.SphereGeometry(0.05, 6, 6), []);
+  const geometry = useMemo(() => new THREE.PlaneGeometry(0.1, 0.1, 8, 8), []); // base.x, base.y, length, particles
   const material = useMemo(() => new THREE.MeshBasicMaterial({ toneMapped: false, }), []);
 
   useFrame(() => {
