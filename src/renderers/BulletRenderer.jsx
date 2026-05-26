@@ -12,10 +12,27 @@ const tempColor = new THREE.Color();
 export default function BulletRenderer() {
 
   const meshRef = useRef();
-  const geometry = useMemo(() => new THREE.BoxGeometry(0.4, 0.08, 0.08), []);
-  const material = useMemo(() => new THREE.MeshBasicMaterial({ toneMapped: false, }), []);
+    // Long laser streak
+  const geometry = useMemo(() => {
+    return new THREE.PlaneGeometry(0.18, 1.0);
+  }, []);
+  const material = useMemo(() => {
+
+    return new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 1,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      toneMapped: false,
+      side: THREE.DoubleSide,
+    });
+
+  }, []);
+
 
   useFrame(() => {
+    const mesh = meshRef.current;
+     if (!mesh) return;
     let i = 0;
 
     for (const bullet of bullets) {
@@ -26,7 +43,7 @@ export default function BulletRenderer() {
         0
       );
 
-      tempObj.rotation.z = bullet.rotation;
+      tempObj.rotation.z = bullet.rotation - Math.PI / 2
 
       tempObj.updateMatrix();
 
