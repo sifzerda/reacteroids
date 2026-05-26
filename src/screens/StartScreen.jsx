@@ -43,7 +43,7 @@ export default function StartScreen({
   </div>
 
   {/* asteroid blips */}
-<div className="absolute w-[420px] h-[420px]">
+<div className="absolute w-105 h-105">
 
   <div className="blip blip1" />
   <div className="blip blip2" />

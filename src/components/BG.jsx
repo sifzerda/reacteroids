@@ -14,7 +14,7 @@ export default function HUDBackground() {
           mix-blend-screen
           bg-[url('/cream-pixels.png')]
           bg-repeat
-          bg-[length:180px_180px]
+          bg-size-[180px_180px]
         "
       />
 
