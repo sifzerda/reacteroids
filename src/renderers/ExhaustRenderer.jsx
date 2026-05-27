@@ -23,10 +23,9 @@ export default function ExhaustRenderer() {
       // POSITION
       temp.position.set(exhaust.x, exhaust.y, 0);
 
-
+      // SCALE
       temp.scale.setScalar(exhaust.life * 2);
 
-      
       temp.updateMatrix();
       meshRef.current.setMatrixAt(i, temp.matrix);
 

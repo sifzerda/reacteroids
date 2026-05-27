@@ -1,37 +1,21 @@
 // src/renderers/AsteroidRenderer.jsx
 
-import { useMemo, useRef }
-  from 'react';
-
-import { useFrame }
-  from '@react-three/fiber';
-
+import { useMemo, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-
-import { asteroids }
-  from '../ecs/queries';
+import { asteroids } from '../ecs/queries';
 
 const MAX = 1000;
 
-const temp =
-  new THREE.Object3D();
+const temp = new THREE.Object3D();
 
 export default function AsteroidRenderer() {
 
   const meshRef = useRef();
 
-  const geometry = useMemo(
-    () =>
-      new THREE.IcosahedronGeometry(
-        1,
-        0
-      ),
-    []
-  );
+  const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
 
-const material = useMemo(
-  () =>
-    new THREE.MeshStandardMaterial({
+const material = useMemo(() => new THREE.MeshStandardMaterial({
       color: '#6b6258',      // rocky asteroid brown/gray
       roughness: 1,
       metalness: 0,
@@ -46,25 +30,15 @@ const material = useMemo(
 
     for (const asteroid of asteroids) {
 
-      temp.position.set(
-        asteroid.x,
-        asteroid.y,
-        0
-      );
+      temp.position.set(asteroid.x, asteroid.y, 0);
 
-      temp.rotation.z =
-        asteroid.rotation;
+      temp.rotation.z = asteroid.rotation;
 
-      temp.scale.setScalar(
-        asteroid.radius
-      );
+      temp.scale.setScalar(asteroid.radius);
 
       temp.updateMatrix();
 
-      meshRef.current.setMatrixAt(
-        i++,
-        temp.matrix
-      );
+      meshRef.current.setMatrixAt(i++, temp.matrix);
     }
 
     meshRef.current.count = i;
@@ -73,13 +47,6 @@ const material = useMemo(
   });
 
   return (
-    <instancedMesh
-      ref={meshRef}
-      args={[
-        geometry,
-        material,
-        MAX
-      ]}
-    />
+    <instancedMesh ref={meshRef} args={[geometry, material, MAX]} />
   );
 }

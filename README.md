@@ -124,3 +124,5 @@ Extras once full base game working:
 - [ ] sfx
 - [x] fix up start screen UI
 - [x] asteroid destroyed bar not aligned with play
+
+- [ ] trial a shader based GPU exhaustparticle renderer for better performance
