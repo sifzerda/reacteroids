@@ -31,11 +31,8 @@ const material = useMemo(() => new THREE.MeshStandardMaterial({
     for (const asteroid of asteroids) {
 
       temp.position.set(asteroid.x, asteroid.y, 0);
-
       temp.rotation.z = asteroid.rotation;
-
       temp.scale.setScalar(asteroid.radius);
-
       temp.updateMatrix();
 
       meshRef.current.setMatrixAt(i++, temp.matrix);

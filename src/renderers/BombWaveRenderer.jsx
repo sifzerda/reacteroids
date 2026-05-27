@@ -20,20 +20,9 @@ export default function BombWaveRenderer() {
     const radius = new Float32Array(MAX);
     const intensity = new Float32Array(MAX);
 
-    geo.setAttribute(
-      'position',
-      new THREE.BufferAttribute(positions, 3)
-    );
-
-    geo.setAttribute(
-      'radius',
-      new THREE.BufferAttribute(radius, 1)
-    );
-
-    geo.setAttribute(
-      'intensity',
-      new THREE.BufferAttribute(intensity, 1)
-    );
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('radius', new THREE.BufferAttribute(radius, 1));
+    geo.setAttribute('intensity', new THREE.BufferAttribute(intensity, 1));
 
     return geo;
 
@@ -48,12 +37,7 @@ export default function BombWaveRenderer() {
       blending: THREE.AdditiveBlending,
       toneMapped: false,
 
-      uniforms: {
-        uTime: { value: 0 },
-        uPixelRatio: {
-          value: Math.min(window.devicePixelRatio, 2)
-        }
-      },
+      uniforms: {uTime: { value: 0 }, uPixelRatio: {value: Math.min(window.devicePixelRatio, 2)}},
 
       vertexShader: `
 
@@ -97,22 +81,15 @@ export default function BombWaveRenderer() {
           vec3 pos = position;
 
           // heat shimmer distortion
-          float n =
-            noise(pos.xy * 3.0 + uTime * 2.0);
+          float n = noise(pos.xy * 3.0 + uTime * 2.0);
 
           pos.x += (n - 0.5) * 0.05;
           pos.y += (n - 0.5) * 0.05;
 
-          vec4 mvPosition =
-            modelViewMatrix * vec4(pos, 1.0);
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
-          gl_PointSize =
-            radius *
-            120.0 *
-            uPixelRatio;
-
-          gl_Position =
-            projectionMatrix * mvPosition;
+          gl_PointSize = radius * 120.0 * uPixelRatio;
+          gl_Position = projectionMatrix * mvPosition;
         }
       `,
 
@@ -123,36 +100,26 @@ export default function BombWaveRenderer() {
 
         void main() {
 
-          vec2 uv =
-            gl_PointCoord - 0.5;
+          vec2 uv = gl_PointCoord - 0.5;
 
           float dist = length(uv);
 
           // expanding shock ring
-          float ring =
-            smoothstep(0.36, 0.32, dist) -
-            smoothstep(0.32, 0.24, dist);
+          float ring = smoothstep(0.36, 0.32, dist) - smoothstep(0.32, 0.24, dist);
 
           // plasma outer glow
-          float glow =
-            smoothstep(0.5, 0.0, dist) * 0.18;
+          float glow = smoothstep(0.5, 0.0, dist) * 0.18;
 
           // hot center flash
-          float core =
-            smoothstep(0.12, 0.0, dist);
+          float core = smoothstep(0.12, 0.0, dist);
 
           // orange/red shockwave
-          vec3 ringColor =
-            vec3(2.0, 0.4, 0.05);
+          vec3 ringColor = vec3(2.0, 0.4, 0.05);
 
           // blue plasma core
-          vec3 coreColor =
-            vec3(0.3, 0.8, 2.5);
+          vec3 coreColor = vec3(0.3, 0.8, 2.5);
 
-          vec3 color =
-            ringColor * ring +
-            ringColor * glow +
-            coreColor * core;
+          vec3 color = ringColor * ring + ringColor * glow + coreColor * core;
 
           // animated shimmer
           float flicker =
@@ -163,12 +130,9 @@ export default function BombWaveRenderer() {
 
           color += flicker;
 
-          float alpha =
-            (ring + glow + core * 0.4)
-            * vIntensity;
+          float alpha = (ring + glow + core * 0.4) * vIntensity;
 
-          gl_FragColor =
-            vec4(color, alpha);
+          gl_FragColor = vec4(color, alpha);
         }
       `
     });
@@ -177,17 +141,11 @@ export default function BombWaveRenderer() {
 
   useFrame((state) => {
 
-    material.uniforms.uTime.value =
-      state.clock.elapsedTime;
+    material.uniforms.uTime.value = state.clock.elapsedTime;
 
-    const positions =
-      geometry.attributes.position.array;
-
-    const radii =
-      geometry.attributes.radius.array;
-
-    const intensities =
-      geometry.attributes.intensity.array;
+    const positions = geometry.attributes.position.array;
+    const radii = geometry.attributes.radius.array;
+    const intensities = geometry.attributes.intensity.array;
 
     let i = 0;
 
@@ -204,12 +162,7 @@ export default function BombWaveRenderer() {
       radii[i] = wave.radius;
 
       // fade with expansion
-      intensities[i] =
-        THREE.MathUtils.clamp(
-          1.0 - wave.radius * 0.04,
-          0,
-          1
-        );
+      intensities[i] = THREE.MathUtils.clamp(1.0 - wave.radius * 0.04, 0, 1);
 
       i++;
     }
@@ -222,11 +175,6 @@ export default function BombWaveRenderer() {
   });
 
   return (
-    <points
-      ref={meshRef}
-      geometry={geometry}
-      material={material}
-      frustumCulled={false}
-    />
+    <points ref={meshRef} geometry={geometry} material={material} frustumCulled={false} />
   );
 }

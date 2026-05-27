@@ -16,61 +16,22 @@ export default function BulletRenderer() {
     const geo = new THREE.InstancedBufferGeometry();
 
     // base quad
-    const plane =
-      new THREE.PlaneGeometry(1, 1);
+    const plane = new THREE.PlaneGeometry(1, 1);
 
     geo.index = plane.index;
-
-    geo.attributes.position =
-      plane.attributes.position;
-
-    geo.attributes.uv =
-      plane.attributes.uv;
+    geo.attributes.position = plane.attributes.position;
+    geo.attributes.uv = plane.attributes.uv;
 
     // instance data
-    const offsets =
-      new Float32Array(MAX * 3);
+    const offsets = new Float32Array(MAX * 3);
+    const rotations = new Float32Array(MAX);
+    const colors = new Float32Array(MAX * 3);
+    const speeds = new Float32Array(MAX);
 
-    const rotations =
-      new Float32Array(MAX);
-
-    const colors =
-      new Float32Array(MAX * 3);
-
-    const speeds =
-      new Float32Array(MAX);
-
-    geo.setAttribute(
-      'offset',
-      new THREE.InstancedBufferAttribute(
-        offsets,
-        3
-      )
-    );
-
-    geo.setAttribute(
-      'rotation',
-      new THREE.InstancedBufferAttribute(
-        rotations,
-        1
-      )
-    );
-
-    geo.setAttribute(
-      'instanceColor',
-      new THREE.InstancedBufferAttribute(
-        colors,
-        3
-      )
-    );
-
-    geo.setAttribute(
-      'speed',
-      new THREE.InstancedBufferAttribute(
-        speeds,
-        1
-      )
-    );
+    geo.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3));
+    geo.setAttribute('rotation', new THREE.InstancedBufferAttribute(rotations, 1));
+    geo.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
+    geo.setAttribute('speed', new THREE.InstancedBufferAttribute(speeds, 1));
 
     return geo;
 
@@ -86,11 +47,7 @@ export default function BulletRenderer() {
       side: THREE.DoubleSide,
       toneMapped: false,
 
-      uniforms: {
-        uTime: {
-          value: 0
-        }
-      },
+      uniforms: {uTime: {value: 0}},
 
       vertexShader: `
 
@@ -133,11 +90,7 @@ export default function BulletRenderer() {
           float c = hash(i.x + (i.y + 1.0) * 57.0);
           float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
 
-          return mix(
-            mix(a, b, f.x),
-            mix(c, d, f.x),
-            f.y
-          );
+          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
         }
 
         void main() {
@@ -149,58 +102,34 @@ export default function BulletRenderer() {
           vec3 pos = position;
 
 // rotate FIRST
-pos.xy =
-  rotate2D(rotation)
-  * pos.xy;
+pos.xy = rotate2D(rotation) * pos.xy;
 
 // proper world forward
-vec2 forward =
-  vec2(
-    cos(rotation),
-    sin(rotation)
-  );
+vec2 forward = vec2(cos(rotation), sin(rotation));
 
 // perpendicular
-vec2 side =
-  vec2(
-   -forward.y,
-    forward.x
-  );
+vec2 side = vec2(-forward.y, forward.x);
 
 // decompose
-float f =
-  dot(pos.xy, forward);
-
-float s =
-  dot(pos.xy, side);
+float f = dot(pos.xy, forward);
+float s = dot(pos.xy, side);
 
 // stretch in LOCAL bullet space
 f *= 3.0 + speed * 0.06;
 s *= 0.18;
 
 // rebuild
-pos.xy =
-  forward * f +
-  side * s;
+pos.xy = forward * f + side * s;
 
 // plasma distortion
-float n =
-  noise(
-    pos.xy * 8.0 +
-    uTime * 8.0
-  );
+float n = noise(pos.xy * 8.0 + uTime * 8.0);
 
-pos.xy +=
-  side *
-  ((n - 0.5) * 0.08);
+pos.xy += side * ((n - 0.5) * 0.08);
 
           // world position
           pos += offset;
 
-          gl_Position =
-            projectionMatrix *
-            modelViewMatrix *
-            vec4(pos, 1.0);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
       `,
 
@@ -212,79 +141,39 @@ pos.xy +=
 
         void main() {
 
-          vec2 uv =
-            vUv - 0.5;
+          vec2 uv = vUv - 0.5;
 
           // elongated bullet
           uv.y *= 0.35;
 
-          float dist =
-            length(uv);
+          float dist = length(uv);
 
           // hot core
-          float core =
-            smoothstep(
-              0.10,
-              0.0,
-              dist
-            );
+          float core = smoothstep(0.10, 0.0, dist);
 
           // glow
-          float glow =
-            smoothstep(
-              0.55,
-              0.0,
-              dist
-            );
+          float glow = smoothstep(0.55, 0.0, dist);
 
           // rear taper
-          float trail =
-            smoothstep(
-              1.0,
-              0.1,
-              vUv.y
-            );
+          float trail = smoothstep(1.0, 0.1, vUv.y);
 
           // flare
-          float flare =
-            smoothstep(
-              0.25,
-              0.0,
-              abs(uv.x)
-            ) *
-            smoothstep(
-              -0.2,
-              0.5,
-              uv.y
-            );
+          float flare = smoothstep(0.25, 0.0, abs(uv.x)) * smoothstep(-0.2, 0.5, uv.y);
 
           // shimmer
-          float shimmer =
-            sin(
-              vUv.y * 80.0 +
-              vSpeed
-            ) * 0.05;
+          float shimmer = sin(vUv.y * 80.0 + vSpeed) * 0.05;
 
-          vec3 hot =
-            vec3(2.5);
+          vec3 hot = vec3(2.5);
 
-          vec3 color =
-
-            vColor * glow * 2.2 +
-            hot * core * 1.8 +
-            vColor * flare;
+          vec3 color = vColor * glow * 2.2 + hot * core * 1.8 + vColor * flare;
 
           color += shimmer;
 
-          float alpha =
-            (glow + core + flare)
-            * trail;
+          float alpha = (glow + core + flare) * trail;
 
-          if(alpha < 0.01)
-            discard;
+          if(alpha < 0.01) discard;
 
-          gl_FragColor =
-            vec4(color, alpha);
+          gl_FragColor = vec4(color, alpha);
         }
       `
     });

@@ -53,16 +53,9 @@ export default function ExhaustRenderer() {
       toneMapped: false,
 
       uniforms: {
-
-        uTime: { value: 0 },
-
-        uPixelRatio: {
-          value: Math.min(window.devicePixelRatio, 2)
-        },
-
-        uViewportHeight: {
-          value: size.height
-        }
+        uTime: { value: 0 }, 
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2)}, 
+        uViewportHeight: {value: size.height}
       },
 
       vertexShader: `
@@ -96,12 +89,8 @@ export default function ExhaustRenderer() {
           float c = hash(i.x + (i.y + 1.0) * 57.0);
           float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
 
-          return mix(
-            mix(a, b, f.x),
-            mix(c, d, f.x),
-            f.y
-          );
-        }
+          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+          }
 
         void main() {
 
@@ -126,14 +115,10 @@ export default function ExhaustRenderer() {
           // much larger so particles are visible
           float sizeBase = mix(6.0, 24.0, life);
 
-          gl_PointSize =
-            sizeBase *
-            (1.0 + speed * 4.0) *
-            uPixelRatio;
+          gl_PointSize = sizeBase * (1.0 + speed * 4.0) * uPixelRatio;
 
           // perspective scale
           gl_PointSize *= (uViewportHeight / 1000.0);
-
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -167,15 +152,12 @@ export default function ExhaustRenderer() {
           // smoky red
           vec3 red = vec3(1.2, 0.15, 0.02);
 
-          vec3 color =
-            mix(red, orange, vLife);
+          vec3 color = mix(red, orange, vLife);
 
-          color =
-            mix(color, blue, core);
+          color = mix(color, blue, core);
 
           // shimmer flicker
-          float shimmer =
-            sin(gl_PointCoord.y * 30.0 + vLife * 8.0) * 0.08;
+          float shimmer = sin(gl_PointCoord.y * 30.0 + vLife * 8.0) * 0.08;
 
           color += shimmer;
 
@@ -194,14 +176,9 @@ export default function ExhaustRenderer() {
     material.uniforms.uTime.value =
       state.clock.elapsedTime;
 
-    const positions =
-      geometry.attributes.position.array;
-
-    const velocities =
-      geometry.attributes.velocity.array;
-
-    const lifes =
-      geometry.attributes.life.array;
+    const positions = geometry.attributes.position.array;
+    const velocities = geometry.attributes.velocity.array;
+    const lifes = geometry.attributes.life.array;
 
     let i = 0;
 
