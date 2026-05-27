@@ -9,7 +9,7 @@ export const raygunWeapon = {
 
   fire(ship) {
 
-    const muzzle = 0.5; // position of bullet emission
+    const muzzle = 1.9; // position of bullet emission
 
     spawnBullet({
 
