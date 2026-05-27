@@ -15,23 +15,11 @@ export default function ShipRenderer() {
 
     for (const ship of ships) {
 
-      shipRef.current.position.set(
-        ship.x,
-        ship.y,
-        0
-      );
+      shipRef.current.position.set(ship.x, ship.y, 0);
+      glowRef.current.position.set(ship.x, ship.y, -0.01);
 
-      glowRef.current.position.set(
-        ship.x,
-        ship.y,
-        -0.01
-      );
-
-      shipRef.current.rotation.z =
-        ship.rotation - Math.PI / 2;
-
-      glowRef.current.rotation.z =
-        ship.rotation - Math.PI / 2;
+      shipRef.current.rotation.z = ship.rotation - Math.PI / 2;
+      glowRef.current.rotation.z = ship.rotation - Math.PI / 2;
     }
   });
 
@@ -48,12 +36,8 @@ export default function ShipRenderer() {
 
       // Left rear
       -0.2, -0.05, 0,
-
-
       0.0, 0.7, 0,
-
       0.2, -0.05, 0,
-
       0.55, -0.15, 0,
 
       // rear fin
@@ -65,11 +49,7 @@ export default function ShipRenderer() {
 
     const geometry = new THREE.BufferGeometry();
 
-    geometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(vertices, 3)
-    );
-
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     geometry.computeVertexNormals();
 
     return geometry;
@@ -100,11 +80,7 @@ export default function ShipRenderer() {
 
     const geometry = new THREE.BufferGeometry();
 
-    geometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(vertices, 3)
-    );
-
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     geometry.computeVertexNormals();
 
     return geometry;
@@ -115,26 +91,13 @@ export default function ShipRenderer() {
     <group>
 
       {/* Main ship */}
-      <mesh
-        ref={shipRef}
-        geometry={shipGeometry}
-      >
-        <meshBasicMaterial
-          color="cyan"
-          wireframe
-          side={THREE.DoubleSide}
-        />
+      <mesh ref={shipRef} geometry={shipGeometry}>
+        <meshBasicMaterial color="cyan" wireframe side={THREE.DoubleSide} />
       </mesh>
 
       {/* Fluro green highlights */}
-      <mesh
-        ref={glowRef}
-        geometry={glowGeometry}
-      >
-        <meshBasicMaterial
-          color="#39ff14"
-          side={THREE.DoubleSide}
-        />
+      <mesh ref={glowRef} geometry={glowGeometry}>
+        <meshBasicMaterial color="#39ff14" side={THREE.DoubleSide} />
       </mesh>
 
     </group>

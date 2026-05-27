@@ -10,7 +10,7 @@ export function exhaustSystem() {
 
         const angle = ship.rotation;
 
-        const rearDistance = 0.55;
+        const rearDistance = 0.40; // distance of emission from rear
 
         const x = ship.x - Math.cos(angle) * rearDistance;
         const y = ship.y - Math.sin(angle) * rearDistance;
