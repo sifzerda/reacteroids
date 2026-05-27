@@ -29,14 +29,16 @@ export default function AsteroidRenderer() {
     []
   );
 
-  const material = useMemo(
-    () =>
-      new THREE.MeshBasicMaterial({
-        color: '#888',
-        wireframe: true,
-      }),
-    []
-  );
+const material = useMemo(
+  () =>
+    new THREE.MeshStandardMaterial({
+      color: '#6b6258',      // rocky asteroid brown/gray
+      roughness: 1,
+      metalness: 0,
+      flatShading: true,
+    }),
+  []
+);
 
   useFrame(() => {
 

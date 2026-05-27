@@ -38,7 +38,12 @@ export default function PlayScreen({ onGameOver }) {
 
         <CameraEffects />
 
-        <ambientLight intensity={1} />
+        <ambientLight intensity={0.7} />
+
+        <directionalLight
+          position={[5, 5, 5]}
+          intensity={1}
+        />
 
         <GameLoop onGameOver={onGameOver} />
 
