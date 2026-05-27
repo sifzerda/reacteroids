@@ -126,3 +126,34 @@ Extras once full base game working:
 - [x] asteroid destroyed bar not aligned with play
 
 - [ ] trial a shader based GPU exhaustparticle renderer for better performance
+
+- [ ] reposition bullets correctly
+
+- [ ] fix in game HUD stats
+
+
+
+
+
+GRAPHICS TIPS:
+
+CPU ECS + instancing        =	medium particles, game objects
+InstancedMesh               =	up to ~10k–20k simple objects
+Shader points	            =	up to ~10k–200k particles
+Framebuffer Object (FBO)    =	up to ~10k–1M particles fluid systems
+
+
+top-tier setup is:
+
+3-stage GPU pipeline
+1. Simulation (GPU) 
+> position texture 
+> velocity texture 
+> life decay
+2. Rendering (GPU)
+> point sprite shader
+> or instanced billboard shader
+3. Post FX
+> bloom
+> motion blur
+> tone mapping
