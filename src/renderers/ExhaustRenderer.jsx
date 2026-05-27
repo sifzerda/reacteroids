@@ -23,20 +23,9 @@ export default function ExhaustRenderer() {
     const velocities = new Float32Array(MAX * 3);
     const lifes = new Float32Array(MAX);
 
-    geo.setAttribute(
-      'position',
-      new THREE.BufferAttribute(positions, 3)
-    );
-
-    geo.setAttribute(
-      'velocity',
-      new THREE.BufferAttribute(velocities, 3)
-    );
-
-    geo.setAttribute(
-      'life',
-      new THREE.BufferAttribute(lifes, 1)
-    );
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+    geo.setAttribute('life', new THREE.BufferAttribute(lifes, 1));
 
     return geo;
 
@@ -173,8 +162,7 @@ export default function ExhaustRenderer() {
 
   useFrame((state) => {
 
-    material.uniforms.uTime.value =
-      state.clock.elapsedTime;
+    material.uniforms.uTime.value = state.clock.elapsedTime;
 
     const positions = geometry.attributes.position.array;
     const velocities = geometry.attributes.velocity.array;
