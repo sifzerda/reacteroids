@@ -2,153 +2,360 @@
 
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { bullets } from '../ecs/queries';
 import * as THREE from 'three';
+import { bullets } from '../ecs/queries';
 
-const MAX = 2000;
-const tempObj = new THREE.Object3D();
-const tempColor = new THREE.Color();
+const MAX = 12000;
 
 export default function BulletRenderer() {
 
   const meshRef = useRef();
-  // Long laser streak
-  const geometry = useMemo(() => {
-    return new THREE.PlaneGeometry(0.45, 2.4);
-  }, []);
 
-  const colorArray = useMemo(() => new Float32Array(MAX * 3), []);
+  const geometry = useMemo(() => {
+
+    const geo = new THREE.InstancedBufferGeometry();
+
+    // base quad
+    const plane =
+      new THREE.PlaneGeometry(1, 1);
+
+    geo.index = plane.index;
+
+    geo.attributes.position =
+      plane.attributes.position;
+
+    geo.attributes.uv =
+      plane.attributes.uv;
+
+    // instance data
+    const offsets =
+      new Float32Array(MAX * 3);
+
+    const rotations =
+      new Float32Array(MAX);
+
+    const colors =
+      new Float32Array(MAX * 3);
+
+    const speeds =
+      new Float32Array(MAX);
+
+    geo.setAttribute(
+      'offset',
+      new THREE.InstancedBufferAttribute(
+        offsets,
+        3
+      )
+    );
+
+    geo.setAttribute(
+      'rotation',
+      new THREE.InstancedBufferAttribute(
+        rotations,
+        1
+      )
+    );
+
+    geo.setAttribute(
+      'instanceColor',
+      new THREE.InstancedBufferAttribute(
+        colors,
+        3
+      )
+    );
+
+    geo.setAttribute(
+      'speed',
+      new THREE.InstancedBufferAttribute(
+        speeds,
+        1
+      )
+    );
+
+    return geo;
+
+  }, []);
 
   const material = useMemo(() => {
 
     return new THREE.ShaderMaterial({
+
       transparent: true,
-      blending: THREE.AdditiveBlending,
       depthWrite: false,
-      toneMapped: false,
+      blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
+      toneMapped: false,
+
+      uniforms: {
+        uTime: {
+          value: 0
+        }
+      },
+
       vertexShader: `
 
-      attribute vec3 instanceColor;
-      varying vec3 vColor;
-      varying vec2 vUv;
+        uniform float uTime;
 
-      void main() {
-        vUv = uv;
-        vColor = instanceColor;
-        vec4 mvPosition = modelViewMatrix * instanceMatrix * vec4(position, 1.0);
-        gl_Position = projectionMatrix * mvPosition;
-      }
-    `,
+        attribute vec3 offset;
+        attribute float rotation;
+        attribute vec3 instanceColor;
+        attribute float speed;
+
+        varying vec2 vUv;
+        varying vec3 vColor;
+        varying float vSpeed;
+
+        mat2 rotate2D(float a) {
+
+          float s = sin(a);
+          float c = cos(a);
+
+          return mat2(
+             c, -s,
+             s,  c
+          );
+        }
+
+        // cheap noise
+        float hash(float n) {
+          return fract(sin(n) * 43758.5453123);
+        }
+
+        float noise(vec2 p) {
+
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+
+          f = f * f * (3.0 - 2.0 * f);
+
+          float a = hash(i.x + i.y * 57.0);
+          float b = hash(i.x + 1.0 + i.y * 57.0);
+          float c = hash(i.x + (i.y + 1.0) * 57.0);
+          float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
+
+          return mix(
+            mix(a, b, f.x),
+            mix(c, d, f.x),
+            f.y
+          );
+        }
+
+        void main() {
+
+          vUv = uv;
+          vColor = instanceColor;
+          vSpeed = speed;
+
+          vec3 pos = position;
+
+// rotate FIRST
+pos.xy =
+  rotate2D(rotation)
+  * pos.xy;
+
+// proper world forward
+vec2 forward =
+  vec2(
+    cos(rotation),
+    sin(rotation)
+  );
+
+// perpendicular
+vec2 side =
+  vec2(
+   -forward.y,
+    forward.x
+  );
+
+// decompose
+float f =
+  dot(pos.xy, forward);
+
+float s =
+  dot(pos.xy, side);
+
+// stretch in LOCAL bullet space
+f *= 3.0 + speed * 0.06;
+s *= 0.18;
+
+// rebuild
+pos.xy =
+  forward * f +
+  side * s;
+
+// plasma distortion
+float n =
+  noise(
+    pos.xy * 8.0 +
+    uTime * 8.0
+  );
+
+pos.xy +=
+  side *
+  ((n - 0.5) * 0.08);
+
+          // world position
+          pos += offset;
+
+          gl_Position =
+            projectionMatrix *
+            modelViewMatrix *
+            vec4(pos, 1.0);
+        }
+      `,
 
       fragmentShader: `
 
-  varying vec3 vColor;
-  varying vec2 vUv;
+        varying vec2 vUv;
+        varying vec3 vColor;
+        varying float vSpeed;
 
-  void main() {
+        void main() {
 
-    // center UV
-    vec2 uv = vUv - 0.5;
+          vec2 uv =
+            vUv - 0.5;
 
-      // center horizontally
-  float x = (uv.x - 0.5);
+          // elongated bullet
+          uv.y *= 0.35;
 
-      // bullet stretches vertically
-  x *= 2.2;
+          float dist =
+            length(uv);
 
-    // stretch vertically
-    uv.y *= 0.35;
+          // hot core
+          float core =
+            smoothstep(
+              0.10,
+              0.0,
+              dist
+            );
 
-        // BULLET SHAPE
+          // glow
+          float glow =
+            smoothstep(
+              0.55,
+              0.0,
+              dist
+            );
 
-  // width tapers toward rear
-  float width =
-    mix(
-      0.02,   // tip width
-      0.22,   // rear width
-      1.0 - uv.y
-    ); 
+          // rear taper
+          float trail =
+            smoothstep(
+              1.0,
+              0.1,
+              vUv.y
+            );
 
-      // front flare
-  float tip =
-    smoothstep(
-      0.7,
-      1.0,
-      uv.y
-    );
+          // flare
+          float flare =
+            smoothstep(
+              0.25,
+              0.0,
+              abs(uv.x)
+            ) *
+            smoothstep(
+              -0.2,
+              0.5,
+              uv.y
+            );
 
-    // trail taper (increase values for soft, decrease for hard)
-float trail = smoothstep(1.0, 0.15, vUv.y);
+          // shimmer
+          float shimmer =
+            sin(
+              vUv.y * 80.0 +
+              vSpeed
+            ) * 0.05;
 
-    // radial glow
-    float d = length(uv);
+          vec3 hot =
+            vec3(2.5);
 
-    float glow = smoothstep(0.6, 0.0, d);
+          vec3 color =
 
-    // bright core
-    float core =
-      smoothstep(0.12, 0.0, d);
+            vColor * glow * 2.2 +
+            hot * core * 1.8 +
+            vColor * flare;
 
-    // combine
-    float alpha = glow * trail;
+          color += shimmer;
 
-    vec3 color =
+          float alpha =
+            (glow + core + flare)
+            * trail;
 
-      vColor * glow * 1.5 +
-      vColor * core * 4.0;
+          if(alpha < 0.01)
+            discard;
 
-    gl_FragColor =
-      vec4(color, alpha);
-  }
-`
+          gl_FragColor =
+            vec4(color, alpha);
+        }
+      `
     });
 
   }, []);
 
+  useFrame((state) => {
 
-  useFrame(() => {
-    const mesh = meshRef.current;
-    if (!mesh) return;
+    material.uniforms.uTime.value =
+      state.clock.elapsedTime;
+
+    const offsets =
+      geometry.attributes.offset.array;
+
+    const rotations =
+      geometry.attributes.rotation.array;
+
+    const colors =
+      geometry.attributes.instanceColor.array;
+
+    const speeds =
+      geometry.attributes.speed.array;
+
     let i = 0;
 
     for (const bullet of bullets) {
-      // POSITION
-      tempObj.position.set(bullet.x, bullet.y, 0);
 
-      tempObj.rotation.z = bullet.rotation - Math.PI / 2;
+      if (i >= MAX) break;
 
-      // STRETCH
-      tempObj.scale.set(0.22, 1.5, 1);
+      const i3 = i * 3;
 
-      tempObj.updateMatrix();
-      meshRef.current.setMatrixAt(i, tempObj.matrix);
-      // COLOR
-      colorArray[i * 3 + 0] = bullet.colorR ?? 1;
-      colorArray[i * 3 + 1] = bullet.colorG ?? 1;
-      colorArray[i * 3 + 2] = bullet.colorB ?? 1;
+      // position
+      offsets[i3 + 0] = bullet.x;
+      offsets[i3 + 1] = bullet.y;
+      offsets[i3 + 2] = 0;
+
+      // direction
+      rotations[i] = bullet.rotation;
+
+      // color
+      colors[i3 + 0] =
+        bullet.colorR ?? 1;
+
+      colors[i3 + 1] =
+        bullet.colorG ?? 1;
+
+      colors[i3 + 2] =
+        bullet.colorB ?? 1;
+
+      // speed
+      speeds[i] =
+        bullet.speed || 20;
 
       i++;
     }
 
-    mesh.geometry.attributes.instanceColor.needsUpdate = true;
-    meshRef.current.count = i;
-    meshRef.current.instanceMatrix.needsUpdate = true;
+    geometry.instanceCount = i;
+
+    geometry.attributes.offset.needsUpdate = true;
+    geometry.attributes.rotation.needsUpdate = true;
+    geometry.attributes.instanceColor.needsUpdate = true;
+    geometry.attributes.speed.needsUpdate = true;
 
   });
 
   return (
-    <instancedMesh
+    <mesh
       ref={meshRef}
-      args={[geometry, material, MAX]}
+      geometry={geometry}
+      material={material}
       frustumCulled={false}
-    >
-
-      <instancedBufferAttribute
-        attach="geometry-attributes-instanceColor"
-        args={[colorArray, 3]}
-      />
-
-    </instancedMesh>
+    />
   );
 }
