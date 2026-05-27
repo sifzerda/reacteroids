@@ -8,95 +8,134 @@ import { ships } from '../ecs/queries';
 
 export default function ShipRenderer() {
 
-  const groupRef = useRef();
-
-  // Main body
-  const bodyGeometry = useMemo(() => {
-
-    const shape = new THREE.Shape();
-
-    // nose
-    shape.moveTo(0, 1.2);
-
-    // right side
-    shape.lineTo(0.22, 0.5);
-    shape.lineTo(0.85, -0.2);
-    shape.lineTo(0.45, -0.35);
-    shape.lineTo(0.18, -1.0);
-
-    // rear center
-    shape.lineTo(0, -0.75);
-
-    // left side
-    shape.lineTo(-0.18, -1.0);
-    shape.lineTo(-0.45, -0.35);
-    shape.lineTo(-0.85, -0.2);
-    shape.lineTo(-0.22, 0.5);
-
-    shape.closePath();
-
-    return new THREE.ShapeGeometry(shape);
-
-  }, []);
-
-  // cockpit
-  const cockpitGeometry = useMemo(() => {
-
-    const shape = new THREE.Shape();
-
-    shape.moveTo(0, 0.45);
-    shape.lineTo(0.12, 0.05);
-    shape.lineTo(0, -0.2);
-    shape.lineTo(-0.12, 0.05);
-
-    shape.closePath();
-
-    return new THREE.ShapeGeometry(shape);
-
-  }, []);
+  const shipRef = useRef();
+  const glowRef = useRef();
 
   useFrame(() => {
 
     for (const ship of ships) {
 
-      groupRef.current.position.set(
+      shipRef.current.position.set(
         ship.x,
         ship.y,
         0
       );
 
-      groupRef.current.rotation.z =
+      glowRef.current.position.set(
+        ship.x,
+        ship.y,
+        -0.01
+      );
+
+      shipRef.current.rotation.z =
+        ship.rotation - Math.PI / 2;
+
+      glowRef.current.rotation.z =
         ship.rotation - Math.PI / 2;
     }
   });
 
+  // Main ship geometry
+  const shipGeometry = useMemo(() => {
+
+    const vertices = new Float32Array([
+
+      // Nose
+      0.0, 0.7, 0,
+
+      // Left wing
+      -0.55, -0.15, 0,
+
+      // Left rear
+      -0.2, -0.05, 0,
+
+
+      0.0, 0.7, 0,
+
+      0.2, -0.05, 0,
+
+      0.55, -0.15, 0,
+
+      // rear fin
+      -0.2, -0.05, 0,
+      0.0, -0.30, 0,
+      0.2, -0.05, 0
+
+    ]);
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(vertices, 3)
+    );
+
+    geometry.computeVertexNormals();
+
+    return geometry;
+
+  }, []);
+
+  // Neon green highlight geometry
+  const glowGeometry = useMemo(() => {
+
+    const vertices = new Float32Array([
+
+      // Cockpit stripe
+      0.0, 0.45, 0,
+      -0.08, 0.1, 0,
+      0.08, 0.1, 0,
+
+      // Left wing highlight
+      -0.42, -0.12, 0,
+      -0.18, -0.08, 0,
+      -0.30, -0.22, 0,
+
+      // Right wing highlight
+      0.42, -0.12, 0,
+      0.18, -0.08, 0,
+      0.30, -0.22, 0
+
+    ]);
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(vertices, 3)
+    );
+
+    geometry.computeVertexNormals();
+
+    return geometry;
+
+  }, []);
+
   return (
+    <group>
 
-    <group ref={groupRef} scale={0.55}>
-
-      {/* Main ship body */}
-      <mesh geometry={bodyGeometry}>
+      {/* Main ship */}
+      <mesh
+        ref={shipRef}
+        geometry={shipGeometry}
+      >
         <meshBasicMaterial
-          color="#1e90ff"
-        />
-      </mesh>
-
-      {/* Green highlight overlay */}
-      <mesh geometry={bodyGeometry} position={[0, 0, 0.001]}>
-        <meshBasicMaterial
-          color="#00ff88"
+          color="cyan"
           wireframe
+          side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Cockpit */}
-      <mesh geometry={cockpitGeometry} position={[0, 0.25, 0.01]}>
+      {/* Fluro green highlights */}
+      <mesh
+        ref={glowRef}
+        geometry={glowGeometry}
+      >
         <meshBasicMaterial
-          color="#66ffee"
+          color="#39ff14"
+          side={THREE.DoubleSide}
         />
       </mesh>
-
-
 
     </group>
   );
