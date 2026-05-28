@@ -1,10 +1,20 @@
 // ecs/screens/HowToPlayScreen.jsx
 
 import FlightLayout from '../components/FlightLayout2';
+import { useState } from 'react';
 
 export default function HowToPlayScreen({
   onBack,
 }) {
+
+  const [selected, setSelected] = useState(null);
+
+  const items = [
+    {
+      label: 'BACK',
+      action: onBack,
+    },
+  ];
 
   return (
 
@@ -13,7 +23,7 @@ export default function HowToPlayScreen({
       footer="SECTOR CLEAR"
     >
 
-  <div className="mx-auto inline-block text-left font-mono text-xs tracking-[0.2em] text-white/80">
+      <div className="mx-auto inline-block text-left font-mono text-xs tracking-[0.2em] text-white/80">
 
         <div className="space-y-4">
 
@@ -49,7 +59,7 @@ export default function HowToPlayScreen({
               </div>
 
               <span className="text-white/70">
-                Move ship in all directions
+                Movement
               </span>
             </div>
           </div>
@@ -66,21 +76,21 @@ export default function HowToPlayScreen({
               </div>
 
               <span className="text-white/70">
-                Fire gun 
+                Fire gun
               </span>
             </div>
           </div>
 
-                    {/* SPECIAL */}
+          {/* SPECIAL */}
           <div>
             <div className="mb-2 text-[#39ff14]/60 tracking-[0.25em]">
               SPECIAL WEAPON
             </div>
 
             <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center border border-white/40 text-white text-xs">
-                  B
-                </div>
+              <div className="flex h-8 w-8 items-center justify-center border border-white/40 text-white text-xs">
+                B
+              </div>
 
               <span className="text-white/70">
                 Release bomb (when bomb meter is full)
@@ -92,12 +102,56 @@ export default function HowToPlayScreen({
 
         {/* BACK BUTTON */}
         <div className="mt-10 flex justify-center">
-          <button
-            onClick={onBack}
-            className="border border-[#39ff14]/60 px-5 py-2 text-[#39ff14] tracking-[0.3em] hover:bg-[#39ff14]/10 transition"
-          >
-            BACK
-          </button>
+
+
+          {items.map((item, i) => {
+
+            const active = i === selected;
+
+            return (
+
+              <button
+                key={item.label}
+                onClick={item.action}
+                onMouseEnter={() => setSelected(i)}
+                onMouseLeave={() => setSelected(null)}
+                className={`
+    relative
+    w-56
+    py-3
+    uppercase
+    tracking-[0.45em]
+    text-sm
+    border
+    transition-all
+    duration-200
+
+    ${active
+                    ? "border-green-300 text-cyan-300 bg-cyan-500/10 shadow-[0_0_18px_rgba(0,255,255,0.35)]"
+                    : "border-[#39ff14]/40 text-[#39ff14]/70 bg-black/40"
+                  }
+  `}
+              >
+
+                {item.label}
+
+                {active && (
+                  <span className="
+                  absolute
+                  -left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-cyan-300
+                  animate-pulse
+                ">
+                    ▶
+                  </span>
+                )}
+
+              </button>
+            );
+          })}
+
         </div>
 
       </div>
@@ -106,4 +160,3 @@ export default function HowToPlayScreen({
 
   );
 }
-
