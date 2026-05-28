@@ -115,6 +115,7 @@ Weapons	Modular     firing logic
 
 Extras once full base game working:
 - [ ] more guns types
+ - [ ] homing missiles, flamethrower, laser, charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life
 - [ ] add health packs which restore health
@@ -127,9 +128,13 @@ Extras once full base game working:
 
 - [x] shader based GPU renderers for better performance
 
-- [ ] reposition bullets correctly
+- [x] reposition bullets correctly
+
+- [ ] reposition spread bullets
 
 - [ ] fix in game HUD stats
+
+- [ ] improve/enhance ship movement
 
 
 
@@ -141,7 +146,6 @@ CPU ECS + instancing        =	medium particles, game objects
 InstancedMesh               =	up to ~10k–20k simple objects
 Shader points	            =	up to ~10k–200k particles
 Framebuffer Object (FBO)    =	up to ~10k–1M particles fluid systems
-
 
 top-tier setup is:
 
