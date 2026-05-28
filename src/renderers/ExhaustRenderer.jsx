@@ -42,9 +42,9 @@ export default function ExhaustRenderer() {
       toneMapped: false,
 
       uniforms: {
-        uTime: { value: 0 }, 
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2)}, 
-        uViewportHeight: {value: size.height}
+        uTime: { value: 0 },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uViewportHeight: { value: size.height }
       },
 
       vertexShader: `
@@ -102,9 +102,9 @@ export default function ExhaustRenderer() {
           float speed = length(velocity.xy);
 
           // much larger so particles are visible
-          float sizeBase = mix(6.0, 24.0, life);
+          float sizeBase = mix(2.0, 8.0, life);
 
-          gl_PointSize = sizeBase * (1.0 + speed * 4.0) * uPixelRatio;
+          gl_PointSize = sizeBase * (1.0 + speed * 1.0) * uPixelRatio;
 
           // perspective scale
           gl_PointSize *= (uViewportHeight / 1000.0);
@@ -126,29 +126,41 @@ export default function ExhaustRenderer() {
           // circular mask
           float alpha = smoothstep(0.5, 0.0, dist);
 
-          // elongated flame look
-          alpha *= 1.0 + uv.y * 1.8;
+// tapered flame shape
+alpha *= 1.2 + uv.y * 1.1;
 
           // hotter core
           float core = smoothstep(0.18, 0.0, dist);
 
-          // blue-hot core
-          vec3 blue = vec3(0.2, 0.7, 2.0);
+// gas flame colors
+vec3 blue = vec3(0.05, 0.35, 2.0);
+vec3 deepBlue = vec3(0.0, 0.10, 0.60);
+vec3 red = vec3(1.15, 0.06, 0.02);
 
-          // orange flame
-          vec3 orange = vec3(2.0, 0.5, 0.08);
+// radial core
+float inner = smoothstep(0.22, 0.0, dist);
 
-          // smoky red
-          vec3 red = vec3(1.2, 0.15, 0.02);
+// life stages
+float t = 1.0 - vLife;
 
-          vec3 color = mix(red, orange, vLife);
+// start blue
+vec3 color = blue;
 
-          color = mix(color, blue, core);
+// blue -> darker blue first
+color = mix(color, deepBlue, smoothstep(0.0, 0.25, t));
 
-          // shimmer flicker
-          float shimmer = sin(gl_PointCoord.y * 30.0 + vLife * 8.0) * 0.08;
+// darker blue -> red
+color = mix(color, red, smoothstep(0.15, 0.60, t));
 
-          color += shimmer;
+// subtle blue core
+color += blue * inner * 0.15;
+
+// flicker
+float shimmer =
+    sin(gl_PointCoord.y * 20.0 + vLife * 12.0)
+    * 0.03;
+
+color += shimmer;
 
           // edge fade
           alpha *= vLife;

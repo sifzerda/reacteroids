@@ -108,8 +108,8 @@ Weapons	Modular     firing logic
 - [x] how to play screen
 - [ ] submit highscores
 - [ ] sfx
-- [ ] optimization
-- [ ] effect enhancement
+- [x] optimization
+- [x] effect enhancement
 
 - [x] ECS system architecture which is data-flow driven rather than creates objects and classes
 
@@ -120,12 +120,12 @@ Extras once full base game working:
 - [ ] add health packs which restore health
 - [x] enhance bullet vfx
 - [x] enhance exhaust particle vfx
-- [ ] enhance ship and rock vfx/appearance
+- [x] enhance ship and rock vfx/appearance
 - [ ] sfx
 - [x] fix up start screen UI
 - [x] asteroid destroyed bar not aligned with play
 
-- [ ] trial a shader based GPU exhaustparticle renderer for better performance
+- [x] shader based GPU renderers for better performance
 
 - [ ] reposition bullets correctly
 

@@ -142,7 +142,7 @@ export default function WeaponSystem({ shipDataRef, bulletsRef, fxRef }) {
         });
       }
 
-      fxRef?.current?.muzzleFlash?.(tempSpawn, weapon.color);
+    //  fxRef?.current?.muzzleFlash?.(tempSpawn, weapon.color);
     }
   });
 
