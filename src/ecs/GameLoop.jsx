@@ -15,36 +15,25 @@ import { waveSystem } from './systems/waveSystem';
 import { bombSystem } from './systems/bombSystem';
 import { bombWaveSystem } from './systems/bombWaveSystem';
 
-export default function GameLoop({
-  onGameOver,
-}) {
-
+export default function GameLoop({onGameOver}) {
   const { viewport } = useThree();
 
   useFrame((_, delta) => {
 
 shipControlSystem(delta);
-
 weaponSystem(delta);
-
 bombSystem();
-
 exhaustSystem(delta);
-
 movementSystem(delta);
-
 bombWaveSystem(delta);
 
 wrapSystem(viewport);
 
 collisionSystem();
-
 waveSystem();
 
 shipCollisionSystem(delta, onGameOver);
-
 bulletLifetimeSystem(delta);
-
 exhaustLifetimeSystem(delta);
   });
 
