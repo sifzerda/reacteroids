@@ -72,7 +72,7 @@ export default function StartScreen({
           return (
             <button key={item.label} onClick={item.action} onMouseEnter={() => setSelected(i)}
               className={`
-                relative w-56 py-3 uppercase tracking-[0.45em] text-sm border transition-all duration-200
+                cursor-pointer relative w-56 py-3 uppercase tracking-[0.45em] text-sm border transition-all duration-200
 
                 ${active
                   ? "border-green-300 text-cyan-300 bg-cyan-500/10 shadow-[0_0_18px_rgba(0,255,255,0.35)]"
