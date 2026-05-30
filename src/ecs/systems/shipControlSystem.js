@@ -1,9 +1,12 @@
 // src/ecs/systems/shipControlSystem.js
 
+// src/ecs/systems/shipControlSystem.js
+
 import { ships } from '../queries';
 import { keys } from '../input';
 
 const THRUST = 28;
+const REVERSE_THRUST = 18;
 
 const TURN_ACCEL = 42;
 const TURN_DRAG = 0.94;
@@ -11,7 +14,9 @@ const MAX_TURN_SPEED = 10;
 
 const DRAG = 0.992;
 const TRACTION = 0.03;
+
 const MAX_SPEED = 32;
+const MAX_REVERSE_SPEED = 18;
 
 export function shipControlSystem(delta) {
 
@@ -38,10 +43,10 @@ export function shipControlSystem(delta) {
 
     ship.rotation += ship.angularVelocity * delta;
 
-    // rotational damping
+    // Rotational damping
     ship.angularVelocity *= TURN_DRAG;
 
-    // slight stabilization
+    // Slight auto-stabilization
     if (
       !keys['ArrowLeft'] &&
       !keys['ArrowRight']
@@ -50,26 +55,59 @@ export function shipControlSystem(delta) {
     }
 
     //
+    // SHIP FORWARD VECTOR
+    //
+
+    const forwardX = Math.cos(ship.rotation);
+    const forwardY = Math.sin(ship.rotation);
+
+    //
     // THRUST
     //
 
     if (keys['ArrowUp']) {
 
-      const forwardX = Math.cos(ship.rotation);
-      const forwardY = Math.sin(ship.rotation);
+      ship.vx +=
+        forwardX * THRUST * delta;
 
-      ship.vx += forwardX * THRUST * delta;
-      ship.vy += forwardY * THRUST * delta;
+      ship.vy +=
+        forwardY * THRUST * delta;
+    }
+
+    //
+    // REVERSE THRUST
+    //
+
+    if (keys['ArrowDown']) {
+
+      ship.vx -=
+        forwardX * REVERSE_THRUST * delta;
+
+      ship.vy -=
+        forwardY * REVERSE_THRUST * delta;
+    }
+
+    //
+    // LIMIT REVERSE SPEED
+    //
+
+    const forwardVelocity =
+      ship.vx * forwardX +
+      ship.vy * forwardY;
+
+    if (forwardVelocity < -MAX_REVERSE_SPEED) {
+
+      const excess =
+        (-MAX_REVERSE_SPEED - forwardVelocity);
+
+      ship.vx += forwardX * excess;
+      ship.vy += forwardY * excess;
     }
 
     //
     // DRIFT / TRACTION
     //
 
-    const forwardX = Math.cos(ship.rotation);
-    const forwardY = Math.sin(ship.rotation);
-
-    // velocity components relative to ship facing
     const forwardSpeed =
       ship.vx * forwardX +
       ship.vy * forwardY;
@@ -78,7 +116,8 @@ export function shipControlSystem(delta) {
       ship.vx * -forwardY +
       ship.vy * forwardX;
 
-    // keep most forward momentum
+    // Reduce sideways sliding while
+    // keeping most momentum
     const newSideSpeed =
       sideSpeed * (1 - TRACTION);
 
@@ -93,10 +132,12 @@ export function shipControlSystem(delta) {
     //
     // EXTRA TURN DRIFT
     //
-    // Makes the rear swing outward while cornering.
+    // Creates the feeling of the rear
+    // swinging outward during turns.
     //
 
-    const speed = Math.hypot(ship.vx, ship.vy);
+    const speed =
+      Math.hypot(ship.vx, ship.vy);
 
     if (speed > 0.5) {
 
@@ -125,7 +166,7 @@ export function shipControlSystem(delta) {
     ship.vy *= DRAG;
 
     //
-    // SPEED LIMIT
+    // FORWARD SPEED LIMIT
     //
 
     const currentSpeed =
