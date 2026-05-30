@@ -127,15 +127,10 @@ Extras once full base game working:
 - [x] asteroid destroyed bar not aligned with play
 
 - [x] shader based GPU renderers for better performance
-
 - [x] reposition bullets correctly
-
 - [ ] reposition spread bullets
-
 - [ ] fix in game HUD stats
-
-- [ ] improve/enhance ship movement
-
+- [x] improve/enhance ship movement
 - [ ] style the error page
 
 

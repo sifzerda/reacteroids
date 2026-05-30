@@ -20,7 +20,7 @@ export default function Header() {
       <div className="relative z-10 flex items-center justify-between py-0">
        
         {/* Logo */}
-        <h1 className=" ml-7 text-xl sm:text-2xl font-audiowide text-green-500 drop-shadow-[0_0_6px_rgba(0,255,0,0.9)] whitespace-nowrap">
+        <h1 className="ml-7 text-xl sm:text-2xl font-audiowide text-green-500 drop-shadow-[0_0_6px_rgba(0,255,0,0.9)] whitespace-nowrap">
           ASTEROIDS
         </h1>
 
@@ -32,7 +32,7 @@ export default function Header() {
 
               return (
                 <li key={label}> <Link to={href}
-                    className={`uppercase tracking-[0.45em] text-sm hover:text-white inline-block px-9 py-1 text-md sm:text-sm transition-all whitespace-nowrap rounded-sm border                   
+                    className={`uppercase tracking-[0.45em] text-sm hover:text-white inline-block px-4 sm:px-9 py-1 text-md sm:text-sm transition-all whitespace-nowrap rounded-sm border                   
                       ${isActive
                         ? 'border-[rgba(0,255,0,0.9)] text-cyan-300'
                         : ' text-[rgba(0,255,0,0.5)] border[rgba(0,255,0,0.5)]'
