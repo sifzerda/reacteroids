@@ -129,9 +129,10 @@ Extras once full base game working:
 - [x] shader based GPU renderers for better performance
 - [x] reposition bullets correctly
 - [ ] reposition spread bullets
-- [ ] fix in game HUD stats
+- [ ] fix in game HUD stats: make bomb a bar that fills up
 - [x] improve/enhance ship movement
 - [ ] style the error page
+- [ ] improve bomb graphics
 
 
 

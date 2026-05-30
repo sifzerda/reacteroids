@@ -105,20 +105,20 @@ export default function HUD() {
 
           textShadow: '0 0 6px rgba(120,180,255,0.25)',
         }}
-      >
+        >
         {/* LIVES */}
         <span>
-          L:{ui.lives}
+          LIVES: {ui.lives}
         </span>
 
         {/* SCORE */}
         <span>
-          S:{ui.score.toLocaleString()}
+          SCORE: {ui.score.toLocaleString()}
         </span>
 
         {/* WAVE */}
         <span>
-          W:{ui.wave}
+          WAVE: {ui.wave}
         </span>
 
         {/* BOMB */}
