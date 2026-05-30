@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function FlightLayout({
-    title,
-    footer,
-    children,
-}) {
+export default function FlightLayout({title, footer, children}) {
     const [typedTitle, setTypedTitle] = useState("");
 
     useEffect(() => {
@@ -46,31 +42,15 @@ export default function FlightLayout({
                 {/* LEFT TICKS */}
                 <div className="absolute left-10 top-1/2 -translate-y-1/2">
                     {[...Array(11)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute left-0 h-px bg-[#39ff14]"
-                            style={{
-                                width: i % 2 === 0 ? "34px" : "18px",
-                                top: `${i * 52}px`,
-                                transform: "translateY(-260px)",
-                            }}
-                        />
-                    ))}
+                        <div key={i} className="absolute left-0 h-px bg-[#39ff14]"
+                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)",}} />))}
                 </div>
 
                 {/* RIGHT TICKS */}
                 <div className="absolute right-10 top-1/2 -translate-y-1/2">
                     {[...Array(11)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute right-0 h-px bg-[#39ff14]"
-                            style={{
-                                width: i % 2 === 0 ? "34px" : "18px",
-                                top: `${i * 52}px`,
-                                transform: "translateY(-260px)",
-                            }}
-                        />
-                    ))}
+                        <div key={i} className="absolute right-0 h-px bg-[#39ff14]"
+                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)",}} />))}
                 </div>
 
                 {/* TOP LABELS */}
