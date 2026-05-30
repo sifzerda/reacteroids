@@ -13,12 +13,14 @@ export default function Header() {
 
   return (
     <header className="relative border-b border-cyan-500/60 bg-black/65 shadow-[0_0_24px_rgba(57,255,20,0.2)] backdrop-blur-sm">
+      
       {/* scanline overlay */}
       <div className="scanlines" />
 
-      <div className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-0">
+      <div className="relative z-10 flex items-center justify-between py-0">
+       
         {/* Logo */}
-        <h1 className="text-xl sm:text-2xl font-audiowide text-green-300 drop-shadow-[0_0_6px_rgba(0,255,0,0.9)] whitespace-nowrap">
+        <h1 className="ml-7 text-xl sm:text-2xl font-audiowide text-green-500 drop-shadow-[0_0_6px_rgba(0,255,0,0.9)] whitespace-nowrap">
           ASTEROIDS
         </h1>
 
@@ -29,28 +31,13 @@ export default function Header() {
               const isActive = pathname === href;
 
               return (
-                <li key={label}>
-                  <Link
-                    to={href}
-                    className={`
-                      inline-block
-                      px-9
-                      py-1
-                      text-md sm:text-sm
-                      transition-all
-                      whitespace-nowrap
-                      rounded-sm
-                      border-2                   
-                      ${
-                        isActive
-                          ? ' text-white bg-cyan-300/20 shadow-[0_0_18px_rgba(0,255,255,0.50)] border-green-300/40'
-                          : 'border-lime-500/80 text-lime-500 hover:text-cyan-400'
-                      }
-                    `}
-                  >
-                    {label}
-                  </Link>
-                </li>
+                <li key={label}> <Link to={href}
+                    className={`uppercase tracking-[0.45em] text-sm hover:text-white inline-block px-9 py-1 text-md sm:text-sm transition-all whitespace-nowrap rounded-sm border-1                   
+                      ${isActive
+                        ? 'border-[rgba(0,255,0,0.9)] text-cyan-300'
+                        : ' text-[rgba(0,255,0,0.5)] border[rgba(0,255,0,0.5)]'
+                      }`}>
+                    {label}</Link></li>
               );
             })}
           </ul>

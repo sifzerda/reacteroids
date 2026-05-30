@@ -14,7 +14,7 @@ export default function App({ children }) {
         <Header />
  
 
-        <main className="flex-1 flex flex-col mx-2 mb-2 rounded-md neon-cyan gradient-border overflow-hidden">
+        <main className="flex-1 flex flex-col rounded-md neon-cyan gradient-border overflow-hidden">
           <Outlet />
         </main>
 
