@@ -136,7 +136,7 @@ Extras once full base game working:
 
 - [ ] improve/enhance ship movement
 
-
+- [ ] style the error page
 
 
 
