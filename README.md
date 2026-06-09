@@ -25,6 +25,7 @@ This is second rebuild of my first two asteroids games. The first was a fullstac
 
 ~~![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)~~  
 ~~![JSON Web Tokens](https://img.shields.io/badge/JSON%20Web%20Tokens-000000.svg?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)~~ 
+
 ## Visuals
 
 This app has been deployed to Vercel. Visit the site: [React Asteroids](https://.../)
@@ -50,6 +51,13 @@ npm install
 # run server
 npm run start
 ```
+
+### Add a new gun
+
+1. Create a new folder inside ecs/features
+2. add the required files
+3. update index.js in ecs/features
+4. new guns are automatically iterated in from the index.js inside GameLoop.jsx
 
 ## Tech
 
