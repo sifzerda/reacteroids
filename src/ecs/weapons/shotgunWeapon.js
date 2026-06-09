@@ -15,16 +15,10 @@ export const shotgunWeapon = {
 
       spawnBullet({
 
-        x:
-          ship.x +
-          Math.cos(ship.rotation) * muzzle,
+        x: ship.x + Math.cos(ship.rotation) * muzzle,
+        y: ship.y + Math.sin(ship.rotation) * muzzle,
 
-        y:
-          ship.y +
-          Math.sin(ship.rotation) * muzzle,
-
-        rotation:
-          ship.rotation + i * spread,
+        rotation: ship.rotation + i * spread,
 
         speed: 20,
         life: 0.45,

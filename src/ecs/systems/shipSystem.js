@@ -13,12 +13,7 @@ export function spawnShip() {
 
     ship: true,
 
-    ...transform(
-      0,
-      0,
-      0
-    ),
-
+    ...transform(0, 0, 0),
     ...velocity(),
     ...collider(0.45),
     ...weapon('raygun'),

@@ -1,10 +1,7 @@
 // src/ecs/fx/CameraEffects.jsx
 
-import { useThree, useFrame }
-  from '@react-three/fiber';
-
-import { gameEffects }
-  from './gameEffects';
+import { useThree, useFrame } from '@react-three/fiber';
+import { gameEffects } from './gameEffects';
 
 export default function CameraEffects() {
 
@@ -16,18 +13,10 @@ export default function CameraEffects() {
       gameEffects.screenShake > 0
     ) {
 
-      const intensity =
-        gameEffects.screenShake;
+      const intensity = gameEffects.screenShake;
 
-      camera.position.x =
-        (Math.random() - 0.5) *
-        0.25 *
-        intensity;
-
-      camera.position.y =
-        (Math.random() - 0.5) *
-        0.25 *
-        intensity;
+      camera.position.x = (Math.random() - 0.5) * 0.25 * intensity;
+      camera.position.y = (Math.random() - 0.5) * 0.25 * intensity;
 
       gameEffects.screenShake *= 0.9;
 

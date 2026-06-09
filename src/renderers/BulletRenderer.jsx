@@ -182,20 +182,11 @@ pos.xy += side * ((n - 0.5) * 0.08);
 
   useFrame((state) => {
 
-    material.uniforms.uTime.value =
-      state.clock.elapsedTime;
-
-    const offsets =
-      geometry.attributes.offset.array;
-
-    const rotations =
-      geometry.attributes.rotation.array;
-
-    const colors =
-      geometry.attributes.instanceColor.array;
-
-    const speeds =
-      geometry.attributes.speed.array;
+    material.uniforms.uTime.value = state.clock.elapsedTime;
+    const offsets = geometry.attributes.offset.array;
+    const rotations = geometry.attributes.rotation.array;
+    const colors = geometry.attributes.instanceColor.array;
+    const speeds = geometry.attributes.speed.array;
 
     let i = 0;
 
@@ -214,18 +205,12 @@ pos.xy += side * ((n - 0.5) * 0.08);
       rotations[i] = bullet.rotation;
 
       // color
-      colors[i3 + 0] =
-        bullet.colorR ?? 1;
-
-      colors[i3 + 1] =
-        bullet.colorG ?? 1;
-
-      colors[i3 + 2] =
-        bullet.colorB ?? 1;
+      colors[i3 + 0] = bullet.colorR ?? 1;
+      colors[i3 + 1] = bullet.colorG ?? 1;
+      colors[i3 + 2] = bullet.colorB ?? 1;
 
       // speed
-      speeds[i] =
-        bullet.speed || 20;
+      speeds[i] = bullet.speed || 20;
 
       i++;
     }

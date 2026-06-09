@@ -3,12 +3,7 @@
 import FlightLayout from '../components/FlightLayout2';
 import { useState, useEffect } from 'react';
 
-export default function StartScreen({
-  onPlay,
-  onHowToPlay,
-  onSettings,
-  onHighscores,
-}) {
+export default function StartScreen({onPlay, onHowToPlay, onSettings, onHighscores}) {
 
   const [selected, setSelected] = useState(0);
 

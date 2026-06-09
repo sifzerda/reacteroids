@@ -1,6 +1,4 @@
-export function lifespan(
-  life = 1
-) {
+export function lifespan(life = 1) {
   return {
     life,
   };
