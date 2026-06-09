@@ -4,6 +4,10 @@ import { world } from './world';
 
 export const ships = world.with('ship');
 export const bullets = world.with('bullet');
+
+export const heatrays = world.with('heatray');
+export const flamethrowers = world.with('flamethrower');
+
 export const asteroids = world.with('asteroid');
 export const exhaustParticles = world.with('exhaust');
 

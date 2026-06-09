@@ -23,6 +23,8 @@ export function spawnBullet({
   colorB = 1,
 
   life = 1.2,
+
+  bulletType = 'normal',
 }) {
 
   const vx = Math.cos(rotation) * speed;
@@ -31,6 +33,7 @@ export function spawnBullet({
   return world.add({
 
     bullet: true,
+    bulletType,
 
     ...transform(
       x,

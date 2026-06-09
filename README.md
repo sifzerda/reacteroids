@@ -134,6 +134,9 @@ Extras once full base game working:
 - [ ] style the error page
 - [ ] improve bomb graphics
 
+- [ ] flamethrower does not damage asteroids
+- [ ] heatray doesn't look right
+
 
 
 GRAPHICS TIPS:

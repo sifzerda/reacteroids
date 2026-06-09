@@ -15,6 +15,12 @@ import { waveSystem } from './systems/waveSystem';
 import { bombSystem } from './systems/bombSystem';
 import { bombWaveSystem } from './systems/bombWaveSystem';
 
+import { heatraySystem } from './systems/heatraySystem';
+import { heatrayDamageSystem } from './systems/heatrayDamageSystem';
+
+import { flamethrowerDamageSystem } from './systems/flamethrowerDamageSystem';
+
+
 export default function GameLoop({onGameOver}) {
   const { viewport } = useThree();
 
@@ -25,6 +31,12 @@ weaponSystem(delta);
 bombSystem();
 exhaustSystem(delta);
 movementSystem(delta);
+
+  heatraySystem();
+  heatrayDamageSystem(delta);
+
+  flamethrowerDamageSystem(delta);
+
 bombWaveSystem(delta);
 
 wrapSystem(viewport);

@@ -20,6 +20,15 @@ for (const ship of ships) {
       ship.weapon = 'machinegun';
     }
 
+if (keys['Digit5']) {
+  ship.weapon = 'heatray';
+}
+
+if (keys['Digit6']) {
+  ship.weapon = 'flamethrower';
+}
+
+
     ship.cooldown -= delta;
 
     const weapon = weapons[ship.weapon];

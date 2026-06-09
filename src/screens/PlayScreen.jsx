@@ -16,6 +16,12 @@ import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import BombWaveRenderer from '../renderers/BombWaveRenderer';
 
+import HeatRayRenderer
+  from '../renderers/HeatRayRenderer';
+
+import FlamethrowerRenderer
+  from '../renderers/FlamethrowerRenderer';
+
 import CameraEffects from '../ecs/fx/CameraEffects';
 import HUD from '../components/HUD';
 
@@ -42,14 +48,17 @@ export default function PlayScreen({ onGameOver }) {
         <directionalLight
           position={[5, 5, 5]}
           intensity={1}
-          //color="#aabbff"
+        //color="#aabbff"
         />
 
         <GameLoop onGameOver={onGameOver} />
 
         <ShipRenderer />
-        
+
         <BulletRenderer />
+
+        <HeatRayRenderer />
+        <FlamethrowerRenderer />
 
         <AsteroidRenderer />
         <ExhaustRenderer />
