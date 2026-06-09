@@ -1,7 +1,7 @@
 // makes the game world wrap around
 // src/ecs/systems/wrapSystem.js
 
-import { wrappable } from '../queries';
+import { wrappable } from '../core/queries';
 
 export function wrapSystem(viewport) {
 

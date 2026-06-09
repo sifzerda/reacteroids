@@ -1,6 +1,6 @@
 // ecs/resetGame.js
 
-import { world } from './world';
+import { world } from './core/world';
 
 export function resetGame() {
 

@@ -14,15 +14,9 @@ import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
-import BombWaveRenderer from '../renderers/BombWaveRenderer';
 
-import HeatRayRenderer
-  from '../renderers/HeatRayRenderer';
+import { features } from '../ecs/features';
 
-import FlamethrowerRenderer
-  from '../renderers/FlamethrowerRenderer';
-
-import CameraEffects from '../ecs/fx/CameraEffects';
 import HUD from '../components/HUD';
 
 export default function PlayScreen({ onGameOver }) {
@@ -41,8 +35,6 @@ export default function PlayScreen({ onGameOver }) {
 
       <Canvas camera={{ position: [0, 0, 10] }}>
 
-        <CameraEffects />
-
         <ambientLight intensity={0.7} />
 
         <directionalLight
@@ -57,12 +49,16 @@ export default function PlayScreen({ onGameOver }) {
 
         <BulletRenderer />
 
-        <HeatRayRenderer />
-        <FlamethrowerRenderer />
+        {
+          features.map((feature) => {
+            if (!feature.renderer) return null;
+            const Renderer = feature.renderer;
+            return (<Renderer key={feature.id} />);
+          })
+        }
 
         <AsteroidRenderer />
         <ExhaustRenderer />
-        <BombWaveRenderer />
 
         <EffectComposer>
 
@@ -78,9 +74,7 @@ export default function PlayScreen({ onGameOver }) {
             offset={[0.0015, 0.0012]}
           />
 
-          <Noise
-            opacity={0.025}
-          />
+          <Noise opacity={0.025} />
 
           <Vignette
             eskil={false}

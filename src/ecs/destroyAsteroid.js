@@ -1,11 +1,11 @@
 //src/ecs/destroyAsteroid.js
 // this is the shared/collective function that destroys an asteroid
 
-import { world } from './world.js'
-import { gameState } from './gameState';
-import { spawnAsteroid } from './factories/spawnAsteroid';
+import { world } from './core/world.js'
+import { gameState } from './core/gameState';
+import { spawnAsteroid } from './shared/factories/spawnAsteroid.js';
 
-export function destroyAsteroid(asteroid, scoreValue = 100, giveBombCharge = true) {
+export function destroyAsteroid(asteroid, scoreValue = 100) {
 
   world.remove(asteroid);
 
@@ -26,19 +26,6 @@ export function destroyAsteroid(asteroid, scoreValue = 100, giveBombCharge = tru
   }
 
   gameState.waveProgress += progressValue;
-
-  // BOMB CHARGE
-  if (giveBombCharge) {
-    gameState.bombCharge += 15;
-
-    if (
-      gameState.bombCharge >= gameState.bombChargeRequired
-    ) {
-
-      gameState.bombCharge = gameState.bombChargeRequired;
-      gameState.bombReady = true;
-    }
-  }
 
   // SPLIT ASTEROIDS
 

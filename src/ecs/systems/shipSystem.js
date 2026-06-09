@@ -1,6 +1,6 @@
 // src/ecs/systems/shipSystem.js
 
-import { world } from '../world';
+import { world } from '../core/world';
 
 import { transform } from '../components/transform';
 import { velocity } from '../components/velocity';

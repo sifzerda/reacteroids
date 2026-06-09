@@ -4,7 +4,7 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-import { ships } from '../ecs/queries';
+import { ships } from '../ecs/core/queries';
 
 export default function ShipRenderer() {
 

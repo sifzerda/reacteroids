@@ -1,6 +1,6 @@
 // src/ecs/systems/asteroidSystem.js
 
-import { asteroids } from '../queries';
+import { asteroids } from '../core/queries';
 
 export function asteroidSystem(delta) {
 

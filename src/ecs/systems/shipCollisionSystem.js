@@ -1,6 +1,6 @@
 // src/ecs/systems/shipCollisionSystem.js
 
-import { ships, asteroids } from '../queries';
+import { ships, asteroids } from '../core/queries';
 
 export function shipCollisionSystem(delta, onGameOver) {
     for (const ship of ships) {

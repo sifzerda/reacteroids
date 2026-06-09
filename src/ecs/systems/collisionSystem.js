@@ -1,8 +1,8 @@
 // src/ecs/systems/collisionSystem.js
 
-import { bullets, asteroids } from '../queries';
-import { world } from '../world';
-import { gameState } from '../gameState';
+import { bullets, asteroids } from '../core/queries';
+import { world } from '../core/world';
+import { gameState } from '../core/gameState';
 import { destroyAsteroid } from '../destroyAsteroid';
 
 export function collisionSystem() {

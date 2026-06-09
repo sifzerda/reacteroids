@@ -1,7 +1,7 @@
 // src/ecs/systems/shipControlSystem.js
 
-import { ships } from '../queries';
-import { keys } from '../input';
+import { ships } from '../core/queries';
+import { keys } from '../core/input';
 
 const THRUST = 28;
 const REVERSE_THRUST = 18;

@@ -1,7 +1,7 @@
 // src/ecs/systems/bulletLifetimeSystem.js
 
-import { bullets } from '../queries';
-import { world } from '../world';
+import { bullets } from '../core/queries';
+import { world } from '../core/world';
 
 export function bulletLifetimeSystem(delta) {
 

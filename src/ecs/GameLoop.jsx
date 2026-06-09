@@ -4,7 +4,7 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { shipControlSystem } from './systems/shipControlSystem';
 import { movementSystem } from './systems/movementSystem';
-import { weaponSystem } from './systems/weaponSystem';
+import { weaponSystem } from './features/weaponSystem.js'
 import { wrapSystem } from './systems/wrapSystem';
 import { collisionSystem } from './systems/collisionSystem';
 import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
@@ -12,41 +12,35 @@ import { exhaustLifetimeSystem } from './systems/exhaustLifetimeSystem';
 import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { exhaustSystem } from './systems/exhaustSystem';
 import { waveSystem } from './systems/waveSystem';
-import { bombSystem } from './systems/bombSystem';
-import { bombWaveSystem } from './systems/bombWaveSystem';
 
-import { heatraySystem } from './systems/heatraySystem';
-import { heatrayDamageSystem } from './systems/heatrayDamageSystem';
+import { features } from './features';
 
-import { flamethrowerDamageSystem } from './systems/flamethrowerDamageSystem';
-
-
-export default function GameLoop({onGameOver}) {
+export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();
 
   useFrame((_, delta) => {
 
-shipControlSystem(delta);
-weaponSystem(delta);
-bombSystem();
-exhaustSystem(delta);
-movementSystem(delta);
+    shipControlSystem(delta);
+    weaponSystem(delta);
+    exhaustSystem(delta);
+    movementSystem(delta);
 
-  heatraySystem();
-  heatrayDamageSystem(delta);
+    //features folder
+    for (const feature of features) {
+      if (!feature.systems) continue;
+      for (const system of feature.systems) {
+        system(delta);
+      }
+    }
+    ////
+    wrapSystem(viewport);
 
-  flamethrowerDamageSystem(delta);
+    collisionSystem();
+    waveSystem();
 
-bombWaveSystem(delta);
-
-wrapSystem(viewport);
-
-collisionSystem();
-waveSystem();
-
-shipCollisionSystem(delta, onGameOver);
-bulletLifetimeSystem(delta);
-exhaustLifetimeSystem(delta);
+    shipCollisionSystem(delta, onGameOver);
+    bulletLifetimeSystem(delta);
+    exhaustLifetimeSystem(delta);
   });
 
   return null;

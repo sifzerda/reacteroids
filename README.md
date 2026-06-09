@@ -129,13 +129,9 @@ Extras once full base game working:
 - [x] shader based GPU renderers for better performance
 - [x] reposition bullets correctly
 - [ ] reposition spread bullets
-- [ ] fix in game HUD stats: make bomb a bar that fills up
 - [x] improve/enhance ship movement
 - [ ] style the error page
-- [ ] improve bomb graphics
-
-- [ ] flamethrower does not damage asteroids
-- [ ] heatray doesn't look right
+- [x] restructured weapons into features for more scalable gun addition
 
 
 

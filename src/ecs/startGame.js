@@ -1,8 +1,8 @@
 // ecs/startGame.js
 
-import { spawnShip } from './factories/spawnShip';
-import { spawnAsteroid } from './factories/spawnAsteroid';
-import { gameState } from './gameState';
+import { spawnShip } from './shared/factories/spawnShip';
+import { spawnAsteroid } from './shared/factories/spawnAsteroid';
+import { gameState } from './core/gameState';
 
 export function startGame() {
 
@@ -12,8 +12,6 @@ export function startGame() {
   gameState.score = 0;
   gameState.wave = 1;
   gameState.waveProgress = 0;
-  gameState.bombCharge = 0;
-  gameState.bombReady = false;
 
   const count = 8;
 

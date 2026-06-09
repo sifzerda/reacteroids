@@ -1,12 +1,12 @@
 // src/ecs/factories/spawnBullet.js
 
-import { world } from '../world';
+import { world } from '../../core/world';
 
-import { transform } from '../components/transform';
-import { velocity } from '../components/velocity';
-import { collider } from '../components/collider';
-import { lifespan } from '../components/lifespan';
-import { renderColor } from '../components/renderColor';
+import { transform } from '../../components/transform'
+import { velocity } from '../../components/velocity';
+import { collider } from '../../components/collider';
+import { lifespan } from '../../components/lifespan';
+import { renderColor } from '../../components/renderColor';
 
 export function spawnBullet({
   x,

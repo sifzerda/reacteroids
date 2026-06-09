@@ -75,20 +75,6 @@ export default function HowToPlayScreen({ onBack }) {
             </div>
           </div>
 
-          {/* SPECIAL */}
-          <div>
-            <div className="mb-2 text-[#39ff14]/60 tracking-[0.25em]">SPECIAL WEAPON</div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center border border-white/40 text-white text-xs">
-                B
-              </div>
-
-              <span className="text-white/70">Release bomb (when bomb meter is full)</span>
-
-            </div>
-          </div>
-
         </div>
 
         {/* BACK BUTTON */}

@@ -1,11 +1,11 @@
 // src/ecs/factories/spawnShip.js
 
-import { world } from '../world';
+import { world } from '../../core/world';
 
-import { transform } from '../components/transform';
-import { velocity } from '../components/velocity';
-import { collider } from '../components/collider';
-import { weapon } from '../components/weapon';
+import { transform } from '../../components/transform';
+import { velocity } from '../../components/velocity'
+import { collider } from '../../components/collider';
+import { weapon } from '../../components/weapon';
 
 export function spawnShip() {
 

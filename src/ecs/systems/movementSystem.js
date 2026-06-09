@@ -1,6 +1,6 @@
 // src/ecs/systems/movementSystem.js
 
-import { movable } from '../queries';
+import { movable } from '../core/queries';
 
 export function movementSystem(delta) {
 

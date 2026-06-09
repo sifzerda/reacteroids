@@ -1,10 +1,10 @@
 // src/ecs/factories/spawnAsteroid.js
 
-import { world } from '../world';
+import { world } from '../../core/world';
 
-import { transform } from '../components/transform';
-import { velocity } from '../components/velocity';
-import { collider } from '../components/collider';
+import { transform } from '../../components/transform';
+import { velocity } from '../../components/velocity';
+import { collider } from '../../components/collider';
 
 export function spawnAsteroid({
   x,

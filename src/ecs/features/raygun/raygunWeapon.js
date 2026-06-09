@@ -1,7 +1,7 @@
 // default weapon
 // src/ecs/weapons/raygunWeapon.js
 
-import { spawnBullet } from '../factories/spawnBullet';
+import { spawnBullet } from '../../shared/factories/spawnBullet';
 
 export const raygunWeapon = {
 

@@ -1,6 +1,6 @@
 // src/ecs/factories/spawnExhaustParticle.js
 
-import { world } from '../world';
+import { world } from '../../core/world';
 
 export function spawnExhaustParticle({
   x,

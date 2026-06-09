@@ -1,7 +1,7 @@
 // src/ecs/systems/exhaustLifetimeSystem.js
 
-import { exhaustParticles } from '../queries';
-import { world } from '../world';
+import { exhaustParticles } from '../core/queries';
+import { world } from '../core/world';
 
 export function exhaustLifetimeSystem(delta) {
 

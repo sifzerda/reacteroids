@@ -1,8 +1,8 @@
 // src/ecs/systems/waveSystem.js
 // this manages the level/stages of asteroid waves, and the difficulty scaling
 
-import { gameState } from '../gameState';
-import { spawnAsteroid } from '../factories/spawnAsteroid';
+import { gameState } from '../core/gameState';
+import { spawnAsteroid } from '../shared/factories/spawnAsteroid';
 
 let waveCooldown = 0;
 

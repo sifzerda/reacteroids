@@ -2,9 +2,8 @@
 // in-game stats
 
 import { useState, useEffect } from 'react';
-import { ships } from '../ecs/queries.js';
-import { gameState } from '../ecs/gameState.js';
-import { gameEffects } from '../ecs/fx/gameEffects';
+import { ships } from '../ecs/core/queries.js';
+import { gameState } from '../ecs/core/gameState.js';
 
 export default function HUD() {
   const [ui, setUi] = useState({
@@ -13,8 +12,6 @@ export default function HUD() {
     score: 0,
     wave: 1,
     waveProgress: 0,
-    bombProgress: 0,
-    bombReady: false,
     flash: 0,
   });
 
@@ -29,9 +26,7 @@ export default function HUD() {
         score: gameState.score,
         wave: gameState.wave,
         waveProgress: Math.min(gameState.waveProgress / gameState.waveProgressRequired, 1),
-        bombProgress: gameState.bombCharge / gameState.bombChargeRequired,
-        bombReady: gameState.bombReady,
-        flash: gameEffects.screenShake,
+
       });
     }, 50);
 
@@ -121,17 +116,6 @@ export default function HUD() {
           WAVE: {ui.wave}
         </span>
 
-        {/* BOMB */}
-        <span
-          style={{
-            color: ui.bombReady ? '#bff6ff' : '#d7ecff',
-            textShadow: ui.bombReady
-              ? '0 0 10px rgba(180,240,255,0.7)'
-              : '0 0 6px rgba(120,180,255,0.25)',
-          }}
-        >
-          BOMB {Math.floor(ui.bombProgress * 100)}%
-        </span>
       </div>
     </div>
   );
