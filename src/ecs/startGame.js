@@ -1,4 +1,5 @@
 // ecs/startGame.js
+// initializes start game state
 
 import { spawnShip } from './shared/factories/spawnShip';
 import { spawnAsteroid } from './shared/factories/spawnAsteroid';
