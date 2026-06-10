@@ -23,6 +23,11 @@ export const machinegunWeapon = {
 
             speed: 34,
 
+            length: 2.5,
+            width: 0.12,
+            glow: 0.6,
+            distortion: 0.1,
+
             damage: 35,
 
             life: 0.35,

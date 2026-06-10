@@ -10,11 +10,9 @@ const MAX = 12000;
 export default function BulletRenderer() {
 
   const meshRef = useRef();
-
   const geometry = useMemo(() => {
 
     const geo = new THREE.InstancedBufferGeometry();
-
     // base quad
     const plane = new THREE.PlaneGeometry(1, 1);
 
@@ -27,11 +25,19 @@ export default function BulletRenderer() {
     const rotations = new Float32Array(MAX);
     const colors = new Float32Array(MAX * 3);
     const speeds = new Float32Array(MAX);
+    const lengths = new Float32Array(MAX);
+    const widths = new Float32Array(MAX);
+    const glows = new Float32Array(MAX);
+    const distortions = new Float32Array(MAX);
 
     geo.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3));
     geo.setAttribute('rotation', new THREE.InstancedBufferAttribute(rotations, 1));
     geo.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
     geo.setAttribute('speed', new THREE.InstancedBufferAttribute(speeds, 1));
+    geo.setAttribute('bulletLength', new THREE.InstancedBufferAttribute(lengths, 1));
+    geo.setAttribute('bulletWidth', new THREE.InstancedBufferAttribute(widths, 1));
+    geo.setAttribute('bulletGlow', new THREE.InstancedBufferAttribute(glows, 1));
+    geo.setAttribute('bulletDistortion', new THREE.InstancedBufferAttribute(distortions, 1));
 
     return geo;
 
@@ -47,7 +53,7 @@ export default function BulletRenderer() {
       side: THREE.DoubleSide,
       toneMapped: false,
 
-      uniforms: {uTime: {value: 0}},
+      uniforms: { uTime: { value: 0 } },
 
       vertexShader: `
 
@@ -62,6 +68,13 @@ export default function BulletRenderer() {
         varying vec3 vColor;
         varying float vSpeed;
 
+        attribute float bulletLength;
+        attribute float bulletWidth;
+        attribute float bulletDistortion;
+
+        varying float vGlow;
+        attribute float bulletGlow;
+        
         mat2 rotate2D(float a) {
 
           float s = sin(a);
@@ -98,7 +111,7 @@ export default function BulletRenderer() {
           vUv = uv;
           vColor = instanceColor;
           vSpeed = speed;
-
+          vGlow = bulletGlow;
           vec3 pos = position;
 
 // rotate FIRST
@@ -114,9 +127,8 @@ vec2 side = vec2(-forward.y, forward.x);
 float f = dot(pos.xy, forward);
 float s = dot(pos.xy, side);
 
-// stretch in LOCAL bullet space
-f *= 3.0 + speed * 0.06;
-s *= 0.18;
+f *= bulletLength;
+s *= bulletWidth;
 
 // rebuild
 pos.xy = forward * f + side * s;
@@ -124,7 +136,7 @@ pos.xy = forward * f + side * s;
 // plasma distortion
 float n = noise(pos.xy * 8.0 + uTime * 8.0);
 
-pos.xy += side * ((n - 0.5) * 0.08);
+pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
 
           // world position
           pos += offset;
@@ -138,6 +150,7 @@ pos.xy += side * ((n - 0.5) * 0.08);
         varying vec2 vUv;
         varying vec3 vColor;
         varying float vSpeed;
+        varying float vGlow;
 
         void main() {
 
@@ -165,11 +178,11 @@ pos.xy += side * ((n - 0.5) * 0.08);
 
           vec3 hot = vec3(2.5);
 
-          vec3 color = vColor * glow * 2.2 + hot * core * 1.8 + vColor * flare;
+          vec3 color = vColor * glow * 2.2 * vGlow + hot * core * 1.8 * vGlow + vColor * flare * vGlow;
 
           color += shimmer;
 
-          float alpha = (glow + core + flare) * trail;
+          float alpha = (glow + core + flare) * trail * vGlow;
 
           if(alpha < 0.01) discard;
 
@@ -187,6 +200,10 @@ pos.xy += side * ((n - 0.5) * 0.08);
     const rotations = geometry.attributes.rotation.array;
     const colors = geometry.attributes.instanceColor.array;
     const speeds = geometry.attributes.speed.array;
+    const lengths = geometry.attributes.bulletLength.array;
+    const widths = geometry.attributes.bulletWidth.array;
+    const glows = geometry.attributes.bulletGlow.array;
+    const distortions = geometry.attributes.bulletDistortion.array;
 
     let i = 0;
 
@@ -211,6 +228,10 @@ pos.xy += side * ((n - 0.5) * 0.08);
 
       // speed
       speeds[i] = bullet.speed || 20;
+      lengths[i] = bullet.length ?? 1;
+      widths[i] = bullet.width ?? 1;
+      glows[i] = bullet.glow ?? 1;
+      distortions[i] = bullet.distortion ?? 1;
 
       i++;
     }
@@ -221,6 +242,10 @@ pos.xy += side * ((n - 0.5) * 0.08);
     geometry.attributes.rotation.needsUpdate = true;
     geometry.attributes.instanceColor.needsUpdate = true;
     geometry.attributes.speed.needsUpdate = true;
+    geometry.attributes.bulletLength.needsUpdate = true;
+    geometry.attributes.bulletWidth.needsUpdate = true;
+    geometry.attributes.bulletGlow.needsUpdate = true;
+    geometry.attributes.bulletDistortion.needsUpdate = true;
 
   });
 

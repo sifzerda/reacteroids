@@ -21,6 +21,11 @@ export const shotgunWeapon = {
         rotation: ship.rotation + i * spread,
 
         speed: 20,
+        length: 1.2,
+        width: 0.25,
+        glow: 1.4,
+        distortion: 0.7,
+
         life: 0.45,
         radius: 0.14,
 

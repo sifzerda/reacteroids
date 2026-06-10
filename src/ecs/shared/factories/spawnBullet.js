@@ -15,7 +15,6 @@ export function spawnBullet({
 
   speed = 20,
   damage = 100,
-
   radius = 0.15,
 
   colorR = 1,
@@ -25,6 +24,12 @@ export function spawnBullet({
   life = 1.2,
 
   bulletType = 'normal',
+
+  // appearance
+  length = 1,
+  width = 1,
+  glow = 1,
+  distortion = 1,
 }) {
 
   const vx = Math.cos(rotation) * speed;
@@ -35,21 +40,19 @@ export function spawnBullet({
     bullet: true,
     bulletType,
 
-    ...transform(
-      x,
-      y,
-      rotation
-    ),
-
+    ...transform(x, y, rotation),
     ...velocity(vx, vy),
     ...collider(radius),
     ...lifespan(life),
-    ...renderColor(
-      colorR,
-      colorG,
-      colorB
-    ),
+    ...renderColor(colorR, colorG, colorB),
 
     damage,
+
+    length,
+    width,
+    glow,
+    distortion,
+
+    speed,
   });
 }

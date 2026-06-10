@@ -19,6 +19,11 @@ export const raygunWeapon = {
       rotation: ship.rotation,
 
       speed: 26,
+      length: 6,
+      width: 0.35,
+      glow: 3,
+      distortion: 2,
+
       life: 1.5,
       radius: 0.24,
 
