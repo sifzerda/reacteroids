@@ -2,6 +2,7 @@
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';
+import { forwardVector, rightVector } from '../core/direction';
 
 const THRUST = 28;
 const REVERSE_THRUST = 18;
@@ -23,8 +24,8 @@ export function shipControlSystem(delta) {
     ship.angularVelocity ??= 0;
 
     // TURNING
-    if (keys['ArrowLeft']) {ship.angularVelocity += TURN_ACCEL * delta}
-    if (keys['ArrowRight']) {ship.angularVelocity -= TURN_ACCEL * delta}
+    if (keys['ArrowLeft']) { ship.angularVelocity += TURN_ACCEL * delta }
+    if (keys['ArrowRight']) { ship.angularVelocity -= TURN_ACCEL * delta }
 
     ship.angularVelocity = Math.max(-MAX_TURN_SPEED, Math.min(MAX_TURN_SPEED, ship.angularVelocity));
     ship.rotation += ship.angularVelocity * delta;
@@ -33,50 +34,49 @@ export function shipControlSystem(delta) {
     ship.angularVelocity *= TURN_DRAG;
 
     // Slight auto-stabilization
-    if (!keys['ArrowLeft'] && !keys['ArrowRight']) {ship.angularVelocity *= 0.9}
+    if (!keys['ArrowLeft'] && !keys['ArrowRight']) { ship.angularVelocity *= 0.9 }
 
     // SHIP FORWARD VECTOR
-    const forwardX = Math.cos(ship.rotation);
-    const forwardY = Math.sin(ship.rotation);
+    const forward = forwardVector(ship.rotation);
+    // SHIP RIGHT VECTOR
+    const right = rightVector(ship.rotation);
 
     // THRUST
     if (keys['ArrowUp']) {
-      ship.vx += forwardX * THRUST * delta;
-      ship.vy += forwardY * THRUST * delta;
+      ship.vx += forward.x * THRUST * delta;
+      ship.vy += forward.y * THRUST * delta;
     }
 
     // REVERSE THRUST
     if (keys['ArrowDown']) {
-      ship.vx -= forwardX * REVERSE_THRUST * delta;
-      ship.vy -= forwardY * REVERSE_THRUST * delta;
+      ship.vx -= forward.x * REVERSE_THRUST * delta;
+      ship.vy -= forward.y * REVERSE_THRUST * delta;
     }
 
     // LIMIT REVERSE SPEED
-    const forwardVelocity = ship.vx * forwardX + ship.vy * forwardY;
+    const forwardVelocity = ship.vx * forward.x + ship.vy * forward.y;
 
     if (forwardVelocity < -MAX_REVERSE_SPEED) {
-
       const excess = (-MAX_REVERSE_SPEED - forwardVelocity);
 
-      ship.vx += forwardX * excess;
-      ship.vy += forwardY * excess;
+      ship.vx += forward.x * excess;
+      ship.vy += forward.y * excess;
     }
 
     // DRIFT / TRACTION
-    const forwardSpeed = ship.vx * forwardX + ship.vy * forwardY;
-    const sideSpeed = ship.vx * -forwardY + ship.vy * forwardX;
+    const forwardSpeed = ship.vx * forward.x + ship.vy * forward.y;
+    const sideSpeed = ship.vx * right.x + ship.vy * right.y;
 
-    // Reduce sideways sliding while
-    // keeping most momentum
+    // Reduce sideways sliding while keeping most momentum
     const newSideSpeed = sideSpeed * (1 - TRACTION);
 
-    ship.vx = forwardX * forwardSpeed + (-forwardY) * newSideSpeed;
-    ship.vy = forwardY * forwardSpeed + forwardX * newSideSpeed;
+    ship.vx = forward.x * forwardSpeed + right.x * newSideSpeed;
+    ship.vy = forward.y * forwardSpeed + right.y * newSideSpeed;
 
     // EXTRA TURN DRIFT
     const speed = Math.hypot(ship.vx, ship.vy);
-
-    if (speed > 0.5) { const driftStrength = 0.15;
+    if (speed > 0.5) {
+      const driftStrength = 0.15;
       ship.vx += Math.sin(ship.rotation) * ship.angularVelocity * driftStrength * delta * speed;
       ship.vy -= Math.cos(ship.rotation) * ship.angularVelocity * driftStrength * delta * speed;
     }
@@ -88,7 +88,8 @@ export function shipControlSystem(delta) {
     // FORWARD SPEED LIMIT
     const currentSpeed = Math.hypot(ship.vx, ship.vy);
 
-    if (currentSpeed > MAX_SPEED) {const scale = MAX_SPEED / currentSpeed;
+    if (currentSpeed > MAX_SPEED) {
+      const scale = MAX_SPEED / currentSpeed;
       ship.vx *= scale;
       ship.vy *= scale;
     }
