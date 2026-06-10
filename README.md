@@ -115,15 +115,14 @@ Weapons	Modular     firing logic
 - [x] pause screen
 - [x] how to play screen
 - [ ] submit highscores
-- [ ] sfx
 - [x] optimization
 - [x] effect enhancement
 
 - [x] ECS system architecture which is data-flow driven rather than creates objects and classes
 
 Extras once full base game working:
-- [ ] more guns types
- - [ ] homing missiles, flamethrower, laser, charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
+- [x] more guns types
+ - [ ] homing missiles, ~~flamethrower,~~ ~~ laser,~~ charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life
 - [ ] add health packs which restore health
@@ -164,3 +163,21 @@ top-tier setup is:
 > bloom
 > motion blur
 > tone mapping
+
+
+
+create TARGET ARCHITECTURE that reduces file quantity and makes adding/registering new enemies easy:
+
+ecs/
+  enemies/
+    enemyDefs.js        ← ALL enemy types live here
+    enemyFactory.js     ← spawn logic
+    enemySystems.js     ← generic AI + movement + combat
+    spawnEnemy inside enemyFactory
+
+Next logical step (when you’re ready) would be extending that enemy-defs system into composable abilities, similar to your weapon system:
+
+abilities: ['chase', 'dash', 'shoot_laser']
+shared AI functions per ability instead of per enemy type
+
+That’s what turns it from “enemy types” into a real gameplay system.
