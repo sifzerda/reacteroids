@@ -14,6 +14,7 @@ import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
+import LasergunRenderer from '../ecs/features/lasergun/LasergunRenderer';
 
 import { features } from '../ecs/features';
 
@@ -36,18 +37,12 @@ export default function PlayScreen({ onGameOver }) {
       <Canvas camera={{ position: [0, 0, 10] }}>
 
         <ambientLight intensity={0.7} />
-
-        <directionalLight
-          position={[5, 5, 5]}
-          intensity={1}
-        //color="#aabbff"
-        />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
 
         <GameLoop onGameOver={onGameOver} />
-
         <ShipRenderer />
-
         <BulletRenderer />
+        <LasergunRenderer />
 
         {
           features.map((feature) => {
@@ -62,25 +57,10 @@ export default function PlayScreen({ onGameOver }) {
 
         <EffectComposer>
 
-          <Bloom
-            intensity={2.5}
-            luminanceThreshold={0.02}
-            luminanceSmoothing={0.2}
-            mipmapBlur
-          />
-
-          <ChromaticAberration
-            blendFunction={BlendFunction.NORMAL}
-            offset={[0.0015, 0.0012]}
-          />
-
+          <Bloom intensity={2.5} luminanceThreshold={0.02} luminanceSmoothing={0.2} mipmapBlur />
+          <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={[0.0015, 0.0012]} />
           <Noise opacity={0.025} />
-
-          <Vignette
-            eskil={false}
-            offset={0.12}
-            darkness={0.9}
-          />
+          <Vignette eskil={false} offset={0.12} darkness={0.9} />
 
         </EffectComposer>
 

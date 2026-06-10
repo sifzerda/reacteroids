@@ -36,6 +36,7 @@ export default function GameLoop({ onGameOver }) {
     wrapSystem(viewport);
 
     collisionSystem();
+ //   enemySystem();
     waveSystem();
 
     shipCollisionSystem(delta, onGameOver);
