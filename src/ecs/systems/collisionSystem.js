@@ -3,7 +3,7 @@
 import { bullets, asteroids } from '../core/queries';
 import { world } from '../core/world';
 import { gameState } from '../core/gameState';
-import { destroyAsteroid } from '../destroyAsteroid';
+import { destroyAsteroid } from '../shared/destroyAsteroid';
 
 export function collisionSystem() {
 

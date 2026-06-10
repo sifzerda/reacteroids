@@ -1,4 +1,4 @@
-// src/ecs/factories/spawnExhaustParticle.js
+// src/ecs/shared/factories/spawnExhaustParticle.js
 
 import { world } from '../../core/world';
 

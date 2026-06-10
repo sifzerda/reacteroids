@@ -1,4 +1,4 @@
-// src/ecs/weapons/shotgunWeapon.js
+// src/ecs/features/shotgunWeapon.js
 
 import { spawnBullet } from '../../shared/factories/spawnBullet';
 

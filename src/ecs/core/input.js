@@ -1,4 +1,4 @@
-// src/ecs/input.js
+// src/ecs/core/input.js
 
 export const keys = {};
 

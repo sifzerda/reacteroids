@@ -1,4 +1,4 @@
-// src/ecs/weapons/machinegunWeapon.js
+// src/ecs/features/machinegunWeapon.js
 import { spawnBullet } from '../../shared/factories/spawnBullet';
 
 export const machinegunWeapon = {

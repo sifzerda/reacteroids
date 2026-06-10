@@ -1,9 +1,9 @@
-//src/ecs/destroyAsteroid.js
+// src/ecs/shared/destroyAsteroid.js
 // this is the shared/collective function that destroys an asteroid
 
-import { world } from './core/world.js'
-import { gameState } from './core/gameState';
-import { spawnAsteroid } from './shared/factories/spawnAsteroid.js';
+import { world } from '../core/world.js'
+import { gameState } from '../core/gameState.js';
+import { spawnAsteroid } from './factories/spawnAsteroid.js';
 
 export function destroyAsteroid(asteroid, scoreValue = 100) {
 

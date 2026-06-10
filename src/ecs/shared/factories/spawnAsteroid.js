@@ -1,4 +1,4 @@
-// src/ecs/factories/spawnAsteroid.js
+// src/ecs/shared/factories/spawnAsteroid.js
 
 import { world } from '../../core/world';
 

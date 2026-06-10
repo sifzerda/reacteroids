@@ -1,4 +1,4 @@
-// src/ecs/factories/spawnBullet.js
+// src/ecs/shared/factories/spawnBullet.js
 
 import { world } from '../../core/world';
 

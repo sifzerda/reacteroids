@@ -1,4 +1,4 @@
-// src/ecs/systems/weaponSystem.js
+// src/ecs/features/weaponSystem.js
 
 import { ships } from "../core/queries";
 import { keys } from '../core/input';

@@ -1,4 +1,4 @@
-// src/ecs/factories/spawnShip.js
+// src/ecs/shared/factories/spawnShip.js
 
 import { world } from '../../core/world';
 

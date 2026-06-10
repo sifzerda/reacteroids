@@ -1,4 +1,4 @@
-// src/ecs/queries.js
+// src/ecs/core/queries.js
 
 import { world } from './world';
 

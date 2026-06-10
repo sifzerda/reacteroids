@@ -1,4 +1,4 @@
-// ecs/world.js
+// ecs/core/world.js
 
 import { World } from 'miniplex';
 

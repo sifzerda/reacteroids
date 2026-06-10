@@ -1,4 +1,4 @@
-// src/ecs/gameState.js
+// src/ecs/core/gameState.js
 
 export const gameState = {
 // initialize game state variables
