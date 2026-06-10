@@ -1,12 +1,8 @@
 // src/ecs/features/lasergun/laserDamageSystem.js
 
-// src/ecs/features/lasergun/laserDamageSystem.js
-
 import { lasers } from '../../core/queries';
 import { asteroids } from '../../core/queries';
-
-import { destroyAsteroid }
-from '../../shared/destroyAsteroid';
+import { destroyAsteroid } from '../../shared/destroyAsteroid';
 
 export function laserDamageSystem(delta) {
 

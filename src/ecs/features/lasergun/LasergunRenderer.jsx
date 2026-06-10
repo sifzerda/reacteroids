@@ -10,80 +10,80 @@ const MAX = 256;
 
 export default function LaserRenderer() {
 
-  const geometry = useMemo(() => {
+    const geometry = useMemo(() => {
 
-    const geo =
-      new THREE.InstancedBufferGeometry();
+        const geo =
+            new THREE.InstancedBufferGeometry();
 
-    const plane =
-      new THREE.PlaneGeometry(1, 1);
+        const plane =
+            new THREE.PlaneGeometry(1, 1);
 
-    geo.index = plane.index;
+        geo.index = plane.index;
 
-    geo.attributes.position =
-      plane.attributes.position;
+        geo.attributes.position =
+            plane.attributes.position;
 
-    geo.attributes.uv =
-      plane.attributes.uv;
+        geo.attributes.uv =
+            plane.attributes.uv;
 
-    geo.setAttribute(
-      'offset',
-      new THREE.InstancedBufferAttribute(
-        new Float32Array(MAX * 3),
-        3
-      )
-    );
+        geo.setAttribute(
+            'offset',
+            new THREE.InstancedBufferAttribute(
+                new Float32Array(MAX * 3),
+                3
+            )
+        );
 
-    geo.setAttribute(
-      'rotation',
-      new THREE.InstancedBufferAttribute(
-        new Float32Array(MAX),
-        1
-      )
-    );
+        geo.setAttribute(
+            'rotation',
+            new THREE.InstancedBufferAttribute(
+                new Float32Array(MAX),
+                1
+            )
+        );
 
-    geo.setAttribute(
-      'laserLength',
-      new THREE.InstancedBufferAttribute(
-        new Float32Array(MAX),
-        1
-      )
-    );
+        geo.setAttribute(
+            'laserLength',
+            new THREE.InstancedBufferAttribute(
+                new Float32Array(MAX),
+                1
+            )
+        );
 
-    geo.setAttribute(
-      'laserWidth',
-      new THREE.InstancedBufferAttribute(
-        new Float32Array(MAX),
-        1
-      )
-    );
+        geo.setAttribute(
+            'laserWidth',
+            new THREE.InstancedBufferAttribute(
+                new Float32Array(MAX),
+                1
+            )
+        );
 
-    geo.setAttribute(
-      'instanceColor',
-      new THREE.InstancedBufferAttribute(
-        new Float32Array(MAX * 3),
-        3
-      )
-    );
+        geo.setAttribute(
+            'instanceColor',
+            new THREE.InstancedBufferAttribute(
+                new Float32Array(MAX * 3),
+                3
+            )
+        );
 
-    return geo;
+        return geo;
 
-  }, []);
+    }, []);
 
-  const material = useMemo(() => {
+    const material = useMemo(() => {
 
-    return new THREE.ShaderMaterial({
+        return new THREE.ShaderMaterial({
 
-      transparent: true,
+            transparent: true,
 
-      blending:
-        THREE.AdditiveBlending,
+            blending:
+                THREE.AdditiveBlending,
 
-      depthWrite: false,
+            depthWrite: false,
 
-      uniforms: {},
+            uniforms: {},
 
-      vertexShader: `
+            vertexShader: `
 
         attribute vec3 offset;
         attribute float rotation;
@@ -110,14 +110,30 @@ export default function LaserRenderer() {
           vUv = uv;
           vColor = instanceColor;
 
-          vec3 pos = position;
+vec3 pos = position;
 
-          pos.x *= laserLength;
-          pos.y *= laserWidth;
+// local beam coords
+float f = pos.x * laserLength;
+float s = pos.y * laserWidth;
 
-          pos.xy =
-            rotate2D(rotation)
-            * pos.xy;
+// game forward direction
+vec2 forward = vec2(
+  cos(rotation),
+  sin(rotation)
+);
+
+vec2 side = vec2(
+  -forward.y,
+  forward.x
+);
+
+// anchor beam at muzzle
+f += laserLength * 0.5;
+
+// rebuild in world orientation
+pos.xy =
+    forward * f +
+    side * s;
 
           pos += offset;
 
@@ -128,7 +144,7 @@ export default function LaserRenderer() {
         }
       `,
 
-      fragmentShader: `
+            fragmentShader: `
 
         varying vec2 vUv;
         varying vec3 vColor;
@@ -149,73 +165,73 @@ export default function LaserRenderer() {
             vec4(color, beam);
         }
       `
+        });
+
+    }, []);
+
+    useFrame(() => {
+
+        const offsets =
+            geometry.attributes.offset.array;
+
+        const rotations =
+            geometry.attributes.rotation.array;
+
+        const lengths =
+            geometry.attributes.laserLength.array;
+
+        const widths =
+            geometry.attributes.laserWidth.array;
+
+        const colors =
+            geometry.attributes.instanceColor.array;
+
+        let i = 0;
+
+        for (const laser of lasers) {
+
+            const i3 = i * 3;
+
+            offsets[i3] = laser.x;
+            offsets[i3 + 1] = laser.y;
+            offsets[i3 + 2] = 0;
+
+            rotations[i] =
+                laser.rotation;
+
+            lengths[i] =
+                laser.length;
+
+            widths[i] =
+                laser.width;
+
+            colors[i3] =
+                laser.colorR;
+
+            colors[i3 + 1] =
+                laser.colorG;
+
+            colors[i3 + 2] =
+                laser.colorB;
+
+            i++;
+        }
+
+        geometry.instanceCount = i;
+
+        for (const attr of Object.values(
+            geometry.attributes
+        )) {
+            attr.needsUpdate = true;
+        }
+
     });
 
-  }, []);
-
-  useFrame(() => {
-
-    const offsets =
-      geometry.attributes.offset.array;
-
-    const rotations =
-      geometry.attributes.rotation.array;
-
-    const lengths =
-      geometry.attributes.laserLength.array;
-
-    const widths =
-      geometry.attributes.laserWidth.array;
-
-    const colors =
-      geometry.attributes.instanceColor.array;
-
-    let i = 0;
-
-    for (const laser of lasers) {
-
-      const i3 = i * 3;
-
-      offsets[i3] = laser.x;
-      offsets[i3 + 1] = laser.y;
-      offsets[i3 + 2] = 0;
-
-      rotations[i] =
-        laser.rotation;
-
-      lengths[i] =
-        laser.length;
-
-      widths[i] =
-        laser.width;
-
-      colors[i3] =
-        laser.colorR;
-
-      colors[i3 + 1] =
-        laser.colorG;
-
-      colors[i3 + 2] =
-        laser.colorB;
-
-      i++;
-    }
-
-    geometry.instanceCount = i;
-
-    for (const attr of Object.values(
-      geometry.attributes
-    )) {
-      attr.needsUpdate = true;
-    }
-
-  });
-
-  return (
-    <mesh
-      geometry={geometry}
-      material={material}
-      frustumCulled={false}
-    />
-  );
+    return (
+        <mesh
+            geometry={geometry}
+            material={material}
+            frustumCulled={false}
+        />
+    );
 }

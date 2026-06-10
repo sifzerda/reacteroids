@@ -23,8 +23,11 @@ export function lasergunSystem() {
 
     const ship = laser.ship;
 
-    laser.x = ship.x;
-    laser.y = ship.y;
+    const muzzle = 0.8;
+
+    laser.x = ship.x + Math.cos(ship.rotation) * muzzle;
+    laser.y = ship.y + Math.sin(ship.rotation) * muzzle;
+
     laser.rotation = ship.rotation;
   }
 }
