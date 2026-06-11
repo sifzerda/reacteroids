@@ -12,9 +12,6 @@ import { exhaustLifetimeSystem } from './systems/exhaustLifetimeSystem';
 import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { exhaustSystem } from './systems/exhaustSystem';
 import { waveSystem } from './systems/waveSystem';
-
-//import { features } from './features';
-
 import { enemySystem } from './systems/enemySystem';
 
 export default function GameLoop({ onGameOver }) {
@@ -28,13 +25,10 @@ export default function GameLoop({ onGameOver }) {
 
     enemySystem(delta);
     movementSystem(delta);
-    //features folder
-
-    ////
     wrapSystem(viewport);
 
     collisionSystem();
- //   enemySystem();
+    enemySystem();
     waveSystem();
 
     shipCollisionSystem(delta, onGameOver);

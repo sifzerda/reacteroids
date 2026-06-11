@@ -181,3 +181,5 @@ abilities: ['chase', 'dash', 'shoot_laser']
 shared AI functions per ability instead of per enemy type
 
 That’s what turns it from “enemy types” into a real gameplay system.
+
+- [ ] optimize weapons and effects and enemies before adding anything new
