@@ -60,11 +60,7 @@ export const enemyAbilities = {
 
     if (!ship) return;
 
-    const rotation =
-      Math.atan2(
-        ship.y - enemy.y,
-        ship.x - enemy.x
-      );
+    const rotation = Math.atan2(ship.y - enemy.y, ship.x - enemy.x);
 
     spawnBullet({
 

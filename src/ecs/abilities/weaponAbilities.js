@@ -1,7 +1,6 @@
 // src/ecs/abilities/weaponAbilities.js
 
-import { spawnBullet }
-from '../shared/factories/spawnBullet.js';
+import { spawnBullet } from '../shared/factories/spawnBullet.js';
 
 export const weaponAbilities = {
 
@@ -50,9 +49,7 @@ export const weaponAbilities = {
         x: ship.x,
         y: ship.y,
 
-        rotation:
-          ship.rotation +
-          i * spread,
+        rotation: ship.rotation + i * spread,
 
         speed: 18
       });
@@ -78,9 +75,7 @@ export const weaponAbilities = {
         x: ship.x,
         y: ship.y,
 
-        rotation:
-          ship.rotation +
-          (index - 3) * 0.05,
+        rotation: ship.rotation + (index - 3) * 0.05,
 
         colorR:c[0],
         colorG:c[1],

@@ -3,69 +3,39 @@
 export const weaponDefs = {
 
     raygun: {
-
         hotkey: 'Digit1',
-
         cooldown: 0.20,
-
-        abilities: [
-            'singleShot'
-        ]
+        abilities: ['singleShot']
     },
 
     shotgun: {
-
         hotkey: 'Digit2',
-
         cooldown: 0.70,
-
-        abilities: [
-            'spreadShot'
-        ]
+        abilities: ['spreadShot']
     },
 
     machinegun: {
-
         hotkey: 'Digit3',
-
         cooldown: 0.05,
-
-        abilities: [
-            'rapidShot'
-        ]
+        abilities: ['rapidShot']
     },
 
     laser: {
-
         hotkey: 'Digit4',
-
         cooldown: 0,
-
-        abilities: [
-            'laserBeam'
-        ]
+        abilities: ['laserBeam']
     },
 
     plasma: {
-
         hotkey: 'Digit5',
-
         cooldown: 0.15,
-
-        abilities: [
-            'rainbowShot'
-        ]
+        abilities: ['rainbowShot']
     },
 
     missile: {
-
         hotkey: 'Digit6',
-
         cooldown: 0.8,
-
-        abilities: [
-            'missileShot'
-        ]
+        abilities: ['missileShot']
     },
 
   //    flamethrower = {

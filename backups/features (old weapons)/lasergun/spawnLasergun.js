@@ -1,6 +1,6 @@
 // src/ecs/features/lasergun/spawnLasergun.js
 
-import { world } from '../../core/world';
+import { world } from '../../../src/ecs/core/world';
 
 export function spawnLasergun({
   ship,

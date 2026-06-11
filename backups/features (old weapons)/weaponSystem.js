@@ -1,9 +1,9 @@
 // src/ecs/features/weaponSystem.js
 
-import { world } from '../core/world';
-import { ships } from "../core/queries";
-import { keys } from '../core/input';
-import { featureMap } from '../features';
+import { world } from '../../src/ecs/core/world';
+import { ships } from "../../src/ecs/core/queries";
+import { keys } from '../../src/ecs/core/input';
+import { featureMap } from '.';
 
 export function weaponSystem(delta) {
 

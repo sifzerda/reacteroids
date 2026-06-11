@@ -1,6 +1,6 @@
 // src/ecs/features/shotgunWeapon.js
 
-import { spawnBullet } from '../../shared/factories/spawnBullet';
+import { spawnBullet } from '../../../src/ecs/shared/factories/spawnBullet';
 
 export const shotgunWeapon = {
 
