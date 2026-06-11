@@ -4,7 +4,7 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { shipControlSystem } from './systems/shipControlSystem';
 import { movementSystem } from './systems/movementSystem';
-import { weaponSystem } from './features/weaponSystem.js'
+import { weaponSystem } from './systems/weaponSystem.js'
 import { wrapSystem } from './systems/wrapSystem';
 import { collisionSystem } from './systems/collisionSystem';
 import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
@@ -13,7 +13,9 @@ import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { exhaustSystem } from './systems/exhaustSystem';
 import { waveSystem } from './systems/waveSystem';
 
-import { features } from './features';
+//import { features } from './features';
+
+import { enemySystem } from './systems/enemySystem';
 
 export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();
@@ -23,15 +25,11 @@ export default function GameLoop({ onGameOver }) {
     shipControlSystem(delta);
     weaponSystem(delta);
     exhaustSystem(delta);
-    movementSystem(delta);
 
+    enemySystem(delta);
+    movementSystem(delta);
     //features folder
-    for (const feature of features) {
-      if (!feature.systems) continue;
-      for (const system of feature.systems) {
-        system(delta);
-      }
-    }
+
     ////
     wrapSystem(viewport);
 

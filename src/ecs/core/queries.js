@@ -6,7 +6,7 @@ export const ships = world.with('ship');
 export const bullets = world.with('bullet');
 
 export const lasers = world.with('laser');
-//export const enemies = world.query(e => e.enemy);
+export const enemies = world.with('enemy');
 
 export const asteroids = world.with('asteroid');
 export const exhaustParticles = world.with('exhaust');

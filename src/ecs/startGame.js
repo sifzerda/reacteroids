@@ -5,6 +5,9 @@ import { spawnShip } from './shared/factories/spawnShip';
 import { spawnAsteroid } from './shared/factories/spawnAsteroid';
 import { gameState } from './core/gameState';
 
+import { enemyFactory }
+  from './factories/enemyFactory';
+
 export function startGame() {
 
   spawnShip();
@@ -29,6 +32,17 @@ export function startGame() {
       vy: (Math.random() - 0.5) * 2,
       radius: 0.7 + Math.random() * 1.5,
       size: 3,
+    });
+
+
+    enemyFactory('drone', {
+      x: 4,
+      y: 4
+    });
+
+    enemyFactory('fighter', {
+      x: -4,
+      y: 4
     });
   }
 }

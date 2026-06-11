@@ -14,9 +14,10 @@ import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
-import LasergunRenderer from '../ecs/features/lasergun/LasergunRenderer';
+//import LasergunRenderer from '../ecs/features/lasergun/LasergunRenderer';
+import EnemyRenderer from '../renderers/EnemyRenderer';
 
-import { features } from '../ecs/features';
+//import { features } from '../ecs/features';
 
 import HUD from '../components/HUD';
 
@@ -42,16 +43,9 @@ export default function PlayScreen({ onGameOver }) {
         <GameLoop onGameOver={onGameOver} />
         <ShipRenderer />
         <BulletRenderer />
-        <LasergunRenderer />
+      {/*  <LasergunRenderer />       */ }
 
-        {
-          features.map((feature) => {
-            if (!feature.renderer) return null;
-            const Renderer = feature.renderer;
-            return (<Renderer key={feature.id} />);
-          })
-        }
-
+        <EnemyRenderer />
         <AsteroidRenderer />
         <ExhaustRenderer />
 

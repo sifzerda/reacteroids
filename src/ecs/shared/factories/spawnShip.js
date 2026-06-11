@@ -16,9 +16,11 @@ export function spawnShip() {
     lives: 3,
     invulnerable: 0,
 
+    weapon: 'raygun',
+    cooldown: 0,
+
     ...transform(0, 0, 0),
     ...velocity(),
     ...collider(0.45),
-    ...weapon('raygun'),
   });
 }
