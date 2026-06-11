@@ -16,9 +16,7 @@ export function collisionSystem() {
 
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (
-        dist < bullet.radius + asteroid.radius
-      ) {
+      if (dist < bullet.radius + asteroid.radius) {
 
         world.remove(bullet);
         destroyAsteroid(asteroid, 100);

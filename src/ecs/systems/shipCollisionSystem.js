@@ -15,10 +15,7 @@ export function shipCollisionSystem(delta, onGameOver) {
 
             const dist = Math.sqrt(dx * dx + dy * dy);
 
-            if (
-                dist < ship.radius + asteroid.radius &&
-                ship.invulnerable <= 0
-            ) {
+            if (dist < ship.radius + asteroid.radius && ship.invulnerable <= 0) {
                 // LOSE A LIFE
                 ship.lives -= 1;
                 // TEMP INVULNERABILITY
