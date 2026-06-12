@@ -33,7 +33,6 @@ export function enemyFactory(type, props = {}) {
     vy: 0,
 
     radius: def.radius,
-
     wrap: true,
   });
 }

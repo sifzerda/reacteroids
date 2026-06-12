@@ -8,13 +8,8 @@ export function weaponSystem(delta) {
 
   for (const ship of ships) {
 
-    //
     // weapon switching
-    //
-
-    for (
-      const [name, weapon] of Object.entries(weapons)
-    ) {
+    for (const [name, weapon] of Object.entries(weapons)) {
 
       if (weapon.hotkey && keys[weapon.hotkey]) {
         ship.weapon = name;

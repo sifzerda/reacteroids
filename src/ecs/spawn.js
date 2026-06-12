@@ -1,7 +1,7 @@
 // ecs/spawn.js
 
 import { world } from './core/world';
-import { enemies } from './content/enemies';
+import { enemyDefs } from './content/enemyDefs';
 
 /*
 |--------------------------------------------------------------------------
@@ -141,7 +141,7 @@ export function spawnBullet({
 
 export function spawnEnemy(type, x, y) {
 
-  const def = enemies[type];
+  const def = enemyDefs[type];
 
   if (!def) {
     console.warn(`Unknown enemy type: ${type}`);

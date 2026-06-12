@@ -1,19 +1,13 @@
 // src/ecs/systems/enemySystem.js
 
-import { enemies } from '../content/enemies';
-import { ships } from '../core/queries';
+import { enemyDefs } from '../content/enemyDefs';
 import { world } from '../core/world';
 
 export function enemySystem(delta) {
 
-  const ship = ships.first;
-
-  if (!ship) return;
-
   for (const enemy of world.with('enemy')) {
-    const def = enemies[ enemy.enemyType];
-
+    const def = enemyDefs[enemy.enemyType];
     if (!def) continue;
-    def.update(enemy, ship, delta);
+    def.update(enemy, delta);
   }
 }
