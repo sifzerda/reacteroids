@@ -1,12 +1,7 @@
 // src/ecs/factories/enemyFactory.js
 
 import { world } from '../core/world';
-
 import { enemyDefs } from '../defs/enemyDefs';
-
-import { transform } from '../components/transform';
-import { velocity } from '../components/velocity';
-import { collider } from '../components/collider';
 
 export function enemyFactory(type, props = {}) {
 
@@ -17,31 +12,28 @@ export function enemyFactory(type, props = {}) {
   }
 
   return world.add({
-
     enemy: true,
-
     enemyType: type,
 
+    // core stats
     hp: def.hp,
     maxHp: def.hp,
-
     speed: def.speed,
-
     score: def.score,
-
     color: def.color,
 
     abilities: [...def.abilities],
 
+    // spatial data (was transform + velocity + collider)
+    x: props.x ?? 0,
+    y: props.y ?? 0,
+    rotation: 0,
+
+    vx: 0,
+    vy: 0,
+
+    radius: def.radius,
+
     wrap: true,
-
-    ...transform(
-      props.x ?? 0,
-      props.y ?? 0
-    ),
-
-    ...velocity(),
-
-    ...collider(def.radius),
   });
 }

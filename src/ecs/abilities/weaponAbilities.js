@@ -1,6 +1,6 @@
 // src/ecs/abilities/weaponAbilities.js
 
-import { spawnBullet } from '../shared/factories/spawnBullet.js';
+import { spawnBullet }  from '../spawn';
 
 export const weaponAbilities = {
 

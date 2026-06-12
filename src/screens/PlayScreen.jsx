@@ -15,9 +15,7 @@ import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import EnemyRenderer from '../renderers/EnemyRenderer';
-
-//import { features } from '../ecs/features';
-
+ 
 import HUD from '../components/HUD';
 
 export default function PlayScreen({ onGameOver }) {

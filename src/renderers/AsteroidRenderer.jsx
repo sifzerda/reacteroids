@@ -11,11 +11,12 @@ const temp = new THREE.Object3D();
 
 export default function AsteroidRenderer() {
 
+  console.log(asteroids);
+
   const meshRef = useRef();
 
   const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
-
-const material = useMemo(() => new THREE.MeshStandardMaterial({
+  const material = useMemo(() => new THREE.MeshStandardMaterial({
       color: '#6b6258',      // rocky asteroid brown/gray
       roughness: 1,
       metalness: 0,
@@ -39,7 +40,6 @@ const material = useMemo(() => new THREE.MeshStandardMaterial({
     }
 
     meshRef.current.count = i;
-
     meshRef.current.instanceMatrix.needsUpdate = true;
   });
 

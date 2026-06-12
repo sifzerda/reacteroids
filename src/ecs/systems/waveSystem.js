@@ -2,7 +2,7 @@
 // this manages the level/stages of asteroid waves, and the difficulty scaling
 
 import { gameState } from '../core/gameState';
-import { spawnAsteroid } from '../shared/factories/spawnAsteroid';
+import { spawnAsteroid } from '../spawn';
 
 let waveCooldown = 0;
 
@@ -13,7 +13,6 @@ export function waveSystem() {
   // count living asteroids
 
   // wave still active
-
   if (gameState.waveProgress < gameState.waveProgressRequired) {
     return;
   }
@@ -48,5 +47,4 @@ export function waveSystem() {
   }
   // prevent instant duplicate spawn
   waveCooldown = 30;
-
 }

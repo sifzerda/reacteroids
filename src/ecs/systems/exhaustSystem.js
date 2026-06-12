@@ -1,7 +1,7 @@
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';
-import { spawnExhaustParticle } from '../shared/factories/spawnExhaustParticle';
+import { spawnExhaustParticle } from '../spawn';
 
 export function exhaustSystem() {
 

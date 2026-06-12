@@ -3,16 +3,16 @@
 import { asteroids } from '../core/queries';
 
 export function asteroidSystem(delta) {
-
   for (const asteroid of asteroids) {
-    asteroid.rotation += asteroid.rotationSpeed * delta;
 
-    // screen wrap
-    const limit = 10;
+    // optional rotation
+    if (asteroid.rotationSpeed) {
+      asteroid.rotation += asteroid.rotationSpeed * delta;
+    }
 
-    if (asteroid.x > limit) asteroid.x = -limit;
-    if (asteroid.x < -limit) asteroid.x = limit;
-    if (asteroid.y > limit) asteroid.y = -limit;
-    if (asteroid.y < -limit) asteroid.y = limit;
+    // optional drift wobble (nice feel)
+    if (asteroid.wobble) {
+      asteroid.x += Math.sin(asteroid.y * 0.5) * 0.001;
+    }
   }
 }

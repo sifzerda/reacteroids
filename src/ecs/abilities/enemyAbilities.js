@@ -1,8 +1,7 @@
 // src/ecs/abilities/enemyAbilities.js
 
 import { ships } from '../core/queries';
-
-import { spawnBullet } from '../shared/factories/spawnBullet';
+import { spawnBullet } from '../spawn';
 
 export const enemyAbilities = {
 

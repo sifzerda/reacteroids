@@ -10,7 +10,7 @@ import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { bulletLifetimeSystem } from './systems/bulletLifetimeSystem';
 import { exhaustLifetimeSystem } from './systems/exhaustLifetimeSystem';
 
-import { gameSystems } from './systems/gameSystem';
+import { gameSystems } from './systems/gameSystems';
 
 export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();

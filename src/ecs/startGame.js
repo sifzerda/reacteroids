@@ -1,12 +1,9 @@
 // ecs/startGame.js
 // initializes start game state
 
-import { spawnShip } from './shared/factories/spawnShip';
-import { spawnAsteroid } from './shared/factories/spawnAsteroid';
+import { spawnShip, spawnAsteroid } from './spawn.js';
 import { gameState } from './core/gameState';
-
-import { enemyFactory }
-  from './factories/enemyFactory';
+import { enemyFactory } from './factories/enemyFactory';
 
 export function startGame() {
 
@@ -34,15 +31,7 @@ export function startGame() {
       size: 3,
     });
 
-
-    enemyFactory('drone', {
-      x: 4,
-      y: 4
-    });
-
-    enemyFactory('fighter', {
-      x: -4,
-      y: 4
-    });
+    enemyFactory('drone', {x: 4, y: 4});
+    enemyFactory('fighter', {x: -4, y: 4});
   }
 }

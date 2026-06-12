@@ -4,9 +4,13 @@ import { movable } from '../core/queries';
 
 export function movementSystem(delta) {
 
-  for (const entity of movable) {
+ for (const entity of movable) {
 
     entity.x += entity.vx * delta;
     entity.y += entity.vy * delta;
+
+    if (entity.rotationSpeed) {
+      entity.rotation += entity.rotationSpeed * delta;
+    }
   }
 }
