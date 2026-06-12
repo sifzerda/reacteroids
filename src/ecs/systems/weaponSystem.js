@@ -2,42 +2,35 @@
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';
-import { weaponDefs } from '../defs/weaponDefs';
-import { weaponAbilities } from '../abilities/weaponAbilities';
+import { weapons } from '../content/weapons';
 
-export function weaponSystem(delta) {
- console.log('Space:', keys.Space);
+export function weaponSystem(
+  delta
+) {
+
   for (const ship of ships) {
-  console.log(
-    'weapon:', ship.weapon,
-    'cooldown:', ship.cooldown,
-    'space:', keys.Space
-  );
+
     //
     // weapon switching
     //
 
     for (
-      const [weaponName, def]
-      of Object.entries(weaponDefs)
+      const [name, weapon]
+      of Object.entries(weapons)
     ) {
 
       if (
-        def.hotkey &&
-        keys[def.hotkey]
+        weapon.hotkey &&
+        keys[weapon.hotkey]
       ) {
-        ship.weapon = weaponName;
+        ship.weapon = name;
       }
     }
-
-    //
-    // cooldown
-    //
 
     ship.cooldown -= delta;
 
     const weapon =
-      weaponDefs[ship.weapon];
+      weapons[ship.weapon];
 
     if (!weapon) continue;
 
@@ -45,23 +38,11 @@ export function weaponSystem(delta) {
       keys.Space &&
       ship.cooldown <= 0
     ) {
-      console.log('FIRE');
 
       ship.cooldown =
         weapon.cooldown;
 
-      for (
-        const abilityName
-        of weapon.abilities
-      ) {
-
-        const ability =
-          weaponAbilities[
-            abilityName
-          ];
-
-        ability?.(ship);
-      }
+      weapon.fire(ship);
     }
   }
 }

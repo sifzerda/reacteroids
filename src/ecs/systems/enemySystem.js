@@ -1,19 +1,45 @@
 // src/ecs/systems/enemySystem.js
 
-import { enemies } from '../core/queries';
-import { enemyAbilities } from '../abilities/enemyAbilities';
+import {
+  enemies
+}
+from '../content/enemies';
 
-export function enemySystem(delta) {
+import {
+  ships
+}
+from '../core/queries';
 
-  for (const enemy of enemies) {
+import {
+  world
+}
+from '../core/world';
 
-    for (const abilityName of enemy.abilities) {
-        
-      const ability = enemyAbilities[abilityName];
+export function enemySystem(
+  delta
+) {
 
-      if (ability) {
-        ability(enemy, delta);
-      }
-    }
+  const ship =
+    ships.first;
+
+  if (!ship) return;
+
+  for (
+    const enemy
+    of world.with('enemy')
+  ) {
+
+    const def =
+      enemies[
+        enemy.enemyType
+      ];
+
+    if (!def) continue;
+
+    def.update(
+      enemy,
+      ship,
+      delta
+    );
   }
 }
