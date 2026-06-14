@@ -31,6 +31,6 @@ export function startGame() {
   }
 
   // Spawn enemies
-spawnEnemy('drone', 4, 4);
-spawnEnemy('fighter', -4, 4);
+//spawnEnemy('drone', 4, 4);
+//spawnEnemy('fighter', -4, 4);
 }
