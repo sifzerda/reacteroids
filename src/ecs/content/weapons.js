@@ -7,7 +7,6 @@ export const weapons = {
   raygun: {
 
     hotkey: 'Digit1',
-
     cooldown: 0.20,
 
     fire(ship) {
@@ -31,7 +30,6 @@ export const weapons = {
   shotgun: {
 
     hotkey: 'Digit2',
-
     cooldown: 0.7,
 
     fire(ship) {
@@ -43,11 +41,12 @@ export const weapons = {
           x: ship.x,
           y: ship.y,
 
-          rotation:
-            ship.rotation +
-            i * 0.15,
+          rotation: ship.rotation + i * 0.15,
+          speed: 18,
 
-          speed: 18
+          colorR: 1,
+          colorG: 0,
+          colorB: 0
         });
       }
     }
@@ -56,7 +55,6 @@ export const weapons = {
   machinegun: {
 
     hotkey: 'Digit3',
-
     cooldown: 0.05,
 
     fire(ship) {
@@ -78,23 +76,56 @@ export const weapons = {
   },
 
   // adding a new weapon copy paste:
-  
-//plasma: {
-//  hotkey:'Digit5',
-//  cooldown:0.15,
-//  fire(ship){
- //   spawnBullet({
- //     x: ship.x,
- //     y: ship.y,
-//      rotation: ship.rotation,
-  //    colorR:1,
- //     colorG:0,
- //     colorB:1,
- //     glow:3,
- //     distortion:3,
-  //    length:2
-//    });
-//  }
-//}
+
+  plasma: {
+    hotkey: 'Digit4',
+    cooldown: 0.03,
+    fire(ship) {
+
+      spawnBullet({
+
+        x: ship.x,
+        y: ship.y,
+
+        rotation: ship.rotation,
+
+        speed: 30,
+
+        colorR: 0,
+        colorG: 1,
+        colorB: 0,
+
+        glow: 3,
+        distortion: 3,
+        length: 2
+      });
+    }
+  },
+
+  flamethrower: {
+    hotkey: 'Digit5',
+    cooldown: 0.01,
+
+    fire(ship) {
+
+      spawnBullet({
+
+        x: ship.x,
+        y: ship.y,
+
+        rotation: ship.rotation,
+
+        speed: 40,
+
+        colorR: 1,
+        colorG: 0,
+        colorB: 0,
+
+        glow: 3,
+        distortion: 3,
+        length: 2
+      });
+    }
+  },
 
 };
