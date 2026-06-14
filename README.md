@@ -173,18 +173,11 @@ ecs/
     enemySystems.js     ← generic AI + movement + combat
     spawnEnemy inside enemyFactory
 
-Next logical step (when you’re ready) would be extending that enemy-defs system into composable abilities, similar to your weapon system:
-
-abilities: ['chase', 'dash', 'shoot_laser']
-shared AI functions per ability instead of per enemy type
-
-That’s what turns it from “enemy types” into a real gameplay system.
-
 - [ ] optimize weapons and effects and enemies before adding anything new
 - [ ] if needed, comment out enemySystem in GameLoop to make enemies disabled (visible but can't hurt you)
 
-- [ ] optimize bulletrenderer especially multiple needsUpdate lines
+- [x] optimized all renderers
 
 - [ ] ship has health bar
 
-- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared
+- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are clearedmn 
