@@ -164,8 +164,6 @@ top-tier setup is:
 > motion blur
 > tone mapping
 
-
-
 create TARGET ARCHITECTURE that reduces file quantity and makes adding/registering new enemies easy:
 
 ecs/
@@ -184,3 +182,9 @@ That’s what turns it from “enemy types” into a real gameplay system.
 
 - [ ] optimize weapons and effects and enemies before adding anything new
 - [ ] if needed, comment out enemySystem in GameLoop to make enemies disabled (visible but can't hurt you)
+
+- [ ] optimize bulletrenderer especially multiple needsUpdate lines
+
+- [ ] ship has health bar
+
+- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared
