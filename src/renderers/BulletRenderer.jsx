@@ -13,7 +13,6 @@ export default function BulletRenderer() {
   const geometry = useMemo(() => {
 
     const geo = new THREE.InstancedBufferGeometry();
-    // base quad
     const plane = new THREE.PlaneGeometry(1, 1);
 
     geo.index = plane.index;
@@ -24,20 +23,38 @@ export default function BulletRenderer() {
     const offsets = new Float32Array(MAX * 3);
     const rotations = new Float32Array(MAX);
     const colors = new Float32Array(MAX * 3);
-    const speeds = new Float32Array(MAX);
     const lengths = new Float32Array(MAX);
     const widths = new Float32Array(MAX);
     const glows = new Float32Array(MAX);
     const distortions = new Float32Array(MAX);
 
-    geo.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3));
-    geo.setAttribute('rotation', new THREE.InstancedBufferAttribute(rotations, 1));
-    geo.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
-    geo.setAttribute('speed', new THREE.InstancedBufferAttribute(speeds, 1));
-    geo.setAttribute('bulletLength', new THREE.InstancedBufferAttribute(lengths, 1));
-    geo.setAttribute('bulletWidth', new THREE.InstancedBufferAttribute(widths, 1));
-    geo.setAttribute('bulletGlow', new THREE.InstancedBufferAttribute(glows, 1));
-    geo.setAttribute('bulletDistortion', new THREE.InstancedBufferAttribute(distortions, 1));
+    const offsetAttr = new THREE.InstancedBufferAttribute(offsets, 3);
+    offsetAttr.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('offset', offsetAttr);
+
+    const rotationAttr = new THREE.InstancedBufferAttribute(rotations, 1);
+    rotationAttr.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('rotation', rotationAttr);
+
+    const instanceColorAttr = new THREE.InstancedBufferAttribute(colors, 3);
+    instanceColorAttr.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('instanceColor', instanceColorAttr);
+
+    const bulletLength = new THREE.InstancedBufferAttribute(lengths, 1);
+    bulletLength.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('bulletLength', bulletLength);
+
+    const bulletWidth = new THREE.InstancedBufferAttribute(widths, 1);
+    bulletWidth.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('bulletWidth', bulletWidth);
+
+    const bulletGlow = new THREE.InstancedBufferAttribute(glows, 1);
+    bulletGlow.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('bulletGlow', bulletGlow);
+
+    const bulletDistortion = new THREE.InstancedBufferAttribute(distortions, 1);
+    bulletDistortion.setUsage(THREE.DynamicDrawUsage);
+    geo.setAttribute('bulletDistortion', bulletDistortion);
 
     return geo;
 
@@ -62,11 +79,9 @@ export default function BulletRenderer() {
         attribute vec3 offset;
         attribute float rotation;
         attribute vec3 instanceColor;
-        attribute float speed;
 
         varying vec2 vUv;
         varying vec3 vColor;
-        varying float vSpeed;
 
         attribute float bulletLength;
         attribute float bulletWidth;
@@ -86,31 +101,10 @@ export default function BulletRenderer() {
           );
         }
 
-        // cheap noise
-        float hash(float n) {
-          return fract(sin(n) * 43758.5453123);
-        }
-
-        float noise(vec2 p) {
-
-          vec2 i = floor(p);
-          vec2 f = fract(p);
-
-          f = f * f * (3.0 - 2.0 * f);
-
-          float a = hash(i.x + i.y * 57.0);
-          float b = hash(i.x + 1.0 + i.y * 57.0);
-          float c = hash(i.x + (i.y + 1.0) * 57.0);
-          float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
-
-          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-        }
-
         void main() {
 
           vUv = uv;
           vColor = instanceColor;
-          vSpeed = speed;
           vGlow = bulletGlow;
           vec3 pos = position;
 
@@ -134,7 +128,7 @@ s *= bulletWidth;
 pos.xy = forward * f + side * s;
 
 // plasma distortion
-float n = noise(pos.xy * 8.0 + uTime * 8.0);
+float n = sin(pos.x * 15.0 + uTime * 8.0);
 
 pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
 
@@ -147,9 +141,9 @@ pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
 
       fragmentShader: `
 
+      uniform float uTime;
         varying vec2 vUv;
         varying vec3 vColor;
-        varying float vSpeed;
         varying float vGlow;
 
         void main() {
@@ -174,7 +168,8 @@ pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
           float flare = smoothstep(0.25, 0.0, abs(uv.x)) * smoothstep(-0.2, 0.5, uv.y);
 
           // shimmer
-          float shimmer = sin(vUv.y * 80.0 + vSpeed) * 0.05;
+ 
+          float shimmer = sin(vUv.y * 80.0 + uTime * 20.0) * 0.05;
 
           vec3 hot = vec3(2.5);
 
@@ -199,49 +194,55 @@ pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
     const offsets = geometry.attributes.offset.array;
     const rotations = geometry.attributes.rotation.array;
     const colors = geometry.attributes.instanceColor.array;
-    const speeds = geometry.attributes.speed.array;
     const lengths = geometry.attributes.bulletLength.array;
     const widths = geometry.attributes.bulletWidth.array;
     const glows = geometry.attributes.bulletGlow.array;
     const distortions = geometry.attributes.bulletDistortion.array;
 
-    let i = 0;
+    let count = 0;
 
     for (const bullet of bullets) {
 
-      if (i >= MAX) break;
+      if (count >= MAX) break;
 
-      const i3 = i * 3;
+      const i3 = count * 3;
 
-      // position
       offsets[i3 + 0] = bullet.x;
       offsets[i3 + 1] = bullet.y;
       offsets[i3 + 2] = 0;
 
-      // direction
-      rotations[i] = bullet.rotation;
+      rotations[count] = bullet.rotation;
 
-      // color
       colors[i3 + 0] = bullet.colorR ?? 1;
       colors[i3 + 1] = bullet.colorG ?? 1;
       colors[i3 + 2] = bullet.colorB ?? 1;
 
-      // speed
-      speeds[i] = bullet.speed || 20;
-      lengths[i] = bullet.length ?? 1;
-      widths[i] = bullet.width ?? 1;
-      glows[i] = bullet.glow ?? 1;
-      distortions[i] = bullet.distortion ?? 1;
+      lengths[count] = bullet.length ?? 1;
+      widths[count] = bullet.width ?? 1;
+      glows[count] = bullet.glow ?? 1;
+      distortions[count] = bullet.distortion ?? 1;
 
-      i++;
+      count++;
     }
 
-    geometry.instanceCount = i;
+    for (let i = count; i < MAX; i++) {
+
+      const i3 = i * 3;
+
+      offsets[i3 + 0] = 0;
+      offsets[i3 + 1] = 0;
+      offsets[i3 + 2] = 0;
+
+      lengths[i] = 0;
+      widths[i] = 0;
+      glows[i] = 0;
+    }
+
+    geometry.instanceCount = count;
 
     geometry.attributes.offset.needsUpdate = true;
     geometry.attributes.rotation.needsUpdate = true;
     geometry.attributes.instanceColor.needsUpdate = true;
-    geometry.attributes.speed.needsUpdate = true;
     geometry.attributes.bulletLength.needsUpdate = true;
     geometry.attributes.bulletWidth.needsUpdate = true;
     geometry.attributes.bulletGlow.needsUpdate = true;
@@ -254,7 +255,7 @@ pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
       ref={meshRef}
       geometry={geometry}
       material={material}
-      frustumCulled={false}
+    //  frustumCulled={false}
     />
   );
 }

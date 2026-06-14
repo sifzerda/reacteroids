@@ -11,17 +11,36 @@ export default function ShipRenderer() {
   const shipRef = useRef();
   const glowRef = useRef();
 
-  useFrame(() => {
+useFrame(() => {
 
-    for (const ship of ships) {
+  const ship =
+    ships.first;
 
-      shipRef.current.position.set(ship.x, ship.y, 0);
-      glowRef.current.position.set(ship.x, ship.y, -0.01);
+  if (!ship)
+    return;
 
-      shipRef.current.rotation.z = ship.rotation - Math.PI / 2;
-      glowRef.current.rotation.z = ship.rotation - Math.PI / 2;
-    }
-  });
+  shipRef.current.position.set(
+    ship.x,
+    ship.y,
+    0
+  );
+
+  glowRef.current.position.set(
+    ship.x,
+    ship.y,
+    -0.01
+  );
+
+  const rot =
+    ship.rotation -
+    Math.PI / 2;
+
+  shipRef.current.rotation.z =
+    rot;
+
+  glowRef.current.rotation.z =
+    rot;
+});
 
   // Main ship geometry
   const shipGeometry = useMemo(() => {

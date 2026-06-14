@@ -1,13 +1,19 @@
 // src/ecs/systems/enemySystem.js
 
+import { enemies } from '../core/queries';
 import { enemyDefs } from '../content/enemyDefs';
-import { world } from '../core/world';
 
 export function enemySystem(delta) {
 
-  for (const enemy of world.with('enemy')) {
+  for (const enemy of enemies) {
+
     const def = enemyDefs[enemy.enemyType];
+
     if (!def) continue;
-    def.update(enemy, delta);
+
+    if (def.update) {
+
+      def.update(enemy, delta);
+    }
   }
 }

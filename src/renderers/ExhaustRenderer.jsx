@@ -20,12 +20,16 @@ export default function ExhaustRenderer() {
     const geo = new THREE.BufferGeometry();
 
     const positions = new Float32Array(MAX * 3);
-    const velocities = new Float32Array(MAX * 3);
+    const particleSizes = new Float32Array(MAX);
     const lifes = new Float32Array(MAX);
 
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+    geo.setAttribute('particleSize', new THREE.BufferAttribute(particleSizes, 1));
     geo.setAttribute('life', new THREE.BufferAttribute(lifes, 1));
+
+    geo.attributes.position.setUsage(THREE.DynamicDrawUsage);
+    geo.attributes.particleSize.setUsage(THREE.DynamicDrawUsage);
+    geo.attributes.life.setUsage(THREE.DynamicDrawUsage);
 
     return geo;
 
@@ -53,33 +57,12 @@ export default function ExhaustRenderer() {
         uniform float uPixelRatio;
         uniform float uViewportHeight;
 
-        attribute vec3 velocity;
+        attribute float particleSize;
         attribute float life;
 
         varying float vLife;
         varying float vHeat;
         varying vec2 vStretchUv;
-
-        // hash
-        float hash(float n) {
-          return fract(sin(n) * 43758.5453123);
-        }
-
-        // cheap noise
-        float noise(vec2 p) {
-
-          vec2 i = floor(p);
-          vec2 f = fract(p);
-
-          f = f * f * (3.0 - 2.0 * f);
-
-          float a = hash(i.x + i.y * 57.0);
-          float b = hash(i.x + 1.0 + i.y * 57.0);
-          float c = hash(i.x + (i.y + 1.0) * 57.0);
-          float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
-
-          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-          }
 
         void main() {
 
@@ -88,7 +71,7 @@ export default function ExhaustRenderer() {
           vec3 pos = position;
 
           // animated distortion
-          float n = noise(pos.xy * 6.0 + uTime * 3.0);
+float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
 
           pos.x += (n - 0.5) * 0.08;
           pos.y += (n - 0.5) * 0.08;
@@ -99,7 +82,7 @@ export default function ExhaustRenderer() {
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
           // velocity stretch amount
-          float speed = length(velocity.xy);
+          float speed = particleSize;
 
           // much larger so particles are visible
           float sizeBase = mix(2.0, 8.0, life);
@@ -177,7 +160,7 @@ color += shimmer;
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
     const positions = geometry.attributes.position.array;
-    const velocities = geometry.attributes.velocity.array;
+    const particleSizes = geometry.attributes.particleSize.array;
     const lifes = geometry.attributes.life.array;
 
     let i = 0;
@@ -192,9 +175,7 @@ color += shimmer;
       positions[i3 + 1] = p.y;
       positions[i3 + 2] = 0;
 
-      velocities[i3 + 0] = p.vx || 0;
-      velocities[i3 + 1] = p.vy || 0;
-      velocities[i3 + 2] = 0;
+      particleSizes[i] = Math.hypot(p.vx || 0, p.vy || 0);
 
       lifes[i] = p.life;
 
@@ -204,7 +185,7 @@ color += shimmer;
     geometry.setDrawRange(0, i);
 
     geometry.attributes.position.needsUpdate = true;
-    geometry.attributes.velocity.needsUpdate = true;
+    geometry.attributes.particleSize.needsUpdate = true;
     geometry.attributes.life.needsUpdate = true;
   });
 
@@ -213,7 +194,7 @@ color += shimmer;
       ref={pointsRef}
       geometry={geometry}
       material={material}
-      frustumCulled={false}
+    //  frustumCulled={false}
     />
   );
 }

@@ -11,8 +11,6 @@ const temp = new THREE.Object3D();
 
 export default function AsteroidRenderer() {
 
-  console.log(asteroids);
-
   const meshRef = useRef();
 
   const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);

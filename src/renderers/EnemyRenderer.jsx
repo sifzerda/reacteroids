@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-
 import * as THREE from 'three';
 
 import { enemies } from '../ecs/core/queries';
@@ -11,21 +10,37 @@ const MAX = 1000;
 
 const temp = new THREE.Object3D();
 
+const geometry =
+  new THREE.SphereGeometry(1, 6, 6);
+
+const material =
+  new THREE.MeshBasicMaterial({
+    color: 'red'
+  });
+
 export default function EnemyRenderer() {
 
   const ref = useRef();
 
   useFrame(() => {
 
-    let i = 0;
+    if (!ref.current) return;
+
+    let count = 0;
 
     for (const enemy of enemies) {
+
+      if (count >= MAX)
+        break;
 
       temp.position.set(
         enemy.x,
         enemy.y,
         0
       );
+
+      temp.rotation.z =
+        enemy.rotation || 0;
 
       temp.scale.setScalar(
         enemy.radius * 2
@@ -34,24 +49,31 @@ export default function EnemyRenderer() {
       temp.updateMatrix();
 
       ref.current.setMatrixAt(
-        i++,
+        count,
         temp.matrix
       );
+
+      count++;
     }
 
-    ref.current.count = i;
-    ref.current.instanceMatrix.needsUpdate = true;
+    if (ref.current.count !== count) {
+
+      ref.current.count = count;
+    }
+
+    ref.current.instanceMatrix.needsUpdate =
+      true;
   });
 
   return (
 
     <instancedMesh
+
       ref={ref}
+
       args={[
-        new THREE.SphereGeometry(1,8,8),
-        new THREE.MeshBasicMaterial({
-          color:'red'
-        }),
+        geometry,
+        material,
         MAX
       ]}
     />

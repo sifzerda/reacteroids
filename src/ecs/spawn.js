@@ -144,13 +144,16 @@ export function spawnEnemy(type, x, y) {
   const def = enemyDefs[type];
 
   if (!def) {
+
     console.warn(`Unknown enemy type: ${type}`);
-    return;
+
+    return null;
   }
 
   return world.add({
 
     enemy: true,
+
     enemyType: type,
 
     x,
@@ -159,10 +162,16 @@ export function spawnEnemy(type, x, y) {
     vx: 0,
     vy: 0,
 
+    rotation: 0,
+
     hp: def.hp,
+    maxHp: def.hp,
+
     speed: def.speed,
 
     radius: def.radius,
+
+    wrap: true,
   });
 }
 
