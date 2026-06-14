@@ -11,9 +11,7 @@ export function startGame() {
   gameState.score = 0;
   gameState.wave = 1;
   gameState.waveProgress = 0;
-
   const asteroidCount = 8;
-
   gameState.waveProgressRequired = asteroidCount * 3;
 
   // Spawn asteroids

@@ -39,14 +39,7 @@ export function spawnShip() {
 |--------------------------------------------------------------------------
 */
 
-export function spawnAsteroid({
-  x,
-  y,
-  vx = 0,
-  vy = 0,
-  radius = 1,
-  size = 3,
-}) {
+export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
 
   return world.add({
 
@@ -73,32 +66,7 @@ export function spawnAsteroid({
 |--------------------------------------------------------------------------
 */
 
-export function spawnBullet({
-
-  x,
-  y,
-
-  rotation,
-
-  speed = 20,
-  damage = 100,
-
-  radius = 0.15,
-
-  colorR = 1,
-  colorG = 0,
-  colorB = 1,
-
-  life = 1.2,
-
-  bulletType = 'normal',
-
-  length = 1,
-  width = 1,
-  glow = 1,
-  distortion = 1,
-
-}) {
+export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, life = 1.2, bulletType = 'normal', length = 1, width = 1, glow = 1, distortion = 1 }) {
 
   const vx = Math.cos(rotation) * speed;
   const vy = Math.sin(rotation) * speed;
@@ -144,16 +112,12 @@ export function spawnEnemy(type, x, y) {
   const def = enemyDefs[type];
 
   if (!def) {
-
-    console.warn(`Unknown enemy type: ${type}`);
-
     return null;
   }
 
   return world.add({
 
     enemy: true,
-
     enemyType: type,
 
     x,
@@ -166,11 +130,8 @@ export function spawnEnemy(type, x, y) {
 
     hp: def.hp,
     maxHp: def.hp,
-
     speed: def.speed,
-
     radius: def.radius,
-
     wrap: true,
   });
 }
@@ -181,12 +142,7 @@ export function spawnEnemy(type, x, y) {
 |--------------------------------------------------------------------------
 */
 
-export function spawnExhaustParticle({
-  x,
-  y,
-  vx,
-  vy,
-}) {
+export function spawnExhaustParticle({ x, y, vx, vy }) {
 
   return world.add({
 
