@@ -137,7 +137,7 @@ Extras once full base game working:
 - [x] reposition bullets correctly
 - [ ] reposition spread bullets
 - [x] improve/enhance ship movement
-- [ ] style the error page
+- [x] style the error page
 - [x] restructured weapons into features for more scalable gun addition
 
 
