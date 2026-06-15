@@ -1,4 +1,4 @@
-// app/about.js
+// app/about.jsx
 
 import BG from "../components/BG";
 import FlightLayout from "../components/FlightLayout";
