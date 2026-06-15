@@ -2,14 +2,14 @@
 
 import { spawnBullet } from '../spawn';
 
-const SHIP_MUZZLE_OFFSET = 0.65;
+const SHIP_MUZZLE_OFFSET = 1.10;
 
 export const weapons = {
 
   raygun: {
 
     hotkey: 'Digit1',
-    cooldown: 0.20,
+    cooldown: 0.20, // delay between bullets
 
     fire(ship) {
 
@@ -74,8 +74,9 @@ export const weapons = {
         speed: 25,
 
         colorR: 1,
-        colorG: 1,
-        colorB: 0,
+        colorG: 0,
+        colorB: 1,
+
       });
     }
   },
@@ -102,7 +103,8 @@ export const weapons = {
         colorB: 0,
 
         glow: 3,
-        length: 2
+        length: 2,
+        rainbow: true,
       });
     }
   },

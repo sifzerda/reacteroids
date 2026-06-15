@@ -26,6 +26,8 @@ export default function BulletRenderer() {
     const widths = new Float32Array(MAX);
     const glows = new Float32Array(MAX);
     const forwards = new Float32Array(MAX * 2);
+    // for plasma gun
+    const rainbows = new Float32Array(MAX);
 
     const offsetAttr = new THREE.InstancedBufferAttribute(offsets, 3);
     offsetAttr.setUsage(THREE.DynamicDrawUsage);
@@ -51,6 +53,21 @@ export default function BulletRenderer() {
     forwardAttr.setUsage(THREE.DynamicDrawUsage);
     geo.setAttribute('forward', forwardAttr);
 
+    const rainbowAttr =
+      new THREE.InstancedBufferAttribute(
+        rainbows,
+        1
+      );
+
+    rainbowAttr.setUsage(
+      THREE.DynamicDrawUsage
+    );
+
+    geo.setAttribute(
+      'rainbow',
+      rainbowAttr
+    );
+
     return geo;
 
   }, []);
@@ -71,9 +88,11 @@ export default function BulletRenderer() {
         attribute vec3 offset;
         attribute vec2 forward;
         attribute vec3 instanceColor;
+        attribute float rainbow;
 
         varying vec2 vUv;
         varying vec3 vColor;
+        varying float vRainbow;
 
         attribute float bulletLength;
         attribute float bulletWidth;
@@ -87,6 +106,7 @@ export default function BulletRenderer() {
           vColor = instanceColor;
           vGlow = bulletGlow;
           vec3 pos = position;
+          vRainbow = rainbow;
 
           vec2 side = vec2(-forward.y, forward.x);
 
@@ -104,10 +124,20 @@ export default function BulletRenderer() {
 
       fragmentShader: `
 
+      vec3 rainbowColor(float t) {
+
+    return vec3(
+        sin(t) * 0.5 + 0.5,
+        sin(t + 2.094) * 0.5 + 0.5,
+        sin(t + 4.188) * 0.5 + 0.5
+    );
+}
+
       uniform float uTime;
         varying vec2 vUv;
         varying vec3 vColor;
         varying float vGlow;
+        varying float vRainbow;
 
        void main() {
 
@@ -167,9 +197,20 @@ export default function BulletRenderer() {
             x
         );
 
-    vec3 color =
-          vColor * glow * 2.0
-        + vec3(2.5) * core;
+vec3 baseColor = vColor;
+
+if(vRainbow > 0.5) {
+
+    baseColor =
+        rainbowColor(
+            uTime * 8.0
+            + vUv.y * 8.0
+        );
+}
+
+vec3 color =
+      baseColor * glow * 2.0
+    + vec3(2.5) * core;
 
     float alpha =
           body * 0.85
@@ -196,6 +237,7 @@ export default function BulletRenderer() {
     widths: geometry.attributes.bulletWidth.array,
     glows: geometry.attributes.bulletGlow.array,
     forwards: geometry.attributes.forward.array,
+    rainbows: geometry.attributes.rainbow.array
 
   }), [geometry]);
 
@@ -203,7 +245,7 @@ export default function BulletRenderer() {
 
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
-    const { offsets, colors, lengths, widths, glows, forwards, } = arrays;
+    const { offsets, colors, lengths, widths, glows, forwards, rainbows } = arrays;
 
     let count = 0;
 
@@ -229,6 +271,7 @@ export default function BulletRenderer() {
       lengths[count] = bullet.length ?? 1;
       widths[count] = bullet.width ?? 1;
       glows[count] = bullet.glow ?? 1;
+      rainbows[count] = bullet.rainbow ? 1 : 0;
 
       count++;
     }
@@ -241,6 +284,7 @@ export default function BulletRenderer() {
     geometry.attributes.bulletWidth.needsUpdate = true;
     geometry.attributes.bulletGlow.needsUpdate = true;
     geometry.attributes.forward.needsUpdate = true;
+    geometry.attributes.rainbow.needsUpdate = true;
 
   });
 

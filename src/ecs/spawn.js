@@ -85,6 +85,7 @@ export function spawnBullet({
   colorR = 1,
   colorG = 0,
   colorB = 1,
+  rainbow = false,
 
   life = 1.2,
   bulletType = 'normal',
@@ -121,6 +122,8 @@ export function spawnBullet({
     colorR,
     colorG,
     colorB,
+
+    rainbow,
 
     damage,
     speed,
