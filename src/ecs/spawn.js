@@ -65,7 +65,38 @@ export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
 |--------------------------------------------------------------------------
 */
 
-export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, life = 1.2, bulletType = 'normal', length = 1.5, width = 0.2, glow = 1 }) {
+/*
+|--------------------------------------------------------------------------
+| BULLET
+|--------------------------------------------------------------------------
+*/
+
+export function spawnBullet({
+  x,
+  y,
+  rotation,
+
+  muzzleOffset = 0,
+
+  speed = 20,
+  damage = 100,
+  radius = 0.15,
+
+  colorR = 1,
+  colorG = 0,
+  colorB = 1,
+
+  life = 1.2,
+  bulletType = 'normal',
+
+  length = 1.5,
+  width = 0.2,
+  glow = 1,
+}) {
+
+  // move spawn point to muzzle
+  x += Math.cos(rotation) * muzzleOffset;
+  y += Math.sin(rotation) * muzzleOffset;
 
   const vx = Math.cos(rotation) * speed;
   const vy = Math.sin(rotation) * speed;
@@ -77,6 +108,7 @@ export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius =
 
     x,
     y,
+
     rotation,
 
     vx,

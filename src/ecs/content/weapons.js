@@ -2,6 +2,8 @@
 
 import { spawnBullet } from '../spawn';
 
+const SHIP_MUZZLE_OFFSET = 0.65;
+
 export const weapons = {
 
   raygun: {
@@ -17,6 +19,7 @@ export const weapons = {
         y: ship.y,
 
         rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
 
         speed: 20,
 
@@ -42,6 +45,7 @@ export const weapons = {
           y: ship.y,
 
           rotation: ship.rotation + i * 0.15,
+          muzzleOffset: SHIP_MUZZLE_OFFSET,
           speed: 18,
 
           colorR: 1,
@@ -65,6 +69,7 @@ export const weapons = {
         y: ship.y,
 
         rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
 
         speed: 25,
 
@@ -88,6 +93,7 @@ export const weapons = {
         y: ship.y,
 
         rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
 
         speed: 30,
 
@@ -113,6 +119,7 @@ export const weapons = {
         y: ship.y,
 
         rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
 
         speed: 40,
 
