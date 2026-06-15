@@ -96,7 +96,6 @@ export const weapons = {
         colorB: 0,
 
         glow: 3,
-        distortion: 3,
         length: 2
       });
     }
@@ -122,7 +121,6 @@ export const weapons = {
         colorB: 0,
 
         glow: 3,
-        distortion: 3,
         length: 2
       });
     }

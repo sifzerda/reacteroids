@@ -8,7 +8,6 @@ import { enemyDefs } from './content/enemyDefs';
 | SHIP
 |--------------------------------------------------------------------------
 */
-
 export function spawnShip() {
 
   return world.add({
@@ -66,7 +65,7 @@ export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
 |--------------------------------------------------------------------------
 */
 
-export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, life = 1.2, bulletType = 'normal', length = 1, width = 1, glow = 1, distortion = 1 }) {
+export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, life = 1.2, bulletType = 'normal', length = 1.5, width = 0.2, glow = 1 }) {
 
   const vx = Math.cos(rotation) * speed;
   const vy = Math.sin(rotation) * speed;
@@ -97,7 +96,6 @@ export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius =
     length,
     width,
     glow,
-    distortion,
   });
 }
 

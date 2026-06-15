@@ -25,7 +25,6 @@ export default function BulletRenderer() {
     const lengths = new Float32Array(MAX);
     const widths = new Float32Array(MAX);
     const glows = new Float32Array(MAX);
-    const distortions = new Float32Array(MAX);
     const forwards = new Float32Array(MAX * 2);
 
     const offsetAttr = new THREE.InstancedBufferAttribute(offsets, 3);
@@ -48,10 +47,6 @@ export default function BulletRenderer() {
     bulletGlow.setUsage(THREE.DynamicDrawUsage);
     geo.setAttribute('bulletGlow', bulletGlow);
 
-    const bulletDistortion = new THREE.InstancedBufferAttribute(distortions, 1);
-    bulletDistortion.setUsage(THREE.DynamicDrawUsage);
-    geo.setAttribute('bulletDistortion', bulletDistortion);
-
     const forwardAttr = new THREE.InstancedBufferAttribute(forwards, 2);
     forwardAttr.setUsage(THREE.DynamicDrawUsage);
     geo.setAttribute('forward', forwardAttr);
@@ -73,8 +68,6 @@ export default function BulletRenderer() {
 
       vertexShader: `
 
-        uniform float uTime;
-
         attribute vec3 offset;
         attribute vec2 forward;
         attribute vec3 instanceColor;
@@ -84,7 +77,6 @@ export default function BulletRenderer() {
 
         attribute float bulletLength;
         attribute float bulletWidth;
-        attribute float bulletDistortion;
 
         varying float vGlow;
         attribute float bulletGlow;
@@ -98,15 +90,10 @@ export default function BulletRenderer() {
 
           vec2 side = vec2(-forward.y, forward.x);
 
-         float f = position.x * bulletLength;
-         float s = position.y * bulletWidth;
+          float f = position.y * bulletLength;
+          float s = position.x * bulletWidth;
 
-         pos.xy = forward * f + side * s;
-
-         // plasma distortion
-         float n = sin(pos.x * 15.0 + uTime * 8.0);
-
-         pos.xy += side * ((n - 0.5) * 0.08 * bulletDistortion);
+          pos.xy = forward * -f + side * s;
 
           // world position
           pos += offset;
@@ -122,42 +109,79 @@ export default function BulletRenderer() {
         varying vec3 vColor;
         varying float vGlow;
 
-        void main() {
+       void main() {
 
-          vec2 uv = vUv - 0.5;
+    // x = width axis
+    // y = travel axis
+    float x = abs(vUv.x - 0.5);
 
-          // elongated bullet
-          uv.y *= 0.35;
+    // flip so 0 = rear, 1 = front
+    float y = 1.0 - vUv.y;
 
-          float dist = length(uv);
+    // bulbous front
+    float width =
+        mix(
+            0.01,   // rear point
+            0.28,   // front width
+            pow(y, 0.45)
+        );
 
-          // hot core
-          float core = smoothstep(0.10, 0.0, dist);
+    // main shape
+    float body =
+        1.0 -
+        smoothstep(
+            width,
+            width + 0.03,
+            x
+        );
 
-          // glow
-          float glow = smoothstep(0.55, 0.0, dist);
+    // rounded nose
+    float nose =
+        1.0 -
+        smoothstep(
+            0.0,
+            0.35,
+            distance(
+                vec2(vUv.x, vUv.y),
+                vec2(0.5, 0.95)
+            )
+        );
 
-          // rear taper
-          float trail = smoothstep(1.0, 0.1, vUv.y);
+    body = max(body, nose);
 
-          // flare
-          float flare = smoothstep(0.25, 0.0, abs(uv.x)) * smoothstep(-0.2, 0.5, uv.y);
+    // bright center
+    float core =
+        1.0 -
+        smoothstep(
+            width * 0.2,
+            width * 0.7,
+            x
+        );
 
-          // shimmer
- 
-          float shimmer = sin(vUv.y * 80.0 + uTime * 20.0) * 0.05;
+    // glow
+    float glow =
+        1.0 -
+        smoothstep(
+            width,
+            width * 2.5,
+            x
+        );
 
-          vec3 hot = vec3(2.5);
+    vec3 color =
+          vColor * glow * 2.0
+        + vec3(2.5) * core;
 
-          vec3 color = vColor * glow * 2.2 * vGlow + hot * core * 1.8 * vGlow + vColor * flare * vGlow;
+    float alpha =
+          body * 0.85
+        + glow * 0.25;
 
-          color += shimmer;
+    alpha *= vGlow;
 
-          float alpha = (glow + core + flare) * trail * vGlow;
+    if(alpha < 0.01)
+        discard;
 
-          if(alpha < 0.01) discard;
+    gl_FragColor = vec4(color, alpha);
 
-          gl_FragColor = vec4(color, alpha);
         }
       `
     });
@@ -171,7 +195,6 @@ export default function BulletRenderer() {
     lengths: geometry.attributes.bulletLength.array,
     widths: geometry.attributes.bulletWidth.array,
     glows: geometry.attributes.bulletGlow.array,
-    distortions: geometry.attributes.bulletDistortion.array,
     forwards: geometry.attributes.forward.array,
 
   }), [geometry]);
@@ -180,7 +203,7 @@ export default function BulletRenderer() {
 
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
-    const { offsets, colors, lengths, widths, glows, distortions, forwards, } = arrays;
+    const { offsets, colors, lengths, widths, glows, forwards, } = arrays;
 
     let count = 0;
 
@@ -206,7 +229,6 @@ export default function BulletRenderer() {
       lengths[count] = bullet.length ?? 1;
       widths[count] = bullet.width ?? 1;
       glows[count] = bullet.glow ?? 1;
-      distortions[count] = bullet.distortion ?? 1;
 
       count++;
     }
@@ -218,7 +240,6 @@ export default function BulletRenderer() {
     geometry.attributes.bulletLength.needsUpdate = true;
     geometry.attributes.bulletWidth.needsUpdate = true;
     geometry.attributes.bulletGlow.needsUpdate = true;
-    geometry.attributes.bulletDistortion.needsUpdate = true;
     geometry.attributes.forward.needsUpdate = true;
 
   });
