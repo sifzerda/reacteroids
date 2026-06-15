@@ -2,23 +2,62 @@
 
 import FlightLayout from '../components/FlightLayout2';
 import { useState, useEffect } from 'react';
+import { settings, setControlScheme }
+  from '../ecs/core/settings.js';
 
 export default function SettingsScreen({ onBack }) {
 
   const [selected, setSelected] = useState(0);
-  const items = [{ label: 'BACK', action: onBack }];
+  const [controlScheme, setControlSchemeState] = useState(settings.controlScheme);
+  const selectControlScheme = (scheme) => {
+    setControlScheme(scheme);
+    setControlSchemeState(scheme);
+  };
+
+  const items = [
+
+    {label: `${controlScheme === 'keyboard' ? '☑' : '☐'} KEYBOARD ONLY`,
+      action: () => selectControlScheme('keyboard')},
+    {
+      label: `${controlScheme === 'keyboardMouse' ? '☑' : '☐'} MOUSE + KEYBOARD`,
+      action: () => selectControlScheme('keyboardMouse')
+    },
+
+    { label: 'BACK', action: onBack }
+  ];
+
 
   // keyboard navigation (arcade feel)
   useEffect(() => {
+
     const onKey = (e) => {
-      //  if (e.key === 'ArrowDown') setSelected((s) => (s + 1) % items.length);
-      //  if (e.key === 'ArrowUp') setSelected((s) => (s - 1 + items.length) % items.length);
-      if (e.key === 'Enter') items[selected].action();
+
+      if (e.key === 'ArrowDown') {
+        setSelected(
+          (s) => (s + 1) % items.length
+        );
+      }
+
+      if (e.key === 'ArrowUp') {
+        setSelected(
+          (s) => (s - 1 + items.length) % items.length
+        );
+      }
+
+      if (e.key === 'Enter') {
+        items[selected].action();
+      }
     };
 
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [selected]);
+
+    return () =>
+      window.removeEventListener(
+        'keydown',
+        onKey
+      );
+
+  }, [selected, items]);
 
   return (
 

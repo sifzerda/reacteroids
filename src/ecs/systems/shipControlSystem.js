@@ -1,8 +1,9 @@
 // src/ecs/systems/shipControlSystem.js
 
 import { ships } from '../core/queries';
-import { keys } from '../core/input';
+import { keys, mouse } from '../core/input';
 import { forwardVector, rightVector } from '../core/direction';
+import { settings } from '../core/settings';
 
 const THRUST = 28;
 const REVERSE_THRUST = 18;
@@ -24,17 +25,38 @@ export function shipControlSystem(delta) {
     ship.angularVelocity ??= 0;
 
     // TURNING
-    if (keys['ArrowLeft']) { ship.angularVelocity += TURN_ACCEL * delta }
-    if (keys['ArrowRight']) { ship.angularVelocity -= TURN_ACCEL * delta }
+if (settings.controlScheme === 'keyboardMouse') {
 
-    ship.angularVelocity = Math.max(-MAX_TURN_SPEED, Math.min(MAX_TURN_SPEED, ship.angularVelocity));
-    ship.rotation += ship.angularVelocity * delta;
+  const dx = mouse.worldX - ship.x;
+  const dy = mouse.worldY - ship.y;
 
-    // Rotational damping
-    ship.angularVelocity *= TURN_DRAG;
+  ship.rotation = Math.atan2(dy, dx);
 
-    // Slight auto-stabilization
-    if (!keys['ArrowLeft'] && !keys['ArrowRight']) { ship.angularVelocity *= 0.9 }
+  ship.angularVelocity = 0;
+
+} else {
+
+  if (keys['ArrowLeft']) {
+    ship.angularVelocity += TURN_ACCEL * delta;
+  }
+
+  if (keys['ArrowRight']) {
+    ship.angularVelocity -= TURN_ACCEL * delta;
+  }
+
+  ship.angularVelocity = Math.max(
+    -MAX_TURN_SPEED,
+    Math.min(MAX_TURN_SPEED, ship.angularVelocity)
+  );
+
+  ship.rotation += ship.angularVelocity * delta;
+
+  ship.angularVelocity *= TURN_DRAG;
+
+  if (!keys['ArrowLeft'] && !keys['ArrowRight']) {
+    ship.angularVelocity *= 0.9;
+  }
+}
 
     // SHIP FORWARD VECTOR
     const forward = forwardVector(ship.rotation);

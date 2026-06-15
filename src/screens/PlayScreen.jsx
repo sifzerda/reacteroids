@@ -15,6 +15,8 @@ import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import EnemyRenderer from '../renderers/EnemyRenderer';
+
+import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
  
 import HUD from '../components/HUD';
 
@@ -33,6 +35,8 @@ export default function PlayScreen({ onGameOver }) {
       <HUD />
 
       <Canvas camera={{ position: [0, 0, 10] }}>
+
+        <MouseWorldTracker />
 
         <ambientLight intensity={0.7} />
         <directionalLight position={[5, 5, 5]} intensity={1} />

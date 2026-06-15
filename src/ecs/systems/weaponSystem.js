@@ -1,7 +1,8 @@
 // src/ecs/systems/weaponSystem.js
 
 import { ships } from '../core/queries';
-import { keys } from '../core/input';
+import { keys, mouse } from '../core/input';
+import { settings } from '../core/settings';
 import { weapons } from '../content/weapons';
 
 export function weaponSystem(delta) {
@@ -21,9 +22,16 @@ export function weaponSystem(delta) {
 
     if (!weapon) continue;
 
-    if (keys.Space && ship.cooldown <= 0) {
-      ship.cooldown = weapon.cooldown;
-      weapon.fire(ship);
-    }
+const firing =
+  keys.Space ||
+  (
+    settings.controlScheme === 'keyboardMouse' &&
+    mouse.down
+  );
+
+if (firing && ship.cooldown <= 0) {
+  ship.cooldown = weapon.cooldown;
+  weapon.fire(ship);
+}
   }
 }
