@@ -197,11 +197,13 @@ export function spawnExhaustParticle({ x, y, vx, vy }) {
 
 /*
 |--------------------------------------------------------------------------
-| CHARGE BEAM BULLET
+| BEAM PROJECTILE
 |--------------------------------------------------------------------------
 */
 
-export function spawnChargeBeam({
+export function spawnBeam({
+
+  beamType = 'laser',
 
   x,
   y,
@@ -209,20 +211,25 @@ export function spawnChargeBeam({
   rotation,
 
   damage,
+
   length,
   width,
 
-  colorR = 0,
+  colorR = 1,
   colorG = 1,
   colorB = 1,
 
-  glow = 4,
-  life = 0.2
+  glow = 1,
+
+  life = 0.1
+
 }) {
 
   return world.add({
 
     beam: true,
+
+    beamType,
 
     x,
     y,
@@ -234,13 +241,13 @@ export function spawnChargeBeam({
     length,
     width,
 
-    glow,
-
-    life,
-
     colorR,
     colorG,
-    colorB
+    colorB,
+
+    glow,
+
+    life
   });
 }
 

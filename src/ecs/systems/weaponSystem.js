@@ -1,4 +1,5 @@
 // src/ecs/systems/weaponSystem.js
+
 import { ships } from '../core/queries';
 import { keys, mouse } from '../core/input';
 import { settings } from '../core/settings';
@@ -19,19 +20,19 @@ export function weaponSystem(delta) {
     ship.cooldown -= delta;
 
     const weapon = weapons[ship.weapon];
+
     if (!weapon) continue;
 
     const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);
 
     /*
     -------------------------------------------------
-    CHARGE BEAM (special case)
+    CHARGE GUN
     -------------------------------------------------
     */
 
     if (ship.weapon === 'chargegun') {
 
-      // safety init (VERY IMPORTANT)
       ship.chargeTime ??= 0;
       ship.charging ??= false;
 
@@ -40,13 +41,25 @@ export function weaponSystem(delta) {
         ship.charging = true;
       }
 
-      // release when firing stops
       else if (ship.charging) {
         weapon.release(ship, ship.chargeTime);
         ship.chargeTime = 0;
         ship.charging = false;
       }
-      return; // IMPORTANT: stop processing this ship
+      continue;
+    }
+
+    /*
+    -------------------------------------------------
+    LASER GUN
+    -------------------------------------------------
+    */
+
+    if (ship.weapon === 'laserGun') {
+      if (firing) {
+        weapon.fire(ship);
+      }
+      continue;
     }
 
     /*

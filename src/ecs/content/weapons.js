@@ -1,11 +1,17 @@
 // ecs/content/weapons.js
 
-import { spawnBullet, spawnChargeBeam, spawnMissile } from '../spawn';
+import { spawnBullet, spawnBeam, spawnMissile } from '../spawn';
 import { findNearestAsteroid } from '../shared/findNearestAsteroid';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
 
 export const weapons = {
+
+  /*
+  -------------------------------------------------
+  RAY GUN
+  -------------------------------------------------
+  */
 
   raygun: {
 
@@ -30,6 +36,12 @@ export const weapons = {
       });
     }
   },
+
+  /*
+  -------------------------------------------------
+  SHOTGUN
+  -------------------------------------------------
+  */
 
   shotgun: {
 
@@ -57,6 +69,12 @@ export const weapons = {
     }
   },
 
+  /*
+  -------------------------------------------------
+  MACHINE GUN
+  -------------------------------------------------
+  */
+
   machinegun: {
 
     hotkey: 'Digit3',
@@ -82,7 +100,11 @@ export const weapons = {
     }
   },
 
-  // adding a new weapon copy paste:
+  /*
+  -------------------------------------------------
+  PLASMA GUN
+  -------------------------------------------------
+  */
 
   plasma: {
     hotkey: 'Digit4',
@@ -110,6 +132,12 @@ export const weapons = {
     }
   },
 
+  /*
+  -------------------------------------------------
+  FLAMETHROWER
+  -------------------------------------------------
+  */
+
   flamethrower: {
     hotkey: 'Digit5',
     cooldown: 0.01,
@@ -136,49 +164,162 @@ export const weapons = {
     }
   },
 
+  /*
+  -------------------------------------------------
+  CHARGE BEAM 
+  -------------------------------------------------
+  */
+
   chargegun: {
+
     hotkey: 'Digit6',
+
     cooldown: 0,
 
     release(ship, chargeTime) {
 
-      const charge = Math.min(chargeTime, 3);
+      const charge =
+        Math.min(chargeTime, 3);
 
-      spawnChargeBeam({
+      spawnBeam({
 
-        x: ship.x,
-        y: ship.y,
+        beamType: 'charge',
+
+        x: ship.x + Math.cos(ship.rotation) * 1.1,
+        y: ship.y + Math.sin(ship.rotation) * 1.1,
 
         rotation: ship.rotation,
-        muzzleOffset: SHIP_MUZZLE_OFFSET,
 
         damage: 200 + charge * 800,
+
         length: 6 + charge * 25,
+
         width: 0.3 + charge * 1.8,
-        glow: 3 + charge * 4
+
+        colorR: 0,
+        colorG: 1,
+        colorB: 1,
+
+        glow: 5,
+
+        life: 0.20
       });
     }
   },
 
+  /*
+  -------------------------------------------------
+  MISSILE GUN 
+  -------------------------------------------------
+  */
+
   missilegun: {
 
-  hotkey: 'Digit7',
+    hotkey: 'Digit7',
 
-  cooldown: 0.35,
+    cooldown: 0.35,
 
-  fire(ship) {
+    fire(ship) {
 
-    const target = findNearestAsteroid(ship.x, ship.y);
-    if (!target) return;
+      const target = findNearestAsteroid(ship.x, ship.y);
+      if (!target) return;
 
-    spawnMissile({
-      x: ship.x,
-      y: ship.y,
-      rotation: ship.rotation,
-      muzzleOffset: SHIP_MUZZLE_OFFSET,
-      target
-    });
-  }
-},
+      spawnMissile({
+        x: ship.x,
+        y: ship.y,
+        rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
+        target
+      });
+    }
+  },
+
+  /*
+  -------------------------------------------------
+  LASER GUN (special case)
+  -------------------------------------------------
+  */
+
+  laserGun: {
+
+    hotkey: 'Digit8',
+
+    fire(ship) {
+
+      spawnBeam({
+
+        beamType: 'laser',
+
+        x:
+          ship.x +
+          Math.cos(ship.rotation) * 1.1,
+
+        y:
+          ship.y +
+          Math.sin(ship.rotation) * 1.1,
+
+        rotation: ship.rotation,
+
+        damage: 300,
+
+        length: 40,
+
+        width: 0.08,
+
+        colorR: 1,
+        colorG: 0,
+        colorB: 0,
+
+        glow: 3,
+
+        life: 0.05
+      });
+    }
+  },
+
+  /*
+  -------------------------------------------------
+  ION GUN 
+  -------------------------------------------------
+  */
+
+  ionGun: {
+
+    hotkey: 'Digit9',
+
+    cooldown: 0.08,
+
+    fire(ship) {
+
+      spawnBeam({
+
+        beamType: 'ion',
+
+        x:
+          ship.x +
+          Math.cos(ship.rotation) * 1.1,
+
+        y:
+          ship.y +
+          Math.sin(ship.rotation) * 1.1,
+
+        rotation: ship.rotation,
+
+        damage: 250,
+
+        length: 35,
+
+        width: 0.35,
+
+        colorR: 0.3,
+        colorG: 0.8,
+        colorB: 1,
+
+        glow: 5,
+
+        life: 0.1
+      });
+    }
+  },
 
 };
