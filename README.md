@@ -177,7 +177,6 @@ ecs/
 - [x] if needed, comment out enemySystem in GameLoop to make enemies disabled (visible but can't hurt you)
 
 - [x] optimized all renderers
-
 - [ ] ship has health bar
-
-- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are clearedmn 
+- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared 
+- [x] charging beam doesn't appear, missiles don't target asteroids

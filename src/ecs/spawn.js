@@ -29,6 +29,9 @@ export function spawnShip() {
     vy: 0,
 
     radius: 0.45,
+
+    chargeTime: 0,
+    charging: false,
   });
 }
 
@@ -58,12 +61,6 @@ export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
     rotationSpeed: (Math.random() - 0.5) * 1.5,
   });
 }
-
-/*
-|--------------------------------------------------------------------------
-| BULLET
-|--------------------------------------------------------------------------
-*/
 
 /*
 |--------------------------------------------------------------------------
@@ -196,3 +193,87 @@ export function spawnExhaustParticle({ x, y, vx, vy }) {
     colorB: 2.0,
   });
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| CHARGE BEAM BULLET
+|--------------------------------------------------------------------------
+*/
+
+export function spawnChargeBeam({
+
+  x,
+  y,
+
+  rotation,
+
+  damage,
+  length,
+  width,
+
+  colorR = 0,
+  colorG = 1,
+  colorB = 1,
+
+  glow = 4,
+  life = 0.2
+}) {
+
+  return world.add({
+
+    beam: true,
+
+    x,
+    y,
+
+    rotation,
+
+    damage,
+
+    length,
+    width,
+
+    glow,
+
+    life,
+
+    colorR,
+    colorG,
+    colorB
+  });
+}
+
+  /*
+  |--------------------------------------------------------------------------
+  | MISSILE BULLET
+  |--------------------------------------------------------------------------
+  */
+
+  export function spawnMissile({
+  x,
+  y,
+  rotation,
+  target
+  }) {
+
+    return world.add({
+
+    missile: true,
+
+    x,
+    y,
+
+    rotation,
+    target,
+
+    speed: 10,
+    turnRate: 5,
+    damage: 1000,
+    radius: 0.4,
+    life: 12,
+
+    vx: Math.cos(rotation) * 10,
+    vy: Math.sin(rotation) * 10
+    });
+  }

@@ -1,0 +1,14 @@
+// src/ecs/systems/beamLifetimeSystem.js
+
+import { beams } from '../core/queries';
+import { world } from '../core/world';
+
+export function beamLifetimeSystem(delta) {
+
+  for (const beam of beams) {
+    beam.life -= delta;
+    if (beam.life <= 0) {
+      world.remove(beam);
+    }
+  }
+}

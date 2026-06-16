@@ -44,13 +44,8 @@ if (settings.controlScheme === 'keyboardMouse') {
     ship.angularVelocity -= TURN_ACCEL * delta;
   }
 
-  ship.angularVelocity = Math.max(
-    -MAX_TURN_SPEED,
-    Math.min(MAX_TURN_SPEED, ship.angularVelocity)
-  );
-
+  ship.angularVelocity = Math.max(-MAX_TURN_SPEED, Math.min(MAX_TURN_SPEED, ship.angularVelocity));
   ship.rotation += ship.angularVelocity * delta;
-
   ship.angularVelocity *= TURN_DRAG;
 
   if (!keys['ArrowLeft'] && !keys['ArrowRight']) {

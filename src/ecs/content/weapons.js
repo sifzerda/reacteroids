@@ -1,6 +1,7 @@
 // ecs/content/weapons.js
 
-import { spawnBullet } from '../spawn';
+import { spawnBullet, spawnChargeBeam, spawnMissile } from '../spawn';
+import { findNearestAsteroid } from '../shared/findNearestAsteroid';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
 
@@ -134,5 +135,50 @@ export const weapons = {
       });
     }
   },
+
+  chargegun: {
+    hotkey: 'Digit6',
+    cooldown: 0,
+
+    release(ship, chargeTime) {
+
+      const charge = Math.min(chargeTime, 3);
+
+      spawnChargeBeam({
+
+        x: ship.x,
+        y: ship.y,
+
+        rotation: ship.rotation,
+        muzzleOffset: SHIP_MUZZLE_OFFSET,
+
+        damage: 200 + charge * 800,
+        length: 6 + charge * 25,
+        width: 0.3 + charge * 1.8,
+        glow: 3 + charge * 4
+      });
+    }
+  },
+
+  missilegun: {
+
+  hotkey: 'Digit7',
+
+  cooldown: 0.35,
+
+  fire(ship) {
+
+    const target = findNearestAsteroid(ship.x, ship.y);
+    if (!target) return;
+
+    spawnMissile({
+      x: ship.x,
+      y: ship.y,
+      rotation: ship.rotation,
+      muzzleOffset: SHIP_MUZZLE_OFFSET,
+      target
+    });
+  }
+},
 
 };

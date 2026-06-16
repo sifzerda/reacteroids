@@ -16,6 +16,9 @@ import AsteroidRenderer from '../renderers/AsteroidRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import EnemyRenderer from '../renderers/EnemyRenderer';
 
+import ChargeBeamRenderer from '../renderers/ChargeBeamRenderer';
+import MissileRenderer from '../renderers/MissileRenderer';
+
 import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
  
 import HUD from '../components/HUD';
@@ -44,6 +47,9 @@ export default function PlayScreen({ onGameOver }) {
         <GameLoop onGameOver={onGameOver} />
         <ShipRenderer />
         <BulletRenderer />
+        
+        <ChargeBeamRenderer />
+        <MissileRenderer />
 
         <EnemyRenderer />
         <AsteroidRenderer />
