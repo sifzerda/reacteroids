@@ -122,7 +122,7 @@ Weapons	Modular     firing logic
 
 Extras once full base game working:
 - [x] more guns types
- - [ ] homing missiles, ~~flamethrower,~~ ~~ laser,~~ charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
+ - [x] homing missiles, ~~flamethrower,~~ ~~ laser,~~ charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life
 - [ ] add health packs which restore health
@@ -135,7 +135,7 @@ Extras once full base game working:
 
 - [x] shader based GPU renderers for better performance
 - [x] reposition bullets correctly
-- [ ] reposition spread bullets
+- [x] reposition spread bullets
 - [x] improve/enhance ship movement
 - [x] style the error page
 - [x] restructured weapons into features for more scalable gun addition
@@ -182,6 +182,6 @@ ecs/
 - [x] charging beam doesn't appear, missiles don't target asteroids
 
 
-- [ ] optimize: spawn, startgame, shipcollisionsystem, wavesystem
+- [x] optimize: spawn, startgame, shipcollisionsystem, wavesystem
 
 - [ ] 1+ life packs drop randomly, maybe blink for 4 secs,same with different weapons
