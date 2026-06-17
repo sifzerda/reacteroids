@@ -27,6 +27,22 @@ export function shipCollisionSystem(delta, onGameOver) {
                 ship.vx = 0;
                 ship.vy = 0;
 
+                for (const asteroid of asteroids) {
+
+                    const dx = asteroid.x - ship.x;
+                    const dy = asteroid.y - ship.y;
+
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < 6) {
+
+                        const angle = Math.random() * Math.PI * 2;
+
+                        asteroid.x = Math.cos(angle) * 10;
+                        asteroid.y = Math.sin(angle) * 10;
+                    }
+                }
+
                 // GAME OVER
                 if (ship.lives <= 0) {
                     onGameOver?.();

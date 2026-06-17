@@ -3,6 +3,26 @@
 
 import { gameState } from '../core/gameState';
 import { spawnAsteroid } from '../spawn';
+import { ships } from '../core/queries';
+
+export function getSafeAsteroidPosition() {
+
+  const ship = ships[0];
+  const angle = Math.random() * Math.PI * 2;
+  const distance = 12 + Math.random() * 6;
+
+  if (!ship) {
+    return {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
+    };
+  }
+
+  return {
+    x: ship.x + Math.cos(angle) * distance,
+    y: ship.y + Math.sin(angle) * distance,
+  };
+}
 
 let waveCooldown = 0;
 
@@ -27,24 +47,19 @@ export function waveSystem() {
   // each asteroid tree = 3
   gameState.waveProgressRequired = count * 3;
 
-  for (let i = 0; i < count; i++) {
+for (let i = 0; i < count; i++) {
 
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 10 + Math.random() * 4;
+  const pos = getSafeAsteroidPosition();
 
-    spawnAsteroid({
-
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance,
-
-      vx: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
-      vy: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
-
-      radius: 0.7 + Math.random() * 1.5,
-      size: 3,
-    });
-
-  }
+  spawnAsteroid({
+    x: pos.x,
+    y: pos.y,
+    vx: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
+    vy: (Math.random() - 0.5) * (2 + gameState.wave * 0.15),
+    radius: 0.7 + Math.random() * 1.5,
+    size: 3,
+  });
+}
   // prevent instant duplicate spawn
   waveCooldown = 30;
 }

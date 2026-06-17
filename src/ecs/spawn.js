@@ -2,6 +2,7 @@
 
 import { world } from './core/world';
 import { enemyDefs } from './content/enemyDefs';
+import { ships } from './core/queries';
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ export function spawnShip() {
     wrap: true,
 
     lives: 3,
-    invulnerable: 0,
+    invulnerable: 2,
 
     weapon: 'raygun',
     cooldown: 0,
@@ -37,14 +38,37 @@ export function spawnShip() {
 
 /*
 |--------------------------------------------------------------------------
+| ASTEROID HELPERS
+|--------------------------------------------------------------------------
+*/
+
+function getSafeAsteroidPosition(ship) {
+
+  const angle = Math.random() * Math.PI * 2;
+
+  const distance = 12 + Math.random() * 6; // 12–18 units away
+
+  return {
+    x: ship.x + Math.cos(angle) * distance,
+    y: ship.y + Math.sin(angle) * distance,
+  };
+}
+
+/*
+|--------------------------------------------------------------------------
 | ASTEROID
 |--------------------------------------------------------------------------
 */
 
-export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
-
+export function spawnAsteroid({
+  x,
+  y,
+  vx = 0,
+  vy = 0,
+  radius = 1,
+  size = 3
+}) {
   return world.add({
-
     asteroid: true,
     size,
     wrap: true,
