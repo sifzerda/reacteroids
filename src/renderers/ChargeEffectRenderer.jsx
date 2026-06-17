@@ -10,139 +10,130 @@ export default function ChargeEffectRenderer() {
 
   const meshRef = useRef();
 
-  const material = useMemo(() => {
+  const material = useMemo(() => new THREE.ShaderMaterial({
 
-    return new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    toneMapped: false,
 
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      toneMapped: false,
+    uniforms: {
+      uTime: { value: 0 },
+      uCharge: { value: 0 },
+    },
 
-      uniforms: {
+    vertexShader: `
 
-        uTime: { value: 0 },
-        uCharge: { value: 0 },
+      varying vec2 vUv;
 
-      },
+      void main() {
 
-      vertexShader: `
+        vUv = uv;
 
-        varying vec2 vUv;
+        gl_Position =
+          projectionMatrix *
+          modelViewMatrix *
+          vec4(position, 1.0);
 
-        void main() {
+      }
 
-          vUv = uv;
+    `,
 
-          gl_Position =
-            projectionMatrix *
-            modelViewMatrix *
-            vec4(position, 1.0);
-        }
+    fragmentShader: `
 
-      `,
+      uniform float uTime;
+      uniform float uCharge;
 
-      fragmentShader: `
+      varying vec2 vUv;
 
-        uniform float uTime;
-        uniform float uCharge;
+      void main() {
 
-        varying vec2 vUv;
+        vec2 p = vUv - 0.5;
 
-        void main() {
+        float d = length(p);
 
-          vec2 p = vUv - 0.5;
+        // Completely eliminate quad corners
+        if (d > 0.5) discard;
 
-          float d = length(p);
+        float core =
+          smoothstep(0.16, 0.0, d);
 
-          float core =
-            smoothstep(0.18, 0.0, d);
+        float ring =
+          smoothstep(0.32, 0.28, d) -
+          smoothstep(0.42, 0.38, d);
 
-          float ring =
-            smoothstep(0.32, 0.28, d) -
-            smoothstep(0.42, 0.38, d);
+        float angle =
+          atan(p.y, p.x);
 
-          float angle =
-            atan(p.y, p.x);
-
-          float spokes =
-            abs(
-              sin(
-                angle * 8.0 +
-                uTime * (5.0 + uCharge * 25.0)
-              )
-            );
-
-          ring += spokes * 0.12 * uCharge;
-
-          float pulse =
-            0.75 +
-            0.25 *
+        float spokes =
+          abs(
             sin(
-              uTime *
-              (6.0 + uCharge * 30.0)
-            );
+              angle * 8.0 +
+              uTime * (5.0 + uCharge * 20.0)
+            )
+          );
 
-          vec3 color =
-            vec3(0.0, 1.0, 1.0) *
-            (ring * 5.0 + core * 2.0) *
-            pulse;
+        ring +=
+          spokes *
+          0.1 *
+          uCharge;
 
-          float alpha =
-            ring +
-            core * 0.35;
+        float pulse =
+          0.8 +
+          0.2 *
+          sin(
+            uTime *
+            (8.0 + uCharge * 25.0)
+          );
 
-          alpha *= 0.6 + uCharge * 0.8;
+        float alpha =
+          (ring + core * 0.3) *
+          (0.5 + uCharge);
 
-          if (alpha < 0.01) discard;
+        if (alpha < 0.01) discard;
 
-          gl_FragColor =
-            vec4(color, alpha);
-        }
+        vec3 color =
+          vec3(0.0, 1.0, 1.0) *
+          (core * 2.0 + ring * 4.0) *
+          pulse;
 
-      `,
+        gl_FragColor =
+          vec4(color, alpha);
 
-    });
+      }
 
-  }, []);
+    `,
+
+  }), []);
 
   useFrame((state) => {
+
+    const effect = chargeEffects.first;
+
+    const mesh = meshRef.current;
+
+    if (!effect) {
+
+      mesh.visible = false;
+      return;
+    }
+
+    mesh.visible = true;
 
     material.uniforms.uTime.value =
       state.clock.elapsedTime;
 
-    const effect =
-      chargeEffects.first;
-
-    if (!effect) {
-
-      if (meshRef.current) {
-        meshRef.current.visible = false;
-      }
-
-      return;
-    }
-
     material.uniforms.uCharge.value =
-      effect.charge ?? 0;
+      effect.charge;
 
-    meshRef.current.visible = true;
-
-    meshRef.current.position.set(
-      effect.x,
-      effect.y,
-      2
-    );
+    mesh.position.x = effect.x;
+    mesh.position.y = effect.y;
 
     const scale =
-      0.6 +
-      (effect.charge ?? 0) * 3.0;
+      0.6 + effect.charge * 2.8;
 
-    meshRef.current.scale.set(
-      scale,
-      scale,
-      1
-    );
+    mesh.scale.setScalar(scale);
+
   });
 
   return (
