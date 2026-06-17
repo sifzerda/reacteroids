@@ -3,7 +3,7 @@
 
 import { spawnShip, spawnAsteroid, spawnEnemy } from './spawn.js';
 import { gameState } from './core/gameState';
-import { getSafeAsteroidPosition } from './systems/waveSystem.js';
+import { getSafeAsteroidPosition } from './shared/getSafeAsteroidPosition';
 
 export function startGame() {
 

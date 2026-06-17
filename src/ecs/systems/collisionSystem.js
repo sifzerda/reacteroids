@@ -4,6 +4,7 @@ import { bullets, asteroids, beams, missiles } from '../core/queries';
 import { world } from '../core/world';
 import { gameState } from '../core/gameState';
 import { destroyAsteroid } from '../shared/destroyAsteroid';
+import { releaseBullet } from '../pools/bulletPool';
 
 export function collisionSystem() {
 
@@ -19,6 +20,7 @@ export function collisionSystem() {
       if (dist < bullet.radius + asteroid.radius) {
 
         world.remove(bullet);
+        releaseBullet(bullet);
         destroyAsteroid(asteroid, 100);
 
         break;

@@ -1,7 +1,9 @@
 // src/ecs/systems/missileSystem.js
 
 import { missiles } from '../core/queries';
-import { findNearestAsteroid } from '../shared/findNearestAsteroid.js';
+import { findNearestAsteroid } from '../shared/findNearestAsteroid';
+import { world } from '../core/world';
+import { releaseMissile } from '../pools/missilePool';
 
 export function missileSystem(delta) {
 
@@ -9,16 +11,16 @@ export function missileSystem(delta) {
 
     missile.life -= delta;
 
-    if (
-      !missile.target ||
-      !missile.target.asteroid ||
-      missile.target.dead
-    ) {
-      missile.target =
-        findNearestAsteroid(
-          missile.x,
-          missile.y
-        );
+    if (missile.life <= 0) {
+
+      world.remove(missile);
+      releaseMissile(missile);
+
+      continue;
+    }
+
+    if (!missile.target || !missile.target.asteroid || missile.target.dead) {
+      missile.target = findNearestAsteroid(missile.x, missile.y);
     }
 
     if (!missile.target) continue;

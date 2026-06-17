@@ -11,18 +11,14 @@ export function weaponSystem(delta) {
 
     // weapon switching
     for (const [name, weapon] of Object.entries(weapons)) {
-
       if (weapon.hotkey && keys[weapon.hotkey]) {
         ship.weapon = name;
       }
     }
 
     ship.cooldown -= delta;
-
     const weapon = weapons[ship.weapon];
-
     if (!weapon) continue;
-
     const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);
 
     /*

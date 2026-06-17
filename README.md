@@ -180,3 +180,8 @@ ecs/
 - [ ] ship has health bar
 - [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared 
 - [x] charging beam doesn't appear, missiles don't target asteroids
+
+
+- [ ] optimize: spawn, startgame, shipcollisionsystem, wavesystem
+
+- [ ] 1+ life packs drop randomly, maybe blink for 4 secs,same with different weapons

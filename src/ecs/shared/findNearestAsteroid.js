@@ -1,4 +1,5 @@
 // src/ecs/shred/findNearestAsteroid.js
+// helper function for homing missiles
 
 import { asteroids } from '../core/queries';
 

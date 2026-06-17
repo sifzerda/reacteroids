@@ -2,7 +2,10 @@
 
 import { world } from './core/world';
 import { enemyDefs } from './content/enemyDefs';
-import { ships } from './core/queries';
+import { acquireBullet } from './pools/bulletPool';
+import { acquireExhaust } from './pools/exhaustPool';
+import { acquireMissile } from './pools/missilePool';
+import { acquireBeam } from './pools/beamPool';
 
 /*
 |--------------------------------------------------------------------------
@@ -34,24 +37,6 @@ export function spawnShip() {
     chargeTime: 0,
     charging: false,
   });
-}
-
-/*
-|--------------------------------------------------------------------------
-| ASTEROID HELPERS
-|--------------------------------------------------------------------------
-*/
-
-function getSafeAsteroidPosition(ship) {
-
-  const angle = Math.random() * Math.PI * 2;
-
-  const distance = 12 + Math.random() * 6; // 12–18 units away
-
-  return {
-    x: ship.x + Math.cos(angle) * distance,
-    y: ship.y + Math.sin(angle) * distance,
-  };
 }
 
 /*
@@ -117,13 +102,15 @@ export function spawnBullet({
 }) {
 
   // move spawn point to muzzle
-  x += Math.cos(rotation) * muzzleOffset;
-  y += Math.sin(rotation) * muzzleOffset;
+  const cos = Math.cos(rotation);
+  const sin = Math.sin(rotation);
 
-  const vx = Math.cos(rotation) * speed;
-  const vy = Math.sin(rotation) * speed;
+  x += cos * muzzleOffset;
+  y += sin * muzzleOffset;
 
-  return world.add({
+  const bullet = acquireBullet();
+
+  Object.assign(bullet, {
 
     bullet: true,
     bulletType,
@@ -133,8 +120,8 @@ export function spawnBullet({
 
     rotation,
 
-    vx,
-    vy,
+    vx: cos * speed,
+    vy: sin * speed,
 
     radius,
 
@@ -153,6 +140,8 @@ export function spawnBullet({
     width,
     glow,
   });
+
+  return world.add(bullet);
 }
 
 /*
@@ -198,24 +187,27 @@ export function spawnEnemy(type, x, y) {
 
 export function spawnExhaustParticle({ x, y, vx, vy }) {
 
-  return world.add({
+const exhaust = acquireExhaust();
 
-    exhaust: true,
+Object.assign(exhaust, {
+  exhaust: true,
 
-    x,
-    y,
+  x,
+  y,
 
-    vx,
-    vy,
+  vx,
+  vy,
 
-    life: 1.1,
+  life: 1.1,
 
-    radius: 0.12,
+  radius: 0.12,
 
-    colorR: 0.2,
-    colorG: 0.7,
-    colorB: 2.0,
-  });
+  colorR: 0.2,
+  colorG: 0.7,
+  colorB: 2.0,
+});
+
+return world.add(exhaust);
 }
 
 
@@ -249,62 +241,71 @@ export function spawnBeam({
 
 }) {
 
-  return world.add({
+const beam = acquireBeam();
 
-    beam: true,
+Object.assign(beam, {
+  beam: true,
 
-    beamType,
+  beamType,
 
-    x,
-    y,
+  x,
+  y,
 
-    rotation,
+  rotation,
 
-    damage,
+  damage,
 
-    length,
-    width,
+  length,
+  width,
 
-    colorR,
-    colorG,
-    colorB,
+  colorR,
+  colorG,
+  colorB,
 
-    glow,
+  glow,
 
-    life
-  });
+  life,
+});
+
+return world.add(beam);
 }
 
-  /*
-  |--------------------------------------------------------------------------
-  | MISSILE BULLET
-  |--------------------------------------------------------------------------
-  */
+/*
+|--------------------------------------------------------------------------
+| MISSILE BULLET
+|--------------------------------------------------------------------------
+*/
 
-  export function spawnMissile({
+export function spawnMissile({
   x,
   y,
   rotation,
   target
-  }) {
+}) {
 
-    return world.add({
+  const cos = Math.cos(rotation);
+  const sin = Math.sin(rotation);
 
-    missile: true,
+const missile = acquireMissile();
 
-    x,
-    y,
+Object.assign(missile, {
+  missile: true,
 
-    rotation,
-    target,
+  x,
+  y,
 
-    speed: 10,
-    turnRate: 5,
-    damage: 1000,
-    radius: 0.4,
-    life: 12,
+  rotation,
+  target,
 
-    vx: Math.cos(rotation) * 10,
-    vy: Math.sin(rotation) * 10
-    });
-  }
+  speed: 10,
+  turnRate: 5,
+  damage: 1000,
+  radius: 0.4,
+  life: 12,
+
+  vx: cos * 10,
+  vy: sin * 10,
+});
+
+return world.add(missile);
+}

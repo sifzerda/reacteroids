@@ -2,6 +2,7 @@
 
 import { exhaustParticles } from '../core/queries';
 import { world } from '../core/world';
+import { releaseExhaust } from '../pools/exhaustPool';
 
 export function exhaustLifetimeSystem(delta) {
 
@@ -10,7 +11,9 @@ export function exhaustLifetimeSystem(delta) {
     exhaust.life -= delta;
 
     if (exhaust.life <= 0) {
+
       world.remove(exhaust);
+      releaseExhaust(exhaust);
     }
   }
 }
