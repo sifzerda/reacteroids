@@ -122,7 +122,8 @@ Weapons	Modular     firing logic
 
 Extras once full base game working:
 - [x] more guns types
- - [x] homing missiles, ~~flamethrower,~~ ~~ laser,~~ charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
+ - [x] homing missiles, flamethrower, laser, charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
+ - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life
 - [ ] add health packs which restore health
