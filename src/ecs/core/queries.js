@@ -15,6 +15,7 @@ export const collidable = world.with('x', 'y', 'radius');
 export const wrappable = world.with('wrap', 'x', 'y');
 
 export const beams = world.with('beam');
+export const chargeEffects = world.with('chargeEffect');
 export const missiles = world.with('missile');
 
-// export const lasers = world.with('laser');
+

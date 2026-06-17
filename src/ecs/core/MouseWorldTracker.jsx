@@ -9,13 +9,8 @@ export default function MouseWorldTracker() {
 
   useFrame(() => {
 
-    mouse.worldX =
-      ((mouse.x / size.width) - 0.5)
-      * viewport.width;
-
-    mouse.worldY =
-      (0.5 - mouse.y / size.height)
-      * viewport.height;
+    mouse.worldX = ((mouse.x / size.width) - 0.5) * viewport.width;
+    mouse.worldY = (0.5 - mouse.y / size.height) * viewport.height;
   });
 
   return null;

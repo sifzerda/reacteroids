@@ -18,6 +18,7 @@ import EnemyRenderer from '../renderers/EnemyRenderer';
 // special weapon projectiles
 import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
+import ChargeEffectRenderer from '../renderers/ChargeEffectRenderer';
 
 import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
  
@@ -49,6 +50,7 @@ export default function PlayScreen({ onGameOver }) {
         <BulletRenderer />
         
         <BeamRenderer />
+        <ChargeEffectRenderer />
         <MissileRenderer />
 
         <EnemyRenderer />

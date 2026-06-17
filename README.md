@@ -182,11 +182,8 @@ ecs/
 - [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared 
 - [x] charging beam doesn't appear, missiles don't target asteroids
 
-
 - [x] optimize: spawn, startgame, shipcollisionsystem, wavesystem
 
 - [ ] 1+ life packs drop randomly, maybe blink for 4 secs,same with different weapons
-
- - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
-
-  - [ ] fix appearance of some guns, missile launcher, beams, etc
+- [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
+- [ ] fix appearance of some guns, missile launcher, beams, etc
