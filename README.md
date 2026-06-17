@@ -189,5 +189,4 @@ ecs/
 - [ ] fix appearance of some guns, missile launcher, beams, etc
 
 
-- [ ] optimize charge effect renderer, make it a sprite or not a shader: 
-1 sprite, additive blending, scale based on charge, opacity based on charge
+- [ ] refine and optimize chargeeffectrenderer
