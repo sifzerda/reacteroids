@@ -187,3 +187,7 @@ ecs/
 - [ ] 1+ life packs drop randomly, maybe blink for 4 secs,same with different weapons
 - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
 - [ ] fix appearance of some guns, missile launcher, beams, etc
+
+
+- [ ] optimize charge effect renderer, make it a sprite or not a shader: 
+1 sprite, additive blending, scale based on charge, opacity based on charge
