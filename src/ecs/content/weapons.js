@@ -322,4 +322,52 @@ export const weapons = {
     }
   },
 
+
+  /*
+  -------------------------------------------------
+  0 GUN 
+  -------------------------------------------------
+
+
+  ionGun: {
+
+    hotkey: 'Digit0',
+
+    cooldown: 0.08,
+
+    fire(ship) {
+
+      spawnBeam({
+
+        beamType: 'ion',
+
+        x:
+          ship.x +
+          Math.cos(ship.rotation) * 1.1,
+
+        y:
+          ship.y +
+          Math.sin(ship.rotation) * 1.1,
+
+        rotation: ship.rotation,
+
+        damage: 250,
+
+        length: 35,
+
+        width: 0.35,
+
+        colorR: 0.3,
+        colorG: 0.8,
+        colorB: 1,
+
+        glow: 5,
+
+        life: 0.1
+      });
+    }
+  },
+
+    */
+
 };
