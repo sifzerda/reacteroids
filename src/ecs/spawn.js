@@ -309,3 +309,96 @@ Object.assign(missile, {
 
 return world.add(missile);
 }
+
+/*
+|--------------------------------------------------------------------------
+| MUZZLE FLASH
+|--------------------------------------------------------------------------
+*/
+
+export function spawnMuzzleFlash({
+  x,
+  y,
+  rotation,
+  size = 1,
+  colorR = 1,
+  colorG = 0.8,
+  colorB = 0.2
+}) {
+
+  return world.add({
+
+    muzzleFlash: true,
+
+    x,
+    y,
+
+    rotation,
+
+    size,
+
+    colorR,
+    colorG,
+    colorB,
+
+    life: 0.06
+  });
+}
+
+/*
+|--------------------------------------------------------------------------
+| SMOKE
+|--------------------------------------------------------------------------
+*/
+
+export function spawnSmoke({
+  x,
+  y,
+  vx = 0,
+  vy = 0
+}) {
+
+  console.log('SPAWN SMOKE', x, y)
+
+  return world.add({
+
+    smoke: true,
+
+    x,
+    y,
+
+    vx,
+    vy,
+
+    radius: 0.4,
+
+    life: 0.7
+  });
+}
+
+/*
+|--------------------------------------------------------------------------
+| SPARKS
+|--------------------------------------------------------------------------
+*/
+
+export function spawnSpark({
+  x,
+  y,
+  vx,
+  vy
+}) {
+
+  return world.add({
+
+    spark: true,
+
+    x,
+    y,
+
+    vx,
+    vy,
+
+    life: 0.35
+  });
+}

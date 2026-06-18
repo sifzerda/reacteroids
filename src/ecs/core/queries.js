@@ -7,15 +7,21 @@ export const bullets = world.with('bullet');
 
 export const enemies = world.with('enemy');
 
-export const asteroids = world.with('asteroid');
-export const exhaustParticles = world.with('exhaust');
-
 export const movable = world.with('x', 'y', 'vx', 'vy');
 export const collidable = world.with('x', 'y', 'radius');
 export const wrappable = world.with('wrap', 'x', 'y');
 
+export const asteroids = world.with('asteroid');
+export const exhaustParticles = world.with('exhaust');
+
+export const muzzleFlashes = world.with('muzzleFlash');
+export const smokeParticles = world.with('smoke');
+export const sparkParticles = world.with('spark');
+
 export const beams = world.with('beam');
 export const chargeEffects = world.with('chargeEffect');
 export const missiles = world.with('missile');
+
+
 
 

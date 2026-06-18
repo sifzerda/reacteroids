@@ -1,3 +1,4 @@
+// src/ecs/systems/exhaustSystem.js
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';

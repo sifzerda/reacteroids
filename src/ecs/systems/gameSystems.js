@@ -1,4 +1,4 @@
-// ecs/systems/gameSystems.js
+ // ecs/systems/gameSystems.js
 
 import { enemySystem } from './enemySystem';
 import { asteroidSystem } from './asteroidSystem';
@@ -12,6 +12,10 @@ import { beamLifetimeSystem } from './beamLifetimeSystem';
 import { exhaustSystem } from './exhaustSystem';
 import { exhaustLifetimeSystem } from './exhaustLifetimeSystem';
 
+import { muzzleFlashLifetimeSystem } from './muzzleFlashLifetimeSystem';
+import { smokeLifetimeSystem } from './smokeLifetimeSystem';
+import { sparksLifetimeSystem } from './sparksLifetimeSystem';
+
 export const gameSystems = [
   asteroidSystem,
   enemySystem,
@@ -24,4 +28,8 @@ export const gameSystems = [
   beamLifetimeSystem,
   exhaustSystem,
   exhaustLifetimeSystem,
+
+  muzzleFlashLifetimeSystem,
+  smokeLifetimeSystem,
+  sparksLifetimeSystem,
 ];

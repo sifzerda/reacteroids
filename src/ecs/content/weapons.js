@@ -1,6 +1,6 @@
 // ecs/content/weapons.js
 
-import { spawnBullet, spawnBeam, spawnMissile } from '../spawn';
+import { spawnBullet, spawnBeam, spawnMissile, spawnMuzzleFlash, spawnSmoke } from '../spawn';
 import { findNearestAsteroid } from '../shared/findNearestAsteroid';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
@@ -52,6 +52,15 @@ export const weapons = {
 
       for (let i = -2; i <= 2; i++) {
 
+        const muzzleX = ship.x + Math.cos(ship.rotation) * SHIP_MUZZLE_OFFSET;
+        const muzzleY = ship.y + Math.sin(ship.rotation) * SHIP_MUZZLE_OFFSET;
+
+        spawnMuzzleFlash({
+          x: muzzleX,
+          y: muzzleY,
+          size: 1.6
+        });
+
         spawnBullet({
 
           x: ship.x,
@@ -81,6 +90,15 @@ export const weapons = {
     cooldown: 0.05,
 
     fire(ship) {
+
+      const muzzleX = ship.x + Math.cos(ship.rotation) * SHIP_MUZZLE_OFFSET;
+      const muzzleY = ship.y + Math.sin(ship.rotation) * SHIP_MUZZLE_OFFSET;
+
+      spawnMuzzleFlash({
+        x: muzzleX,
+        y: muzzleY,
+        size: 0.7
+      });
 
       spawnBullet({
 
@@ -178,8 +196,7 @@ export const weapons = {
 
     release(ship, chargeTime) {
 
-      const charge =
-        Math.min(chargeTime, 3);
+      const charge = Math.min(chargeTime, 3);
 
       spawnBeam({
 
@@ -224,6 +241,14 @@ export const weapons = {
       const target = findNearestAsteroid(ship.x, ship.y);
       if (!target) return;
 
+      const muzzleX = ship.x + Math.cos(ship.rotation) * SHIP_MUZZLE_OFFSET;
+      const muzzleY = ship.y + Math.sin(ship.rotation) * SHIP_MUZZLE_OFFSET;
+
+      spawnSmoke({
+        x: muzzleX,
+        y: muzzleY
+      });
+
       spawnMissile({
         x: ship.x,
         y: ship.y,
@@ -250,13 +275,8 @@ export const weapons = {
 
         beamType: 'laser',
 
-        x:
-          ship.x +
-          Math.cos(ship.rotation) * 1.1,
-
-        y:
-          ship.y +
-          Math.sin(ship.rotation) * 1.1,
+        x: ship.x + Math.cos(ship.rotation) * 1.1,
+        y: ship.y + Math.sin(ship.rotation) * 1.1,
 
         rotation: ship.rotation,
 
@@ -295,13 +315,8 @@ export const weapons = {
 
         beamType: 'ion',
 
-        x:
-          ship.x +
-          Math.cos(ship.rotation) * 1.1,
-
-        y:
-          ship.y +
-          Math.sin(ship.rotation) * 1.1,
+        x: ship.x + Math.cos(ship.rotation) * 1.1,
+        y: ship.y + Math.sin(ship.rotation) * 1.1,
 
         rotation: ship.rotation,
 

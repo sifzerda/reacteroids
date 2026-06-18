@@ -18,10 +18,14 @@ import EnemyRenderer from '../renderers/EnemyRenderer';
 // special weapon projectiles
 import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
+// firing effects
 import ChargeEffectRenderer from '../renderers/ChargeEffectRenderer';
+import MuzzleFlashRenderer from '../renderers/MuzzleFlashRenderer';
+import SmokeRenderer from '../renderers/SmokeRenderer';
+import SparksRenderer from '../renderers/SparksRenderer';
 
 import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
- 
+
 import HUD from '../components/HUD';
 
 export default function PlayScreen({ onGameOver }) {
@@ -48,10 +52,14 @@ export default function PlayScreen({ onGameOver }) {
         <GameLoop onGameOver={onGameOver} />
         <ShipRenderer />
         <BulletRenderer />
-        
+
         <BeamRenderer />
         <ChargeEffectRenderer />
         <MissileRenderer />
+
+        <SmokeRenderer />
+        <MuzzleFlashRenderer />
+        <SparksRenderer />
 
         <EnemyRenderer />
         <AsteroidRenderer />

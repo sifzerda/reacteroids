@@ -6,6 +6,10 @@ import { gameState } from '../core/gameState';
 import { destroyAsteroid } from '../shared/destroyAsteroid';
 import { releaseBullet } from '../pools/bulletPool';
 
+import { releaseBeam } from '../pools/beamPool';
+import { releaseMissile } from '../pools/missilePool';
+import { spawnSpark } from '../spawn';
+
 export function collisionSystem() {
 
   for (const bullet of bullets) {
@@ -19,11 +23,36 @@ export function collisionSystem() {
 
       if (dist < bullet.radius + asteroid.radius) {
 
+        for (let i = 0; i < 12; i++) {
+
+          const angle =
+            Math.random() *
+            Math.PI * 2;
+
+          const speed =
+            3 +
+            Math.random() * 8;
+
+          spawnSpark({
+
+            x: bullet.x,
+            y: bullet.y,
+
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed
+
+          });
+
+        }
+
         world.remove(bullet);
         releaseBullet(bullet);
-        destroyAsteroid(asteroid, 100);
 
-        break;
+        destroyAsteroid(
+          asteroid,
+          100
+        );
+
       }
     }
   }
@@ -42,26 +71,29 @@ export function collisionSystem() {
       const side = Math.abs(dx * -fy + dy * fx);
 
       if (along > 0 && along < beam.length && side < asteroid.radius + beam.width) {
-        destroyAsteroid(asteroid, beam.damage);
+        destroyAsteroid(asteroid, beam.damage, 100);
+        world.remove(beam);
+        releaseBeam(beam);
       }
     }
   }
 
-for (const missile of missiles) {
+  for (const missile of missiles) {
 
-  for (const asteroid of asteroids) {
+    for (const asteroid of asteroids) {
 
-    const dx = missile.x - asteroid.x;
-    const dy = missile.y - asteroid.y;
-    const dist = Math.hypot(dx, dy);
+      const dx = missile.x - asteroid.x;
+      const dy = missile.y - asteroid.y;
+      const dist = Math.hypot(dx, dy);
 
-    if (dist < missile.radius + asteroid.radius) {
-      destroyAsteroid(asteroid, missile.damage);
-      world.remove(missile);
+      if (dist < missile.radius + asteroid.radius) {
+        destroyAsteroid(asteroid, missile.damage, 100);
+        world.remove(missile);
+        releaseMissile(missile);
 
-      break;
+        break;
+      }
     }
   }
-}
 
 }

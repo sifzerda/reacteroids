@@ -189,4 +189,7 @@ ecs/
 - [ ] fix appearance of some guns, missile launcher, beams, etc
 
 
-- [ ] refine and optimize chargeeffectrenderer
+- [ ] refine and optimize sparks renderer, smoke renderer, muzzleflash renderer
+
+- [ ] smoke is rendering as a demo green circle (missilegun key 7)
+- [ ] muzzleflash is rendering as a demo yellow circle (shotgun key 2)
