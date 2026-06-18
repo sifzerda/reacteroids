@@ -13,16 +13,15 @@ import { resetGame } from '../ecs/resetGame';
 import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
-import ExhaustRenderer from '../renderers/ExhaustRenderer';
+ 
 import EnemyRenderer from '../renderers/EnemyRenderer';
 // special weapon projectiles
 import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
+import ParticlesRenderer from '../renderers/ParticleRenderer';
 // firing effects
 import ChargeEffectRenderer from '../renderers/ChargeEffectRenderer';
-import MuzzleFlashRenderer from '../renderers/MuzzleFlashRenderer';
-import SmokeRenderer from '../renderers/SmokeRenderer';
-import SparksRenderer from '../renderers/SparksRenderer';
+ 
 
 import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
 
@@ -57,13 +56,12 @@ export default function PlayScreen({ onGameOver }) {
         <ChargeEffectRenderer />
         <MissileRenderer />
 
-        <SmokeRenderer />
-        <MuzzleFlashRenderer />
-        <SparksRenderer />
+<ParticlesRenderer />
+ 
 
         <EnemyRenderer />
         <AsteroidRenderer />
-        <ExhaustRenderer />
+ 
 
         <EffectComposer>
 

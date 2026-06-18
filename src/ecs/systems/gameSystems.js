@@ -9,12 +9,10 @@ import { missileSystem } from './missileSystem';
 
 import { bulletLifetimeSystem } from './bulletLifetimeSystem';
 import { beamLifetimeSystem } from './beamLifetimeSystem';
-import { exhaustSystem } from './exhaustSystem';
-import { exhaustLifetimeSystem } from './exhaustLifetimeSystem';
+import { particleSystem } from './particleSystem';
 
-import { muzzleFlashLifetimeSystem } from './muzzleFlashLifetimeSystem';
-import { smokeLifetimeSystem } from './smokeLifetimeSystem';
-import { sparksLifetimeSystem } from './sparksLifetimeSystem';
+import { particleLifetimeSystem } from './particleLifetimeSystem';
+
 
 export const gameSystems = [
   asteroidSystem,
@@ -26,10 +24,8 @@ export const gameSystems = [
 
   bulletLifetimeSystem,
   beamLifetimeSystem,
-  exhaustSystem,
-  exhaustLifetimeSystem,
+  
+  particleSystem,
+  particleLifetimeSystem,
 
-  muzzleFlashLifetimeSystem,
-  smokeLifetimeSystem,
-  sparksLifetimeSystem,
 ];

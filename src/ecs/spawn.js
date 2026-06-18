@@ -3,9 +3,12 @@
 import { world } from './core/world';
 import { enemyDefs } from './content/enemyDefs';
 import { acquireBullet } from './pools/bulletPool';
-import { acquireExhaust } from './pools/exhaustPool';
+import { acquireParticle } from './pools/particlePool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
+
+import { PARTICLE_SPARK, PARTICLE_FLASH, PARTICLE_EXHAUST, PARTICLE_SMOKE } from './shared/particleTypes';
+import { particleDefs } from './content/particleDefs';
 
 /*
 |--------------------------------------------------------------------------
@@ -181,33 +184,50 @@ export function spawnEnemy(type, x, y) {
 
 /*
 |--------------------------------------------------------------------------
-| EXHAUST
+| PARTICLES
 |--------------------------------------------------------------------------
 */
 
-export function spawnExhaustParticle({ x, y, vx, vy }) {
+export function spawnParticle({
 
-const exhaust = acquireExhaust();
-
-Object.assign(exhaust, {
-  exhaust: true,
+  particleType,
 
   x,
   y,
 
-  vx,
-  vy,
+  vx = 0,
+  vy = 0,
 
-  life: 1.1,
+  life,
+  size,
 
-  radius: 0.12,
+  colorR = 1,
+  colorG = 1,
+  colorB = 1,
 
-  colorR: 0.2,
-  colorG: 0.7,
-  colorB: 2.0,
-});
+}) {
 
-return world.add(exhaust);
+  const particle = acquireParticle();
+  const def = particleDefs[particleType];
+
+  particle.particle = true;
+  particle.particleType = particleType;
+
+  particle.x = x;
+  particle.y = y;
+
+  particle.vx = vx;
+  particle.vy = vy;
+
+  particle.life = life ?? def.life;
+
+  particle.size = size ?? def.size;
+
+  particle.colorR = colorR;
+  particle.colorG = colorG;
+  particle.colorB = colorB;
+
+  return world.add(particle);
 }
 
 
@@ -241,33 +261,33 @@ export function spawnBeam({
 
 }) {
 
-const beam = acquireBeam();
+  const beam = acquireBeam();
 
-Object.assign(beam, {
-  beam: true,
+  Object.assign(beam, {
+    beam: true,
 
-  beamType,
+    beamType,
 
-  x,
-  y,
+    x,
+    y,
 
-  rotation,
+    rotation,
 
-  damage,
+    damage,
 
-  length,
-  width,
+    length,
+    width,
 
-  colorR,
-  colorG,
-  colorB,
+    colorR,
+    colorG,
+    colorB,
 
-  glow,
+    glow,
 
-  life,
-});
+    life,
+  });
 
-return world.add(beam);
+  return world.add(beam);
 }
 
 /*
@@ -286,28 +306,61 @@ export function spawnMissile({
   const cos = Math.cos(rotation);
   const sin = Math.sin(rotation);
 
-const missile = acquireMissile();
+  const missile = acquireMissile();
 
-Object.assign(missile, {
-  missile: true,
+  Object.assign(missile, {
+    missile: true,
 
-  x,
-  y,
+    x,
+    y,
 
-  rotation,
-  target,
+    rotation,
+    target,
 
-  speed: 10,
-  turnRate: 5,
-  damage: 1000,
-  radius: 0.4,
-  life: 12,
+    speed: 10,
+    turnRate: 5,
+    damage: 1000,
+    radius: 0.4,
+    life: 12,
 
-  vx: cos * 10,
-  vy: sin * 10,
-});
+    vx: cos * 10,
+    vy: sin * 10,
+  });
 
-return world.add(missile);
+  return world.add(missile);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EXHAUST
+|--------------------------------------------------------------------------
+*/
+
+export function spawnExhaustParticle({ x, y, vx, vy }) {
+
+  const exhaust = acquireExhaust();
+
+  Object.assign(exhaust, {
+    particle: true,
+    particleType: PARTICLE_EXHAUST,
+
+    x,
+    y,
+
+    vx,
+    vy,
+
+    life: 1.1,
+
+    radius: 0.12,
+
+    colorR: 0.2,
+    colorG: 0.7,
+    colorB: 2.0,
+  });
+
+  return world.add(exhaust);
 }
 
 /*
@@ -328,7 +381,8 @@ export function spawnMuzzleFlash({
 
   return world.add({
 
-    muzzleFlash: true,
+    particle: true,
+    particleType: PARTICLE_FLASH,
 
     x,
     y,
@@ -362,7 +416,8 @@ export function spawnSmoke({
 
   return world.add({
 
-    smoke: true,
+    particle: true,
+    particleType: PARTICLE_SMOKE,
 
     x,
     y,
@@ -391,7 +446,8 @@ export function spawnSpark({
 
   return world.add({
 
-    spark: true,
+    particle: true,
+    particleType: PARTICLE_SPARK,
 
     x,
     y,
