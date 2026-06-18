@@ -6,7 +6,7 @@ import * as THREE from 'three';
 
 import { sparkParticles } from '../ecs/core/queries';
 
-const MAX = 4000;
+const MAX = 12000;
 
 export default function SparksRenderer() {
 
@@ -42,22 +42,22 @@ export default function SparksRenderer() {
       depthWrite: false,
       blending: THREE.AdditiveBlending,
 toneMapped: false,
+
       vertexShader: `
 
 attribute float life;
 
 varying float vLife;
 
-void main(){
+void main() {
 
   vLife = life;
 
   vec4 mv =
     modelViewMatrix *
-    vec4(position,1.0);
+    vec4(position, 1.0);
 
-  gl_PointSize =
-    mix(6.0,2.0,life);
+gl_PointSize = mix(12.0, 4.0, vLife);
 
   gl_Position =
     projectionMatrix *
@@ -69,34 +69,35 @@ void main(){
 
 varying float vLife;
 
-void main(){
+void main() {
 
-  vec2 uv =
-    gl_PointCoord - 0.5;
+  vec2 uv = gl_PointCoord - 0.5;
 
-  float d =
-    length(uv);
+  float d = length(uv);
 
-  float spark =
-    smoothstep(
-      0.5,
-      0.0,
-      d
-    );
+  float glow =
+    smoothstep(0.5, 0.0, d);
+
+  float core =
+    smoothstep(0.15, 0.0, d);
 
   vec3 color =
     mix(
-      vec3(1.0,0.2,0.0),
-      vec3(1.0,1.0,0.4),
+      vec3(1.0, 0.15, 0.0),
+      vec3(1.0, 0.6, 0.0),
       vLife
     );
 
+  color += core * vec3(1.0, 0.9, 0.5);
+
+  float alpha =
+    glow * 0.9;
+
   gl_FragColor =
     vec4(
-      color * 4.0,
-      spark * vLife
+      color * 5.0,
+      alpha
     );
-
 }
 `
     });

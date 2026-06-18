@@ -23,7 +23,7 @@ export function collisionSystem() {
 
       if (dist < bullet.radius + asteroid.radius) {
 
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 24; i++) {
 
           const angle =
             Math.random() *

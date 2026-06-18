@@ -188,7 +188,6 @@ ecs/
 - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
 - [ ] fix appearance of some guns, missile launcher, beams, etc
 
-
 - [ ] refine and optimize sparks renderer, smoke renderer, muzzleflash renderer
 
 - [ ] smoke is rendering as a demo green circle (missilegun key 7)
