@@ -3,13 +3,27 @@
 const pool = [];
 
 export function acquireParticle() {
-  return pool.pop() || {};
+
+  const particle =
+    pool.pop() || {};
+
+  if (particle.seed === undefined) {
+
+    particle.seed =
+      Math.random();
+  }
+
+  return particle;
 }
 
 export function releaseParticle(particle) {
 
   for (const key in particle) {
-    delete particle[key];
+
+    // keep seed permanently
+    if (key !== 'seed') {
+      delete particle[key];
+    }
   }
 
   pool.push(particle);

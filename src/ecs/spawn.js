@@ -251,8 +251,8 @@ export function spawnBeam({
   width,
 
   colorR = 1,
-  colorG = 1,
-  colorB = 1,
+  colorG = 0,
+  colorB = 0,
 
   glow = 1,
 
@@ -428,6 +428,10 @@ export function spawnSmoke({
 
     radius: 0.4,
     life: 0.7,
+
+    colorR: 0.5,
+    colorG: 0.5,
+    colorB: 0.5,
   });
 
   return world.add(particle);
@@ -459,6 +463,10 @@ export function spawnSpark({
     vy,
 
     life: 0.35,
+
+    colorR: 1,
+    colorG: 1,
+    colorB: 1,
   });
 
   return world.add(particle);

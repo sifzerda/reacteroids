@@ -20,10 +20,33 @@ export default function ParticleRenderer() {
     geo.setAttribute('size', new THREE.BufferAttribute(new Float32Array(MAX), 1));
     geo.setAttribute('type', new THREE.BufferAttribute(new Float32Array(MAX), 1));
 
+geo.setAttribute(
+  'particleColor',
+  new THREE.BufferAttribute(
+    new Float32Array(MAX * 3),
+    3
+  )
+);
+
+    geo.setAttribute(
+      'seed',
+      new THREE.BufferAttribute(
+        new Float32Array(MAX),
+        1
+      )
+    );
+
+
+
     geo.attributes.position.setUsage(THREE.DynamicDrawUsage);
     geo.attributes.type.setUsage(THREE.DynamicDrawUsage);
     geo.attributes.life.setUsage(THREE.DynamicDrawUsage);
+    geo.attributes.particleColor.setUsage(THREE.DynamicDrawUsage);
     geo.attributes.size.setUsage(THREE.DynamicDrawUsage);
+
+    geo.attributes.seed.setUsage(
+      THREE.DynamicDrawUsage
+    );
 
     return geo;
 
@@ -35,7 +58,7 @@ export default function ParticleRenderer() {
 
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       vertexColors: false,
       toneMapped: false,
 
@@ -44,64 +67,162 @@ export default function ParticleRenderer() {
 attribute float life;
 attribute float size;
 attribute float type;
+attribute float seed;
+attribute vec3 particleColor;
 
 varying float vLife;
 varying float vType;
+varying float vSeed;
+varying vec3 vParticleColor;
 
 void main() {
 
   vLife = life;
   vType = type;
+vParticleColor = particleColor;
+  vSeed = seed;
 
-  vec4 mv = modelViewMatrix * vec4(position,1.0);
+  vec4 mv =
+    modelViewMatrix *
+    vec4(position, 1.0);
 
-float particleSize = size;
+  float particleSize = size;
 
-// Smoke grows as it ages
-if (type > 0.5 && type < 1.5) {
+  //
+  // Smoke grows dramatically
+  //
+
+  if (type > 0.5 && type < 1.5) {
+
+    particleSize *=
+      mix(
+        0.5,
+        5.0,
+        1.0 - life
+      );
+  }
+
+  //
+  // Muzzle flash shrinks
+  //
+
+  else if (type > 2.5) {
+
+    particleSize *=
+      mix(
+        3.0,
+        0.2,
+        1.0 - life
+      );
+  }
+
+  //
+  // Perspective scaling
+  //
 
   particleSize *=
-    mix(
-      0.6,
-      4.0,
-      1.0 - life
-    );
-}
-
-// Muzzle flashes start huge and shrink
-else if (type > 2.5) {
-  particleSize *= mix(2.5, 0.3, 1.0 - life);
-}
+    300.0 /
+    max(1.0, -mv.z);
 
   gl_PointSize = particleSize;
-  gl_Position = projectionMatrix * mv;
+
+  gl_Position =
+    projectionMatrix *
+    mv;
 }
       `,
 
       fragmentShader: `
 
-      varying float vLife;
+varying float vLife;
 varying float vType;
+varying vec3 vParticleColor;
+varying float vSeed;
+
+float hash(vec2 p) {
+
+  return fract(
+    sin(
+      dot(
+        p,
+        vec2(
+          127.1,
+          311.7
+        )
+      )
+    ) *
+    43758.5453123
+  );
+}
+
+float noise(vec2 p) {
+
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+
+  float a = hash(i);
+  float b = hash(i + vec2(1.0,0.0));
+  float c = hash(i + vec2(0.0,1.0));
+  float d = hash(i + vec2(1.0,1.0));
+
+  vec2 u =
+    f * f *
+    (3.0 - 2.0 * f);
+
+  return
+    mix(a,b,u.x) +
+    (c-a)*u.y*(1.0-u.x) +
+    (d-b)*u.x*u.y;
+}
 
 void main() {
 
-  vec2 uv = gl_PointCoord - 0.5;
+  vec2 uv =
+    gl_PointCoord - 0.5;
 
   vec2 shapedUV = uv;
 
-if (vType < 0.5) {
+  //
+  // Exhaust flame shape
+  //
 
-  shapedUV.y *= 2.5;
-}
+  if (vType < 0.5) {
 
-float d =
-  length(shapedUV);
+    shapedUV.y *= 2.8;
 
-  float circle = smoothstep(0.5, 0.0, d);
-  float core = smoothstep(0.15, 0.0, d);
+    shapedUV.x +=
+      sin(
+        uv.y * 18.0
+      ) *
+      0.05;
+  }
 
-  vec3 color;
-  float alpha = circle;
+  float d =
+    length(shapedUV);
+
+  float circle =
+    smoothstep(
+      0.55,
+      0.0,
+      d
+    );
+
+  float core =
+    smoothstep(
+      0.15,
+      0.0,
+      d
+    );
+
+  float halo =
+    smoothstep(
+      0.9,
+      0.0,
+      d
+    );
+
+vec3 particleCol;
+  float alpha;
 
   //
   // EXHAUST
@@ -109,32 +230,43 @@ float d =
 
   if (vType < 0.5) {
 
-    float heat = 1.0 - vLife;
+    float heat =
+      1.0 - vLife;
 
-    vec3 blue = vec3(0.05, 0.45, 2.5);
-    vec3 purple = vec3(0.5, 0.1, 1.4);
-    vec3 orange = vec3(1.2, 0.25, 0.05);
+   vec3 baseColor =
+  max(
+    vParticleColor,
+    vec3(0.01)
+  );
 
-    color = mix(blue, purple, smoothstep(0.0, 0.5, heat));
-    color = mix(color, orange, smoothstep(0.4, 1.0, heat));
+vec3 hotColor =
+  mix(
+    baseColor,
+    vec3(1.0,0.5,0.0),
+    heat
+  );
 
-    color +=
-      core *
-      vec3(
-        2.0,
-        2.0,
-        2.0
-      ) *
-      0.5;
+particleCol =
+  mix(
+    baseColor,
+    hotColor,
+    heat
+  );
 
-alpha *=
-  smoothstep(
-    0.0,
-    0.15,
-    vLife
-  ) *
-  1.4;
+    particleCol =
+      mix(
+        particleCol,
+        vec3(5.0),
+        pow(core, 4.0)
+      );
 
+    alpha =
+      circle *
+      smoothstep(
+        0.0,
+        0.12,
+        vLife
+      );
   }
 
   //
@@ -143,127 +275,118 @@ alpha *=
 
   else if (vType < 1.5) {
 
-    float puff =
-      smoothstep(
-        0.55,
-        0.0,
-        d
-      );
-
-      float inner = 
-      smoothstep(
-        0.25,
-        0.0,
-        d
-      );
-
-    float edge =
-      smoothstep(
-        0.25,
-        0.0,
-        d
-      );
-
- color =
-    mix(
-      vec3(0.7),
-      vec3(1.0),
-      inner
+    float n = noise(
+      uv *
+      (5.0 + vSeed * 6.0)
     );
 
-  alpha =
-    puff *
-    vLife *
-    0.9;
-}
+    float puff =
+      smoothstep(
+        0.55 + n * 0.15,
+        0.0,
+        d
+      );
+
+    float inner =
+      smoothstep(
+        0.3,
+        0.0,
+        d
+      );
+
+    float rim =
+      smoothstep(
+        0.55,
+        0.15,
+        d
+      );
+
+particleCol =
+  mix(
+    vParticleColor * 0.25,
+    vParticleColor,
+    inner
+  );
+
+    particleCol +=
+      rim *
+      0.15;
+
+    alpha =
+      puff *
+      vLife *
+      0.75;
+  }
 
   //
-  // SPARKS
+  // SPARK
   //
 
   else if (vType < 2.5) {
 
-float glow =
+    vec2 suv = uv;
 
-  smoothstep(
-    0.45,
-    0.0,
-    abs(uv.x)
-  ) *
+    suv.y *= 5.0;
 
-  smoothstep(
-    0.18,
-    0.0,
-    abs(uv.y)
+    float streak =
+      smoothstep(
+        0.18,
+        0.0,
+        length(suv)
+      );
+
+   particleCol =
+  mix(
+    vParticleColor * 0.5,
+    vParticleColor,
+    vLife
   );
 
-    color =
-      mix(
-        vec3(
-          1.0,
-          0.05,
-          0.0
-        ),
-        vec3(
-          1.0,
-          0.7,
-          0.0
-        ),
-        vLife
-      );
-
-    color +=
+    particleCol +=
       core *
       vec3(
-        1.0,
-        0.95,
-        0.7
+        3.0,
+        2.8,
+        2.0
       );
 
-alpha =
-  glow *
-  vLife *
-  2.0;
-  
+    alpha =
+      streak *
+      vLife *
+      2.0;
   }
 
   //
   // MUZZLE FLASH
   //
 
-else {
+  else {
 
-  float burst =
-    smoothstep(
-      0.6,
-      0.0,
-      d
-    );
+    float burst =
+      smoothstep(
+        0.65,
+        0.0,
+        d
+      );
 
-  color =
-    mix(
-      vec3(
-        1.0,
-        0.35,
-        0.0
-      ),
-      vec3(
-        3.0,
-        2.5,
-        1.0
-      ),
-      core
-    );
+particleCol =
+  mix(
+    vParticleColor,
+    vec3(5.0),
+    core
+  );
 
-  alpha =
-    burst *
-    vLife *
-    3.5;
-}
+    alpha =
+      burst *
+      vLife *
+      2.5;
+  }
+
+  alpha += halo * 0.08;
 
   gl_FragColor =
     vec4(
-      color * 10.0,
+      particleCol,
       alpha
     );
 }
@@ -276,6 +399,9 @@ else {
   const lifeAttr = geometry.attributes.life;
   const sizeAttr = geometry.attributes.size;
   const typeAttr = geometry.attributes.type;
+  const particleColorAttr = geometry.attributes.particleColor;
+
+  const seedAttr = geometry.attributes.seed;
 
   useFrame(() => {
 
@@ -283,6 +409,8 @@ else {
     const lifes = lifeAttr.array;
     const sizes = sizeAttr.array;
     const types = typeAttr.array;
+    const particleColors = particleColorAttr.array;
+    const seeds = seedAttr.array;
 
     let count = 0;
 
@@ -305,15 +433,26 @@ else {
       types[count] =
         p.particleType ?? 0;
 
+particleColors[i3] = p.colorR ?? 1;
+particleColors[i3 + 1] = p.colorG ?? 1;
+particleColors[i3 + 2] = p.colorB ?? 1;
+
+      seeds[count] =
+        p.seed ??
+        ((count * 16807) % 2147483647) /
+        2147483647;
+
       count++;
     }
 
     geometry.setDrawRange(0, count);
 
-    positionAttr.needsUpdate = true;
-    lifeAttr.needsUpdate = true;
-    sizeAttr.needsUpdate = true;
-    typeAttr.needsUpdate = true;
+positionAttr.needsUpdate = true;
+lifeAttr.needsUpdate = true;
+sizeAttr.needsUpdate = true;
+typeAttr.needsUpdate = true;
+particleColorAttr.needsUpdate = true;
+seedAttr.needsUpdate = true;
 
   });
 
