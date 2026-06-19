@@ -7,5 +7,10 @@ export function acquireParticle() {
 }
 
 export function releaseParticle(particle) {
+
+  for (const key in particle) {
+    delete particle[key];
+  }
+
   pool.push(particle);
 }

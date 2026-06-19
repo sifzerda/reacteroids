@@ -1,12 +1,6 @@
 // src/content/particleDefs.js
 
-import {
-  PARTICLE_EXHAUST,
-  PARTICLE_SMOKE,
-  PARTICLE_SPARK,
-  PARTICLE_FLASH
-}
-from '../shared/particleTypes.js';
+import { PARTICLE_EXHAUST, PARTICLE_SMOKE, PARTICLE_SPARK, PARTICLE_FLASH } from '../shared/particleTypes.js';
 
 export const particleDefs = {
 

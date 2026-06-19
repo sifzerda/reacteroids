@@ -13,11 +13,8 @@ export function shipCollisionSystem( delta, onGameOver ) {
     for (const asteroid of asteroids) {
 
       const dx = ship.x - asteroid.x;
-
       const dy = ship.y - asteroid.y;
-
       const r = ship.radius + asteroid.radius;
-
       const collision = dx * dx + dy * dy < r * r;
 
       if ( !collision || ship.invulnerable > 0 ) {

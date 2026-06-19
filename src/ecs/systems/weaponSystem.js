@@ -34,8 +34,7 @@ export function weaponSystem(delta) {
     */
 
     if (
-      previousWeapon === 'chargegun' &&
-      ship.weapon !== 'chargegun'
+      previousWeapon === 'chargegun' && ship.weapon !== 'chargegun'
     ) {
       ship.chargeTime = 0;
       ship.charging = false;
@@ -51,12 +50,7 @@ export function weaponSystem(delta) {
     const weapon = weapons[ship.weapon];
     if (!weapon) continue;
 
-    const firing =
-      keys.Space ||
-      (
-        settings.controlScheme === 'keyboardMouse' &&
-        mouse.down
-      );
+    const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);
 
     /*
     -------------------------------------------------
@@ -69,24 +63,15 @@ export function weaponSystem(delta) {
       ship.chargeTime ??= 0;
       ship.charging ??= false;
 
-      const muzzleX =
-        ship.x +
-        Math.cos(ship.rotation) * MUZZLE_OFFSET;
-
-      const muzzleY =
-        ship.y +
-        Math.sin(ship.rotation) * MUZZLE_OFFSET;
+      const muzzleX = ship.x + Math.cos(ship.rotation) * MUZZLE_OFFSET;
+      const muzzleY = ship.y + Math.sin(ship.rotation) * MUZZLE_OFFSET;
 
       if (firing) {
 
         ship.charging = true;
         ship.chargeTime += delta;
 
-        const charge =
-          Math.min(
-            ship.chargeTime / CHARGE_MAX_TIME,
-            1
-          );
+        const charge = Math.min(ship.chargeTime / CHARGE_MAX_TIME, 1);
 
         if (!ship.chargeEffect) {
 
@@ -106,21 +91,14 @@ export function weaponSystem(delta) {
 
           ship.chargeEffect.x = muzzleX;
           ship.chargeEffect.y = muzzleY;
-
-          ship.chargeEffect.rotation =
-            ship.rotation;
-
-          ship.chargeEffect.charge =
-            charge;
+          ship.chargeEffect.rotation = ship.rotation;
+          ship.chargeEffect.charge = charge;
         }
       }
 
       else if (ship.charging) {
 
-        weapon.release(
-          ship,
-          ship.chargeTime
-        );
+        weapon.release(ship, ship.chargeTime);
 
         ship.chargeTime = 0;
         ship.charging = false;
@@ -155,11 +133,7 @@ export function weaponSystem(delta) {
     -------------------------------------------------
     */
 
-    if (
-      firing &&
-      ship.cooldown <= 0 &&
-      weapon.fire
-    ) {
+    if (firing && ship.cooldown <= 0 && weapon.fire) {
       ship.cooldown = weapon.cooldown;
       weapon.fire(ship);
     }

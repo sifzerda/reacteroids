@@ -11,21 +11,11 @@ export function particleSystem() {
     if (!keys['ArrowUp'])
       continue;
 
-    const angle =
-      ship.rotation;
+    const angle = ship.rotation;
+    const rearDistance = 0.40;
 
-    const rearDistance =
-      0.40;
-
-    const x =
-      ship.x -
-      Math.cos(angle) *
-      rearDistance;
-
-    const y =
-      ship.y -
-      Math.sin(angle) *
-      rearDistance;
+    const x = ship.x - Math.cos(angle) * rearDistance;
+    const y = ship.y - Math.sin(angle) * rearDistance;
 
     spawnParticle({
 
@@ -34,16 +24,10 @@ export function particleSystem() {
       x,
       y,
 
-      vx:
-        -Math.cos(angle) * 3 +
-        (Math.random() - 0.5),
-
-      vy:
-        -Math.sin(angle) * 3 +
-        (Math.random() - 0.5),
+      vx: -Math.cos(angle) * 3 + (Math.random() - 0.5),
+      vy: -Math.sin(angle) * 3 + (Math.random() - 0.5),
 
       life: 1.1,
-
       size: 10,
     });
   }

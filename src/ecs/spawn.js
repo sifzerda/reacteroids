@@ -6,7 +6,6 @@ import { acquireBullet } from './pools/bulletPool';
 import { acquireParticle } from './pools/particlePool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
-
 import { PARTICLE_SPARK, PARTICLE_FLASH, PARTICLE_EXHAUST, PARTICLE_SMOKE } from './shared/particleTypes';
 import { particleDefs } from './content/particleDefs';
 
@@ -379,8 +378,9 @@ export function spawnMuzzleFlash({
   colorB = 0.2
 }) {
 
-  return world.add({
+  const particle = acquireParticle();
 
+  Object.assign(particle, {
     particle: true,
     particleType: PARTICLE_FLASH,
 
@@ -395,8 +395,10 @@ export function spawnMuzzleFlash({
     colorG,
     colorB,
 
-    life: 0.06
+    life: 0.06,
   });
+
+  return world.add(particle);
 }
 
 /*
@@ -412,10 +414,9 @@ export function spawnSmoke({
   vy = 0
 }) {
 
-  console.log('SPAWN SMOKE', x, y)
+  const particle = acquireParticle();
 
-  return world.add({
-
+  Object.assign(particle, {
     particle: true,
     particleType: PARTICLE_SMOKE,
 
@@ -426,9 +427,10 @@ export function spawnSmoke({
     vy,
 
     radius: 0.4,
-
-    life: 0.7
+    life: 0.7,
   });
+
+  return world.add(particle);
 }
 
 /*
@@ -444,8 +446,9 @@ export function spawnSpark({
   vy
 }) {
 
-  return world.add({
+  const particle = acquireParticle();
 
+  Object.assign(particle, {
     particle: true,
     particleType: PARTICLE_SPARK,
 
@@ -455,6 +458,8 @@ export function spawnSpark({
     vx,
     vy,
 
-    life: 0.35
+    life: 0.35,
   });
+
+  return world.add(particle);
 }

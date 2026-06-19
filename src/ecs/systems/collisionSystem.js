@@ -11,9 +11,7 @@ import { releaseMissile } from '../pools/missilePool';
 import { releaseParticle } from '../pools/particlePool';
 import { spawnParticle } from '../spawn';
 
-import {
-  PARTICLE_SPARK,
-} from '../shared/particleTypes';
+import { PARTICLE_SPARK } from '../shared/particleTypes';
 
 export function collisionSystem() {
 
@@ -30,13 +28,8 @@ export function collisionSystem() {
 
         for (let i = 0; i < 24; i++) {
 
-          const angle =
-            Math.random() *
-            Math.PI * 2;
-
-          const speed =
-            3 +
-            Math.random() * 8;
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 3 + Math.random() * 8;
 
           spawnParticle({
             particleType: PARTICLE_SPARK,
@@ -48,17 +41,10 @@ export function collisionSystem() {
             vy: Math.sin(angle) * speed
 
           });
-
         }
-
         world.remove(bullet);
         releaseBullet(bullet);
-
-        destroyAsteroid(
-          asteroid,
-          100
-        );
-
+        destroyAsteroid(asteroid, 100);
       }
     }
   }

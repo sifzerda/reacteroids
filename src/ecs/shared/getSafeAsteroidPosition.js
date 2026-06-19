@@ -6,12 +6,8 @@ import { ships } from '../core/queries';
 export function getSafeAsteroidPosition() {
 
   const ship = ships[0];
-
-  const angle =
-    Math.random() * Math.PI * 2;
-
-  const distance =
-    12 + Math.random() * 6;
+  const angle = Math.random() * Math.PI * 2;
+  const distance = 12 + Math.random() * 6;
 
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
