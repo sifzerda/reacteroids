@@ -210,7 +210,7 @@ export function spawnParticle({
   const def = particleDefs[particleType];
 
   particle.particle = true;
-  particle.particleType = particleType;
+  particle.particleType = Number(particleType);
 
   particle.x = x;
   particle.y = y;
@@ -219,16 +219,16 @@ export function spawnParticle({
   particle.vy = vy;
 
   particle.life = life ?? def.life;
-
   particle.size = size ?? def.size;
 
-  particle.colorR = colorR;
-  particle.colorG = colorG;
-  particle.colorB = colorB;
+  particle.seed = Math.random();
+
+  particle.colorR = particle.colorR ?? 1;
+  particle.colorG = particle.colorG ?? 1;
+  particle.colorB = particle.colorB ?? 1;
 
   return world.add(particle);
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -396,6 +396,13 @@ export function spawnMuzzleFlash({
     colorB,
 
     life: 0.06,
+  });
+
+  console.log("FLASH CREATED", particle);
+  console.log("FLASH spawn", {
+    x,
+    y,
+    rotation,
   });
 
   return world.add(particle);

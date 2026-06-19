@@ -11,42 +11,24 @@ export default function ParticleRenderer() {
 
   const { size } = useThree();
 
+  const STRIDE = 10;
+
   const geometry = useMemo(() => {
 
     const geo = new THREE.BufferGeometry();
+    const data = new Float32Array(MAX * STRIDE);
+    const interleaved = new THREE.InterleavedBuffer(data, STRIDE);
 
-    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(MAX * 3), 3));
-    geo.setAttribute('life', new THREE.BufferAttribute(new Float32Array(MAX), 1));
-    geo.setAttribute('size', new THREE.BufferAttribute(new Float32Array(MAX), 1));
-    geo.setAttribute('type', new THREE.BufferAttribute(new Float32Array(MAX), 1));
+    interleaved.setUsage(THREE.DynamicDrawUsage);
 
-geo.setAttribute(
-  'particleColor',
-  new THREE.BufferAttribute(
-    new Float32Array(MAX * 3),
-    3
-  )
-);
+    geo.setAttribute('position', new THREE.InterleavedBufferAttribute(interleaved, 3, 0));
+    geo.setAttribute('life', new THREE.InterleavedBufferAttribute(interleaved, 1, 3));
+    geo.setAttribute('size', new THREE.InterleavedBufferAttribute(interleaved, 1, 4));
+    geo.setAttribute('type', new THREE.InterleavedBufferAttribute(interleaved, 1, 5));
+    geo.setAttribute('particleColor', new THREE.InterleavedBufferAttribute(interleaved, 3, 6));
+    geo.setAttribute('seed', new THREE.InterleavedBufferAttribute(interleaved, 1, 9));
 
-    geo.setAttribute(
-      'seed',
-      new THREE.BufferAttribute(
-        new Float32Array(MAX),
-        1
-      )
-    );
-
-
-
-    geo.attributes.position.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.type.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.life.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.particleColor.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.size.setUsage(THREE.DynamicDrawUsage);
-
-    geo.attributes.seed.setUsage(
-      THREE.DynamicDrawUsage
-    );
+    geo.userData.interleaved = interleaved;
 
     return geo;
 
@@ -79,13 +61,10 @@ void main() {
 
   vLife = life;
   vType = type;
-vParticleColor = particleColor;
+  vParticleColor = particleColor;
   vSeed = seed;
 
-  vec4 mv =
-    modelViewMatrix *
-    vec4(position, 1.0);
-
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
   float particleSize = size;
 
   //
@@ -93,13 +72,7 @@ vParticleColor = particleColor;
   //
 
   if (type > 0.5 && type < 1.5) {
-
-    particleSize *=
-      mix(
-        0.5,
-        5.0,
-        1.0 - life
-      );
+    particleSize *= mix(0.5, 5.0, 1.0 - life);
   }
 
   //
@@ -107,28 +80,17 @@ vParticleColor = particleColor;
   //
 
   else if (type > 2.5) {
-
-    particleSize *=
-      mix(
-        3.0,
-        0.2,
-        1.0 - life
-      );
+    particleSize *= mix(3.0, 0.2, 1.0 - life);
   }
 
   //
   // Perspective scaling
   //
 
-  particleSize *=
-    300.0 /
-    max(1.0, -mv.z);
+  particleSize *= 300.0 / max(1.0, -mv.z);
 
   gl_PointSize = particleSize;
-
-  gl_Position =
-    projectionMatrix *
-    mv;
+  gl_Position = projectionMatrix * mv;
 }
       `,
 
@@ -141,18 +103,7 @@ varying float vSeed;
 
 float hash(vec2 p) {
 
-  return fract(
-    sin(
-      dot(
-        p,
-        vec2(
-          127.1,
-          311.7
-        )
-      )
-    ) *
-    43758.5453123
-  );
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
 }
 
 float noise(vec2 p) {
@@ -165,20 +116,14 @@ float noise(vec2 p) {
   float c = hash(i + vec2(0.0,1.0));
   float d = hash(i + vec2(1.0,1.0));
 
-  vec2 u =
-    f * f *
-    (3.0 - 2.0 * f);
+  vec2 u = f * f * (3.0 - 2.0 * f);
 
-  return
-    mix(a,b,u.x) +
-    (c-a)*u.y*(1.0-u.x) +
-    (d-b)*u.x*u.y;
+  return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
 }
 
 void main() {
 
-  vec2 uv =
-    gl_PointCoord - 0.5;
+  vec2 uv = gl_PointCoord - 0.5;
 
   vec2 shapedUV = uv;
 
@@ -189,270 +134,108 @@ void main() {
   if (vType < 0.5) {
 
     shapedUV.y *= 2.8;
-
-    shapedUV.x +=
-      sin(
-        uv.y * 18.0
-      ) *
-      0.05;
+    shapedUV.x += sin( uv.y * 18.0) * 0.05;
   }
 
-  float d =
-    length(shapedUV);
+  float d = length(shapedUV);
+  float circle = smoothstep(0.55, 0.0, d);
+  float core = smoothstep(0.15, 0.0, d);
 
-  float circle =
-    smoothstep(
-      0.55,
-      0.0,
-      d
-    );
-
-  float core =
-    smoothstep(
-      0.15,
-      0.0,
-      d
-    );
-
-  float halo =
-    smoothstep(
-      0.9,
-      0.0,
-      d
-    );
+  float halo = smoothstep(0.9, 0.0, d);
 
 vec3 particleCol;
   float alpha;
 
-  //
-  // EXHAUST
-  //
+ if(vType < 0.5)
+{
+    gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+    return;
+}
 
-  if (vType < 0.5) {
+if(vType < 1.5)
+{
+    gl_FragColor = vec4(0.0,1.0,0.0,1.0);
+    return;
+}
 
-    float heat =
-      1.0 - vLife;
+if(vType < 2.5)
+{
+    gl_FragColor = vec4(0.0,0.0,1.0,1.0);
+    return;
+}
 
-   vec3 baseColor =
-  max(
-    vParticleColor,
-    vec3(0.01)
-  );
+gl_FragColor = vec4(1.0,1.0,0.0,1.0);
 
-vec3 hotColor =
-  mix(
-    baseColor,
-    vec3(1.0,0.5,0.0),
-    heat
-  );
-
-particleCol =
-  mix(
-    baseColor,
-    hotColor,
-    heat
-  );
-
-    particleCol =
-      mix(
-        particleCol,
-        vec3(5.0),
-        pow(core, 4.0)
-      );
-
-    alpha =
-      circle *
-      smoothstep(
-        0.0,
-        0.12,
-        vLife
-      );
-  }
-
-  //
-  // SMOKE
-  //
-
-  else if (vType < 1.5) {
-
-    float n = noise(
-      uv *
-      (5.0 + vSeed * 6.0)
-    );
-
-    float puff =
-      smoothstep(
-        0.55 + n * 0.15,
-        0.0,
-        d
-      );
-
-    float inner =
-      smoothstep(
-        0.3,
-        0.0,
-        d
-      );
-
-    float rim =
-      smoothstep(
-        0.55,
-        0.15,
-        d
-      );
-
-particleCol =
-  mix(
-    vParticleColor * 0.25,
-    vParticleColor,
-    inner
-  );
-
-    particleCol +=
-      rim *
-      0.15;
-
-    alpha =
-      puff *
-      vLife *
-      0.75;
-  }
-
-  //
-  // SPARK
-  //
-
-  else if (vType < 2.5) {
-
-    vec2 suv = uv;
-
-    suv.y *= 5.0;
-
-    float streak =
-      smoothstep(
-        0.18,
-        0.0,
-        length(suv)
-      );
-
-   particleCol =
-  mix(
-    vParticleColor * 0.5,
-    vParticleColor,
-    vLife
-  );
-
-    particleCol +=
-      core *
-      vec3(
-        3.0,
-        2.8,
-        2.0
-      );
-
-    alpha =
-      streak *
-      vLife *
-      2.0;
-  }
-
-  //
-  // MUZZLE FLASH
-  //
-
-  else {
-
-    float burst =
-      smoothstep(
-        0.65,
-        0.0,
-        d
-      );
-
-particleCol =
-  mix(
-    vParticleColor,
-    vec3(5.0),
-    core
-  );
-
-    alpha =
-      burst *
-      vLife *
-      2.5;
-  }
-
-  alpha += halo * 0.08;
-
-  gl_FragColor =
-    vec4(
-      particleCol,
-      alpha
-    );
 }
       `
     });
 
   }, [size.height]);
 
-  const positionAttr = geometry.attributes.position;
-  const lifeAttr = geometry.attributes.life;
-  const sizeAttr = geometry.attributes.size;
-  const typeAttr = geometry.attributes.type;
-  const particleColorAttr = geometry.attributes.particleColor;
-
-  const seedAttr = geometry.attributes.seed;
+  const interleaved = geometry.userData.interleaved;
 
   useFrame(() => {
 
-    const positions = positionAttr.array;
-    const lifes = lifeAttr.array;
-    const sizes = sizeAttr.array;
-    const types = typeAttr.array;
-    const particleColors = particleColorAttr.array;
-    const seeds = seedAttr.array;
+    const data =
+      interleaved.array;
 
     let count = 0;
 
     for (const p of particles) {
 
-      if (count >= MAX) break;
+      if (count < 10) {
+  console.log(
+    'type:',
+    p.particleType
+  );
+}
 
-      const i3 = count * 3;
+      if (count >= MAX)
+        break;
 
-      positions[i3] = p.x;
-      positions[i3 + 1] = p.y;
-      positions[i3 + 2] = 0;
+      const base =
+        count * STRIDE;
 
-      lifes[count] =
+      data[base + 0] =
+        p.x;
+
+      data[base + 1] =
+        p.y;
+
+      data[base + 2] =
+        0;
+
+      data[base + 3] =
         p.life ?? 1;
 
-      sizes[count] =
+      data[base + 4] =
         p.size ?? 8;
 
-      types[count] =
+      data[base + 5] =
         p.particleType ?? 0;
 
-particleColors[i3] = p.colorR ?? 1;
-particleColors[i3 + 1] = p.colorG ?? 1;
-particleColors[i3 + 2] = p.colorB ?? 1;
+      data[base + 6] =
+        p.colorR ?? 1;
 
-      seeds[count] =
-        p.seed ??
-        ((count * 16807) % 2147483647) /
-        2147483647;
+      data[base + 7] =
+        p.colorG ?? 1;
+
+      data[base + 8] =
+        p.colorB ?? 1;
+
+      data[base + 9] =
+        p.seed ?? 0;
 
       count++;
     }
 
-    geometry.setDrawRange(0, count);
+    geometry.setDrawRange(
+      0,
+      count
+    );
 
-positionAttr.needsUpdate = true;
-lifeAttr.needsUpdate = true;
-sizeAttr.needsUpdate = true;
-typeAttr.needsUpdate = true;
-particleColorAttr.needsUpdate = true;
-seedAttr.needsUpdate = true;
+    interleaved.needsUpdate =
+      true;
 
   });
 

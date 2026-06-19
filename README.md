@@ -193,3 +193,5 @@ ecs/
 - [x] smoke is rendering as a demo green circle (missilegun key 7)
 - [x] muzzleflash is rendering as a demo yellow circle (shotgun key 2)
 - [x] add Object assigns to other particle spawns in spawn.js
+
+- [ ] particle shaders are in debug mode: exhaust = red, flash = yellow (tiny, partially covered by smoke), sparks = blue, smoke = green

@@ -1,8 +1,9 @@
-// src/ecs/systems/ParticleSystem.js
+// src/ecs/systems/particleSystem.js
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';
 import { spawnParticle } from '../spawn';
+import { PARTICLE_EXHAUST } from '../shared/particleTypes';
 
 export function particleSystem() {
 
@@ -19,7 +20,7 @@ export function particleSystem() {
 
     spawnParticle({
 
-      particleType: 'exhaust',
+      particleType: PARTICLE_EXHAUST,
 
       x,
       y,
