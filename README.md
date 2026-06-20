@@ -199,4 +199,4 @@ ecs/
 + smoke = pink, smoky
 + muzzle flash = green flash
 
-- [ ] go back to separate particle renderers
+- [x] go back to separate particle renderers
