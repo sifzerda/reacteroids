@@ -10,7 +10,6 @@ import { missileSystem } from './missileSystem';
 import { bulletLifetimeSystem } from './bulletLifetimeSystem';
 import { beamLifetimeSystem } from './beamLifetimeSystem';
 
-import { particleSystem } from './particleSystem';
 import { particleLifetimeSystem } from './particleLifetimeSystem';
 
 export const gameSystems = [
@@ -24,7 +23,6 @@ export const gameSystems = [
   bulletLifetimeSystem,
   beamLifetimeSystem,
   
-  particleSystem,
   particleLifetimeSystem,
 
 ];

@@ -59,8 +59,8 @@ export function shipControlSystem(delta) {
     // SHIP RIGHT VECTOR
     const right = rightVector(ship.rotation);
 
-ship.exhaustTimer ??= 0;
-ship.exhaustTimer -= delta;
+    ship.exhaustTimer ??= 0;
+    ship.exhaustTimer -= delta;
 
     // THRUST
     if (keys['ArrowUp']) {
@@ -70,16 +70,17 @@ ship.exhaustTimer -= delta;
 
       const rearDistance = 0.4;
 
-        if (ship.exhaustTimer <= 0) {
+      if (ship.exhaustTimer <= 0) {
 
-    ship.exhaustTimer = 0.02;
-    spawnExhaust({
-      x: ship.x - forward.x * 0.4,
-      y: ship.y - forward.y * 0.4,
-      vx: ship.vx - forward.x * 3,
-      vy: ship.vy - forward.y * 3,
-    });
-  }
+        ship.exhaustTimer = 0.02;
+
+        spawnExhaust({
+          x: ship.x - forward.x * 0.4,
+          y: ship.y - forward.y * 0.4,
+          vx: -forward.x * 1.5,
+          vy: -forward.y * 1.5,
+        });
+      }
     }
 
     // REVERSE THRUST
