@@ -1,8 +1,8 @@
 // ecs/content/weapons.js
 
-import { spawnBullet, spawnBeam, spawnMissile, spawnParticle } from '../spawn';
+import { spawnBullet, spawnBeam, spawnMissile, spawnFlash, spawnSmoke, spawnSpark } from '../spawn';
 import { findNearestAsteroid } from '../shared/findNearestAsteroid';
-import { PARTICLE_FLASH, PARTICLE_SPARK, PARTICLE_EXHAUST, PARTICLE_SMOKE } from '../shared/particleTypes';
+import { flashParticles, sparkParticles, exhaustParticles, smokeParticles } from '../core/queries';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
 
@@ -32,10 +32,10 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
+        rotation: ship.rotation,
         size: 1.6
       });
 
@@ -73,18 +73,16 @@ export const weapons = {
 
       for (let i = -2; i <= 2; i++) {
 
-        spawnParticle({
-          particleType: PARTICLE_FLASH,
+        spawnFlash({
           x: muzzleX,
           y: muzzleY,
+          rotation: ship.rotation,
           size: 1.6
         });
 
-        spawnParticle({
-          particleType: PARTICLE_SMOKE,
+        spawnSmoke({
           x: muzzleX,
-          y: muzzleY,
-          size: 1.6
+          y: muzzleY
         });
 
         spawnBullet({
@@ -119,18 +117,16 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
+        rotation: ship.rotation,
         size: 1.6
       });
 
-      spawnParticle({
-        particleType: PARTICLE_SMOKE,
+      spawnSmoke({
         x: muzzleX,
-        y: muzzleY,
-        size: 1.6
+        y: muzzleY
       });
 
       spawnBullet({
@@ -164,11 +160,14 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
-        size: 1.6
+        rotation: ship.rotation,
+        size: 1.6,
+        colorR: 0,
+        colorG: 1,
+        colorB: 0
       });
 
       spawnBullet({
@@ -206,11 +205,14 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
-        size: 1.6
+        rotation: ship.rotation,
+        size: 1.8,
+        colorR: 1,
+        colorG: 0.4,
+        colorB: 0
       });
 
       spawnBullet({
@@ -250,11 +252,14 @@ export const weapons = {
       const charge = Math.min(chargeTime, 3);
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
-        size: 1.6
+        rotation: ship.rotation,
+        size: 2.0,
+        colorR: 0,
+        colorG: 1,
+        colorB: 1
       });
 
       spawnBeam({
@@ -301,12 +306,9 @@ export const weapons = {
       const target = findNearestAsteroid(ship.x, ship.y);
       if (!target) return;
 
-
-      spawnParticle({
-        particleType: PARTICLE_SMOKE,
+      spawnSmoke({
         x: muzzleX,
-        y: muzzleY,
-        size: 1.6
+        y: muzzleY
       });
 
       spawnMissile({
@@ -333,11 +335,14 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
-        size: 1.6
+        rotation: ship.rotation,
+        size: 1.4,
+        colorR: 1,
+        colorG: 0,
+        colorB: 0
       });
 
       spawnBeam({
@@ -382,11 +387,14 @@ export const weapons = {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
 
-      spawnParticle({
-        particleType: PARTICLE_FLASH,
+      spawnFlash({
         x: muzzleX,
         y: muzzleY,
-        size: 1.6
+        rotation: ship.rotation,
+        size: 1.8,
+        colorR: 0.3,
+        colorG: 0.8,
+        colorB: 1
       });
 
       spawnBeam({

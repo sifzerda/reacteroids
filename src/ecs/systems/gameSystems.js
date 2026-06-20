@@ -13,7 +13,6 @@ import { beamLifetimeSystem } from './beamLifetimeSystem';
 import { particleSystem } from './particleSystem';
 import { particleLifetimeSystem } from './particleLifetimeSystem';
 
-
 export const gameSystems = [
   asteroidSystem,
   enemySystem,

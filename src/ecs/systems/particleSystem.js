@@ -2,9 +2,7 @@
 
 import { ships } from '../core/queries';
 import { keys } from '../core/input';
-import { spawnParticle } from '../spawn';
-import { PARTICLE_EXHAUST } from '../shared/particleTypes';
-
+import { spawnExhaust } from '../spawn';
 export function particleSystem() {
 
   for (const ship of ships) {
@@ -18,9 +16,7 @@ export function particleSystem() {
     const x = ship.x - Math.cos(angle) * rearDistance;
     const y = ship.y - Math.sin(angle) * rearDistance;
 
-    spawnParticle({
-
-      particleType: PARTICLE_EXHAUST,
+    spawnExhaust({
 
       x,
       y,
@@ -28,8 +24,6 @@ export function particleSystem() {
       vx: -Math.cos(angle) * 3 + (Math.random() - 0.5),
       vy: -Math.sin(angle) * 3 + (Math.random() - 0.5),
 
-      life: 1.1,
-      size: 10,
     });
   }
 }

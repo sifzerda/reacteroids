@@ -173,7 +173,6 @@ ecs/
     spawn.js             ← ALL factories live here
     enemySystems.js     ← generic AI + movement + combat
  
-
 - [x] optimize weapons and effects and enemies before adding anything new
 - [x] if needed, comment out enemySystem in GameLoop to make enemies disabled (visible but can't hurt you)
 

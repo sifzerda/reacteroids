@@ -3,11 +3,12 @@
 import { world } from './core/world';
 import { enemyDefs } from './content/enemyDefs';
 import { acquireBullet } from './pools/bulletPool';
-import { acquireParticle } from './pools/particlePool';
+import { acquireExhaust } from './pools/exhaustPool';
+import { acquireFlash } from './pools/flashPool';
+import { acquireSmoke } from './pools/smokePool';
+import { acquireSpark } from './pools/sparkPool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
-import { PARTICLE_SPARK, PARTICLE_FLASH, PARTICLE_EXHAUST, PARTICLE_SMOKE } from './shared/particleTypes';
-import { particleDefs } from './content/particleDefs';
 
 /*
 |--------------------------------------------------------------------------
@@ -183,55 +184,6 @@ export function spawnEnemy(type, x, y) {
 
 /*
 |--------------------------------------------------------------------------
-| PARTICLES
-|--------------------------------------------------------------------------
-*/
-
-export function spawnParticle({
-
-  particleType,
-
-  x,
-  y,
-
-  vx = 0,
-  vy = 0,
-
-  life,
-  size,
-
-  colorR = 1,
-  colorG = 1,
-  colorB = 1,
-
-}) {
-
-  const particle = acquireParticle();
-  const def = particleDefs[particleType];
-
-  particle.particle = true;
-  particle.particleType = Number(particleType);
-
-  particle.x = x;
-  particle.y = y;
-
-  particle.vx = vx;
-  particle.vy = vy;
-
-  particle.life = life ?? def.life;
-  particle.size = size ?? def.size;
-
-  particle.seed = Math.random();
-
-  particle.colorR = particle.colorR ?? 1;
-  particle.colorG = particle.colorG ?? 1;
-  particle.colorB = particle.colorB ?? 1;
-
-  return world.add(particle);
-}
-
-/*
-|--------------------------------------------------------------------------
 | BEAM PROJECTILE
 |--------------------------------------------------------------------------
 */
@@ -336,13 +288,14 @@ export function spawnMissile({
 |--------------------------------------------------------------------------
 */
 
-export function spawnExhaustParticle({ x, y, vx, vy }) {
+export function spawnExhaust({ x, y, vx, vy }) {
 
   const exhaust = acquireExhaust();
 
   Object.assign(exhaust, {
+
     particle: true,
-    particleType: PARTICLE_EXHAUST,
+    particleExhaust: true,
 
     x,
     y,
@@ -351,8 +304,7 @@ export function spawnExhaustParticle({ x, y, vx, vy }) {
     vy,
 
     life: 1.1,
-
-    radius: 0.12,
+    size: 10,
 
     colorR: 0.2,
     colorG: 0.7,
@@ -368,7 +320,7 @@ export function spawnExhaustParticle({ x, y, vx, vy }) {
 |--------------------------------------------------------------------------
 */
 
-export function spawnMuzzleFlash({
+export function spawnFlash({
   x,
   y,
   rotation,
@@ -378,11 +330,12 @@ export function spawnMuzzleFlash({
   colorB = 0.2
 }) {
 
-  const particle = acquireParticle();
+  const flash = acquireFlash();
 
-  Object.assign(particle, {
+  Object.assign(flash, {
+
     particle: true,
-    particleType: PARTICLE_FLASH,
+    particleFlash: true,
 
     x,
     y,
@@ -398,14 +351,7 @@ export function spawnMuzzleFlash({
     life: 0.06,
   });
 
-  console.log("FLASH CREATED", particle);
-  console.log("FLASH spawn", {
-    x,
-    y,
-    rotation,
-  });
-
-  return world.add(particle);
+  return world.add(flash);
 }
 
 /*
@@ -421,11 +367,12 @@ export function spawnSmoke({
   vy = 0
 }) {
 
-  const particle = acquireParticle();
+  const smoke = acquireSmoke();
 
-  Object.assign(particle, {
+  Object.assign(smoke, {
+
     particle: true,
-    particleType: PARTICLE_SMOKE,
+    particleSmoke: true,
 
     x,
     y,
@@ -433,7 +380,8 @@ export function spawnSmoke({
     vx,
     vy,
 
-    radius: 0.4,
+    size: 12,
+
     life: 0.7,
 
     colorR: 0.5,
@@ -441,7 +389,7 @@ export function spawnSmoke({
     colorB: 0.5,
   });
 
-  return world.add(particle);
+  return world.add(smoke);
 }
 
 /*
@@ -457,17 +405,20 @@ export function spawnSpark({
   vy
 }) {
 
-  const particle = acquireParticle();
+  const spark = acquireSpark();
 
-  Object.assign(particle, {
+  Object.assign(spark, {
+
     particle: true,
-    particleType: PARTICLE_SPARK,
+    particleSpark: true,
 
     x,
     y,
 
     vx,
     vy,
+
+    size: 4,
 
     life: 0.35,
 
@@ -476,5 +427,5 @@ export function spawnSpark({
     colorB: 1,
   });
 
-  return world.add(particle);
+  return world.add(spark);
 }

@@ -8,10 +8,8 @@ import { releaseBullet } from '../pools/bulletPool';
 
 import { releaseBeam } from '../pools/beamPool';
 import { releaseMissile } from '../pools/missilePool';
-import { releaseParticle } from '../pools/particlePool';
-import { spawnParticle } from '../spawn';
-
-import { PARTICLE_SPARK } from '../shared/particleTypes';
+ 
+import { spawnSpark } from '../spawn';
 
 export function collisionSystem() {
 
@@ -31,8 +29,7 @@ export function collisionSystem() {
           const angle = Math.random() * Math.PI * 2;
           const speed = 3 + Math.random() * 8;
 
-          spawnParticle({
-            particleType: PARTICLE_SPARK,
+          spawnSpark({
 
             x: bullet.x,
             y: bullet.y,

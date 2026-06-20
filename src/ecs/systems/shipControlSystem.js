@@ -4,6 +4,7 @@ import { ships } from '../core/queries';
 import { keys, mouse } from '../core/input';
 import { forwardVector, rightVector } from '../core/direction';
 import { settings } from '../core/settings';
+import { spawnExhaust } from '../spawn';
 
 const THRUST = 28;
 const REVERSE_THRUST = 18;
@@ -25,43 +26,60 @@ export function shipControlSystem(delta) {
     ship.angularVelocity ??= 0;
 
     // TURNING
-if (settings.controlScheme === 'keyboardMouse') {
+    if (settings.controlScheme === 'keyboardMouse') {
 
-  const dx = mouse.worldX - ship.x;
-  const dy = mouse.worldY - ship.y;
+      const dx = mouse.worldX - ship.x;
+      const dy = mouse.worldY - ship.y;
 
-  ship.rotation = Math.atan2(dy, dx);
+      ship.rotation = Math.atan2(dy, dx);
 
-  ship.angularVelocity = 0;
+      ship.angularVelocity = 0;
 
-} else {
+    } else {
 
-  if (keys['ArrowLeft']) {
-    ship.angularVelocity += TURN_ACCEL * delta;
-  }
+      if (keys['ArrowLeft']) {
+        ship.angularVelocity += TURN_ACCEL * delta;
+      }
 
-  if (keys['ArrowRight']) {
-    ship.angularVelocity -= TURN_ACCEL * delta;
-  }
+      if (keys['ArrowRight']) {
+        ship.angularVelocity -= TURN_ACCEL * delta;
+      }
 
-  ship.angularVelocity = Math.max(-MAX_TURN_SPEED, Math.min(MAX_TURN_SPEED, ship.angularVelocity));
-  ship.rotation += ship.angularVelocity * delta;
-  ship.angularVelocity *= TURN_DRAG;
+      ship.angularVelocity = Math.max(-MAX_TURN_SPEED, Math.min(MAX_TURN_SPEED, ship.angularVelocity));
+      ship.rotation += ship.angularVelocity * delta;
+      ship.angularVelocity *= TURN_DRAG;
 
-  if (!keys['ArrowLeft'] && !keys['ArrowRight']) {
-    ship.angularVelocity *= 0.9;
-  }
-}
+      if (!keys['ArrowLeft'] && !keys['ArrowRight']) {
+        ship.angularVelocity *= 0.9;
+      }
+    }
 
     // SHIP FORWARD VECTOR
     const forward = forwardVector(ship.rotation);
     // SHIP RIGHT VECTOR
     const right = rightVector(ship.rotation);
 
+ship.exhaustTimer ??= 0;
+ship.exhaustTimer -= delta;
+
     // THRUST
     if (keys['ArrowUp']) {
+
       ship.vx += forward.x * THRUST * delta;
       ship.vy += forward.y * THRUST * delta;
+
+      const rearDistance = 0.4;
+
+        if (ship.exhaustTimer <= 0) {
+
+    ship.exhaustTimer = 0.02;
+    spawnExhaust({
+      x: ship.x - forward.x * 0.4,
+      y: ship.y - forward.y * 0.4,
+      vx: ship.vx - forward.x * 3,
+      vy: ship.vy - forward.y * 3,
+    });
+  }
     }
 
     // REVERSE THRUST
