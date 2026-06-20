@@ -194,9 +194,9 @@ ecs/
 - [x] add Object assigns to other particle spawns in spawn.js
 
 - [ ] particle shaders are in debug mode:
-+ exhaust = red
++ exhaust = blue, smoky
 + sparks = yellow
-+ smoke = blue
++ smoke = pink, smoky
 + muzzle flash = green
 
 - [ ] go back to separate particle renderers
