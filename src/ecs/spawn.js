@@ -382,7 +382,7 @@ export function spawnSmoke({
 
     size: 12,
 
-    life: 0.7,
+    life: 1.5,
 
     colorR: 0.5,
     colorG: 0.5,
