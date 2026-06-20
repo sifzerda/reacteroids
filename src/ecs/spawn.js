@@ -342,13 +342,13 @@ export function spawnFlash({
 
     rotation,
 
-    size,
+    size: 6,
 
     colorR,
     colorG,
     colorB,
 
-    life: 0.06,
+    life: 0.12,
   });
 
   return world.add(flash);
@@ -418,7 +418,7 @@ export function spawnSpark({
     vx,
     vy,
 
-    size: 4,
+    size: 16,
 
     life: 0.35,
 

@@ -5,23 +5,71 @@ import * as THREE from 'three';
 import ParticleRenderer from './ParticleRenderer';
 import { sparkParticles } from '../ecs/core/queries';
 
+const vertexShader = `
+  attribute float life;
+  attribute float size;
+  attribute vec3 particleColor;
+
+  varying float vLife;
+  varying vec3 vColor;
+
+  void main() {
+    vLife = life;
+    vColor = particleColor;
+
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+    // Shrink as they die — sparks burn out, not expand
+gl_PointSize = size * (0.3 + life * 0.7) * (300.0 / -mvPosition.z);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+const fragmentShader = `
+  varying float vLife;
+  varying vec3 vColor;
+
+  void main() {
+    vec2 uv = gl_PointCoord - 0.5;
+    float dist = length(uv);
+    if (dist > 0.5) discard;
+
+    // Very tight bright core, rapid falloff
+float core = 1.0 - smoothstep(0.0, 0.05, dist);
+float ember = 1.0 - smoothstep(0.05, 0.15, dist);
+float shape = core + ember * 0.1;
+
+    // White-hot core fades to orange-red as life drops
+    vec3 white  = vec3(1.0, 1.0, 0.9);
+    vec3 yellow = vec3(1.0, 0.75, 0.1);
+    vec3 red    = vec3(0.9, 0.2, 0.02);
+
+    vec3 color = mix(red, yellow, smoothstep(0.0, 0.4, vLife));
+    color      = mix(color, white, core * smoothstep(0.5, 1.0, vLife));
+
+float alpha = pow(shape, 8.0) * (0.4 + vLife * 1.5);
+
+    gl_FragColor = vec4(color, alpha);
+  }
+`;
+
 export default function SparkRenderer() {
 
-    const material = useMemo(() => {
+  const material = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+  }, []);
 
-  return new THREE.PointsMaterial({
-    color: 'yellow',
-    size: 0.25,
-    sizeAttenuation: true
-  });
-
-    }, []);
-
-    return (
-        <ParticleRenderer
-            particles={sparkParticles}
-            max={4000}
-            material={material}
-        />
-    );
+  return (
+    <ParticleRenderer
+      particles={sparkParticles}
+      max={4000}
+      material={material}
+    />
+  );
 }
