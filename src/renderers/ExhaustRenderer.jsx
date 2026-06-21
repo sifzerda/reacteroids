@@ -20,13 +20,13 @@ export default function ExhaustRenderer() {
     const geo = new THREE.BufferGeometry();
 
     const positions = new Float32Array(MAX * 3);
-    const sizes     = new Float32Array(MAX);
-    const lifes     = new Float32Array(MAX);
-    const colors    = new Float32Array(MAX * 3);
+    const sizes = new Float32Array(MAX);
+    const lifes = new Float32Array(MAX);
+    const colors = new Float32Array(MAX * 3);
 
-    geo.setAttribute('position',      new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('particleSize',  new THREE.BufferAttribute(sizes, 1));
-    geo.setAttribute('life',          new THREE.BufferAttribute(lifes, 1));
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('particleSize', new THREE.BufferAttribute(sizes, 1));
+    geo.setAttribute('life', new THREE.BufferAttribute(lifes, 1));
     geo.setAttribute('particleColor', new THREE.BufferAttribute(colors, 3));
 
     geo.attributes.position.setUsage(THREE.DynamicDrawUsage);
@@ -41,16 +41,16 @@ export default function ExhaustRenderer() {
   const material = useMemo(() => new THREE.ShaderMaterial({
 
     transparent: true,
-    depthWrite:  false,
-    blending:    THREE.AdditiveBlending,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
     //vertexColors: false,
-    toneMapped:  false,
+    toneMapped: false,
 
-          uniforms: {
-        uTime: { value: 0 },
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-        uViewportHeight: { value: size.height }
-      },
+    uniforms: {
+      uTime: { value: 0 },
+      uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+      uViewportHeight: { value: size.height }
+    },
 
     vertexShader: `
 
@@ -170,12 +170,14 @@ float shimmer =
 
   }), []);
 
-  useFrame(() => {
+  useFrame((state) => {
+
+    material.uniforms.uTime.value = state.clock.elapsedTime;
 
     const positions = geometry.attributes.position.array;
-    const sizes     = geometry.attributes.particleSize.array;
-    const lifes     = geometry.attributes.life.array;
-    const colors    = geometry.attributes.particleColor.array;
+    const sizes = geometry.attributes.particleSize.array;
+    const lifes = geometry.attributes.life.array;
+    const colors = geometry.attributes.particleColor.array;
 
     let i = 0;
 
@@ -185,14 +187,14 @@ float shimmer =
 
       const i3 = i * 3;
 
-      positions[i3]     = p.x;
+      positions[i3 + 0] = p.x;
       positions[i3 + 1] = p.y;
       positions[i3 + 2] = 0;
 
       sizes[i] = p.size ?? 10;
       lifes[i] = p.life ?? 1;
 
-      colors[i3]     = p.colorR ?? 0.2;
+      colors[i3] = p.colorR ?? 0.2;
       colors[i3 + 1] = p.colorG ?? 0.7;
       colors[i3 + 2] = p.colorB ?? 2.0;
 
@@ -201,9 +203,9 @@ float shimmer =
 
     geometry.setDrawRange(0, i);
 
-    geometry.attributes.position.needsUpdate      = true;
-    geometry.attributes.particleSize.needsUpdate  = true;
-    geometry.attributes.life.needsUpdate          = true;
+    geometry.attributes.position.needsUpdate = true;
+    geometry.attributes.particleSize.needsUpdate = true;
+    geometry.attributes.life.needsUpdate = true;
     geometry.attributes.particleColor.needsUpdate = true;
   });
 
