@@ -32,8 +32,7 @@ export default function FlashRenderer() {
 
   const meshRef = useRef();
 
-  const dummy = useMemo(
-    () => new THREE.Object3D(), []);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const geometry = useMemo(() => {
 
@@ -92,17 +91,9 @@ export default function FlashRenderer() {
 
 ]);
 
-    geo.setAttribute(
-      'position',
-      new THREE.BufferAttribute(vertices, 3)
-    );
-
+    geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     const colors = new Float32Array(MAX_FLASHES * 3);
-
-    geo.setAttribute(
-      'instanceColor',
-      new THREE.InstancedBufferAttribute(colors, 3)
-    );
+    geo.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
 
     return geo;
 
@@ -114,10 +105,8 @@ export default function FlashRenderer() {
 
       vertexShader,
       fragmentShader,
-
       transparent: true,
       depthWrite: false,
-
       blending: THREE.AdditiveBlending,
 
     });
@@ -128,51 +117,22 @@ export default function FlashRenderer() {
 
     if (!meshRef.current) return;
 
-    const colorAttr =
-      geometry.getAttribute('instanceColor');
-
+    const colorAttr = geometry.getAttribute('instanceColor');
     let count = 0;
 
     for (const flash of flashParticles) {
 
       if (count >= MAX_FLASHES) break;
 
-      const scale =
-        (flash.size ?? 1) *
-        Math.max(flash.life ?? 1, 0.05);
+      const scale = (flash.size ?? 1) * Math.max(flash.life ?? 1, 0.05);
 
-      dummy.position.set(
-        flash.x,
-        flash.y,
-        0
-      );
-
-      dummy.rotation.set(
-        0,
-        0,
-        flash.rotation - Math.PI * 0.5
-      );
-
-      dummy.scale.set(
-        scale,
-        scale,
-        1
-      );
-
+      dummy.position.set(flash.x, flash.y, 0);
+      dummy.rotation.set(0, 0, flash.rotation - Math.PI * 0.5);
+      dummy.scale.set(scale, scale, 1);
       dummy.updateMatrix();
 
-      meshRef.current.setMatrixAt(
-        count,
-        dummy.matrix
-      );
-
-      colorAttr.setXYZ(
-        count,
-        flash.colorR ?? 1,
-        flash.colorG ?? 1,
-        flash.colorB ?? 1
-      );
-
+      meshRef.current.setMatrixAt(count, dummy.matrix);
+      colorAttr.setXYZ(count, flash.colorR ?? 1, flash.colorG ?? 1, flash.colorB ?? 1);
       count++;
     }
 
@@ -185,11 +145,7 @@ export default function FlashRenderer() {
   return (
     <instancedMesh
       ref={meshRef}
-      args={[
-        geometry,
-        material,
-        MAX_FLASHES
-      ]}
+      args={[ geometry, material, MAX_FLASHES ]}
       frustumCulled={false}
     />
   );
