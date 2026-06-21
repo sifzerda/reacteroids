@@ -71,15 +71,18 @@ export function shipControlSystem(delta) {
       const rearDistance = 0.4;
 
       if (ship.exhaustTimer <= 0) {
+        ship.exhaustTimer = 0.018;
 
-        ship.exhaustTimer = 0.02;
+        for (let i = 0; i < 3; i++) {
 
-        spawnExhaust({
-          x: ship.x - forward.x * 0.4,
-          y: ship.y - forward.y * 0.4,
-          vx: -forward.x * 1.5,
-          vy: -forward.y * 1.5,
-        });
+          spawnExhaust({
+            // move spawn point closer — was 0.4
+            x: ship.x - forward.x * 0.05,
+            y: ship.y - forward.y * 0.05,
+            vx: -forward.x * 1.5,
+            vy: -forward.y * 1.5,
+          });
+        }
       }
     }
 

@@ -293,18 +293,19 @@ export function spawnExhaust({ x, y, vx, vy }) {
   const exhaust = acquireExhaust();
 
   Object.assign(exhaust, {
-
-    particle: true,
+    particle:        true,
     particleExhaust: true,
 
     x,
     y,
 
-    vx,
-    vy,
+    // drift straight back at slow speed, no sideways scatter
+    vx: vx * 0.3,
+    vy: vy * 0.3,
 
-    life: 1.1,
-    size: 10,
+    life:     1.0,
+
+    size: 14 + Math.random() * 8,
 
     colorR: 0.2,
     colorG: 0.7,
@@ -336,14 +337,9 @@ export function spawnFlash({
 
     particle: true,
     particleFlash: true,
-
-    x,
-    y,
-
+    x, y,
     rotation,
-
     size: 6,
-
     colorR,
     colorG,
     colorB,
@@ -360,12 +356,7 @@ export function spawnFlash({
 |--------------------------------------------------------------------------
 */
 
-export function spawnSmoke({
-  x,
-  y,
-  vx = 0,
-  vy = 0
-}) {
+export function spawnSmoke({ x, y, vx = 0, vy = 0 }) {
 
   const smoke = acquireSmoke();
 
@@ -373,20 +364,13 @@ export function spawnSmoke({
 
     particle: true,
     particleSmoke: true,
-
-    x,
-    y,
-
-    vx,
-    vy,
-
+    x, y, vx, vy,
     size: 12,
-
     life: 1.5,
-
     colorR: 0.5,
     colorG: 0.5,
     colorB: 0.5,
+
   });
 
   return world.add(smoke);
@@ -398,12 +382,7 @@ export function spawnSmoke({
 |--------------------------------------------------------------------------
 */
 
-export function spawnSpark({
-  x,
-  y,
-  vx,
-  vy
-}) {
+export function spawnSpark({ x, y, vx, vy }) {
 
   const spark = acquireSpark();
 
@@ -411,20 +390,13 @@ export function spawnSpark({
 
     particle: true,
     particleSpark: true,
-
-    x,
-    y,
-
-    vx,
-    vy,
-
+    x, y, vx, vy,
     size: 16,
-
     life: 0.35,
-
     colorR: 1,
     colorG: 1,
     colorB: 1,
+
   });
 
   return world.add(spark);
