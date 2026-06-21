@@ -4,66 +4,24 @@ import { useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const STRIDE = 8;
+const STRIDE = 9;
 
-export default function ParticleRenderer({
-  particles,
-  max,
-  material
-}) {
+export default function ParticleRenderer({ particles, max, material }) {
 
   const geometry = useMemo(() => {
 
     const geo = new THREE.BufferGeometry();
 
-    const data =
-      new Float32Array(max * STRIDE);
+    const data = new Float32Array(max * STRIDE);
+    const interleaved = new THREE.InterleavedBuffer(data, STRIDE);
 
-    const interleaved =
-      new THREE.InterleavedBuffer(
-        data,
-        STRIDE
-      );
+    interleaved.setUsage(THREE.DynamicDrawUsage);
 
-    interleaved.setUsage(
-      THREE.DynamicDrawUsage
-    );
-
-    geo.setAttribute(
-      'position',
-      new THREE.InterleavedBufferAttribute(
-        interleaved,
-        3,
-        0
-      )
-    );
-
-    geo.setAttribute(
-      'life',
-      new THREE.InterleavedBufferAttribute(
-        interleaved,
-        1,
-        3
-      )
-    );
-
-    geo.setAttribute(
-      'size',
-      new THREE.InterleavedBufferAttribute(
-        interleaved,
-        1,
-        4
-      )
-    );
-
-    geo.setAttribute(
-      'particleColor',
-      new THREE.InterleavedBufferAttribute(
-        interleaved,
-        3,
-        5
-      )
-    );
+    geo.setAttribute('position', new THREE.InterleavedBufferAttribute(interleaved, 3, 0));
+    geo.setAttribute('life', new THREE.InterleavedBufferAttribute(interleaved, 1, 3));
+    geo.setAttribute('size', new THREE.InterleavedBufferAttribute(interleaved, 1, 4));
+    geo.setAttribute('particleColor', new THREE.InterleavedBufferAttribute(interleaved, 3, 5));
+    geo.setAttribute('rotation', new THREE.InterleavedBufferAttribute(interleaved, 1, 8));
 
     geo.userData.interleaved = interleaved;
 
@@ -107,6 +65,8 @@ export default function ParticleRenderer({
       data[base + 5] = p.colorR ?? 1;
       data[base + 6] = p.colorG ?? 1;
       data[base + 7] = p.colorB ?? 1;
+
+      data[base + 8] = p.rotation ?? 0;
 
       count++;
     }

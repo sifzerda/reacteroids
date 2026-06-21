@@ -36,7 +36,11 @@ export const weapons = {
         x: muzzleX,
         y: muzzleY,
         rotation: ship.rotation,
-        size: 1.6
+        size: 1.6,
+
+        colorR: 0,
+        colorG: 1,
+        colorB: 1
       });
 
       spawnBullet({
@@ -77,7 +81,10 @@ export const weapons = {
           x: muzzleX,
           y: muzzleY,
           rotation: ship.rotation,
-          size: 1.6
+          size: 1.6,
+          colorR: 1,
+          colorG: 0,
+          colorB: 0
         });
 
         spawnSmoke({
@@ -89,11 +96,9 @@ export const weapons = {
 
           x: ship.x,
           y: ship.y,
-
           rotation: ship.rotation + i * 0.15,
           muzzleOffset: SHIP_MUZZLE_OFFSET,
           speed: 18,
-
           colorR: 1,
           colorG: 0,
           colorB: 0
@@ -121,7 +126,10 @@ export const weapons = {
         x: muzzleX,
         y: muzzleY,
         rotation: ship.rotation,
-        size: 1.6
+        size: 1.6,
+        colorR: 1,
+        colorG: 0,
+        colorB: 1
       });
 
       spawnSmoke({
@@ -211,8 +219,8 @@ export const weapons = {
         rotation: ship.rotation,
         size: 1.8,
         colorR: 1,
-        colorG: 0.4,
-        colorB: 0
+        colorG: 0,
+        colorB: 0,
       });
 
       spawnBullet({
@@ -272,9 +280,7 @@ export const weapons = {
         rotation: ship.rotation,
 
         damage: 200 + charge * 800,
-
         length: 6 + charge * 25,
-
         width: 0.3 + charge * 1.8,
 
         colorR: 0,
@@ -305,6 +311,17 @@ export const weapons = {
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
       const target = findNearestAsteroid(ship.x, ship.y);
       if (!target) return;
+
+      spawnFlash({
+        x: muzzleX,
+        y: muzzleY,
+        rotation: ship.rotation,
+        size: 2.5,
+
+        colorR: 1,
+        colorG: 0.6,
+        colorB: 0.1
+      });
 
       spawnSmoke({
         x: muzzleX,

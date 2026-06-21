@@ -334,17 +334,15 @@ export function spawnFlash({
   const flash = acquireFlash();
 
   Object.assign(flash, {
-
     particle: true,
     particleFlash: true,
     x, y,
     rotation,
-    size: 6,
+    size: 12 * size,
     colorR,
     colorG,
     colorB,
-
-    life: 0.12,
+    life: 0.05,
   });
 
   return world.add(flash);

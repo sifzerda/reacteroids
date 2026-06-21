@@ -163,7 +163,6 @@ float shimmer =
 
         alpha *= puff * fadeIn * fadeOut;
 
-
         gl_FragColor = vec4(color, alpha);
       }
     `,
