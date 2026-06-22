@@ -1,7 +1,7 @@
 // ecs/startGame.js
 // initializes start game state
 
-import { spawnShip, spawnAsteroid, spawnEnemy } from './spawn.js';
+import { spawnShip, spawnAsteroid } from './spawn.js';
 import { gameState } from './core/gameState';
 import { getSafeAsteroidPosition } from './shared/getSafeAsteroidPosition';
 
@@ -30,7 +30,4 @@ export function startGame() {
   });
 }
 
-  // Spawn enemies
-//spawnEnemy('drone', 4, 4);
-//spawnEnemy('fighter', -4, 4);
 }

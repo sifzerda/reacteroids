@@ -1,7 +1,6 @@
 // ecs/spawn.js
 
 import { world } from './core/world';
-import { enemyDefs } from './content/enemyDefs';
 import { acquireBullet } from './pools/bulletPool';
 import { acquireExhaust } from './pools/exhaustPool';
 import { acquireFlash } from './pools/flashPool';
@@ -144,41 +143,6 @@ export function spawnBullet({
   });
 
   return world.add(bullet);
-}
-
-/*
-|--------------------------------------------------------------------------
-| ENEMIES
-|--------------------------------------------------------------------------
-*/
-
-export function spawnEnemy(type, x, y) {
-
-  const def = enemyDefs[type];
-
-  if (!def) {
-    return null;
-  }
-
-  return world.add({
-
-    enemy: true,
-    enemyType: type,
-
-    x,
-    y,
-
-    vx: 0,
-    vy: 0,
-
-    rotation: 0,
-
-    hp: def.hp,
-    maxHp: def.hp,
-    speed: def.speed,
-    radius: def.radius,
-    wrap: true,
-  });
 }
 
 /*

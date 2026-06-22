@@ -14,7 +14,6 @@ import ShipRenderer from '../renderers/ShipRenderer';
 import BulletRenderer from '../renderers/BulletRenderer';
 import AsteroidRenderer from '../renderers/AsteroidRenderer';
 
-import EnemyRenderer from '../renderers/EnemyRenderer';
 // special weapon projectiles
 import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
@@ -62,8 +61,7 @@ export default function PlayScreen({ onGameOver }) {
         <ExhaustRenderer />
         <FlashRenderer />
         <SparkRenderer />
-
-        <EnemyRenderer />
+        
         <AsteroidRenderer />
 
         <EffectComposer>

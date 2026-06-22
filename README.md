@@ -150,51 +150,17 @@ InstancedMesh               =	up to ~10k–20k simple objects
 Shader points	            =	up to ~10k–200k particles
 Framebuffer Object (FBO)    =	up to ~10k–1M particles fluid systems
 
-top-tier setup is:
-
-3-stage GPU pipeline
-1. Simulation (GPU) 
-> position texture 
-> velocity texture 
-> life decay
-2. Rendering (GPU)
-> point sprite shader
-> or instanced billboard shader
-3. Post FX
-> bloom
-> motion blur
-> tone mapping
-
-create TARGET ARCHITECTURE that reduces file quantity and makes adding/registering new enemies easy:
-
-ecs/
-  enemies/
-    enemyDefs.js        ← ALL enemy types live here
-    spawn.js             ← ALL factories live here
-    enemySystems.js     ← generic AI + movement + combat
- 
-- [x] optimize weapons and effects and enemies before adding anything new
-- [x] if needed, comment out enemySystem in GameLoop to make enemies disabled (visible but can't hurt you)
-
+- [x] optimize weapons and effects before adding anything new
 - [x] optimized all renderers
 - [ ] ship has health bar
-- [ ] enemies are bosses which happen in boss stages with damage bars, and asteroids are cleared 
 - [x] charging beam doesn't appear, missiles don't target asteroids
-
 - [x] optimize: spawn, startgame, shipcollisionsystem, wavesystem
 
 - [ ] 1+ life packs drop randomly, maybe blink for 4 secs,same with different weapons
 - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
 - [ ] fix appearance of some guns, missile launcher, beams, etc
-
 - [ ] refine and optimize sparks renderer, muzzleflash renderer
 
 - [x] muzzleflash is rendering as a demo yellow circle (shotgun key 2)
 - [x] add Object assigns to other particle spawns in spawn.js
-
-- [ ] particle shaders are in debug mode:
-+ exhaust = blue, smoky
-+ sparks = yellow
-+ muzzle flash = green flash
-
 - [x] go back to separate particle renderers
