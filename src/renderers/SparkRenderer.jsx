@@ -27,19 +27,14 @@ const fragmentShader = `
   varying vec3 vColor;
 
   void main() {
-
     vec2 uv = gl_PointCoord - 0.5;
-
     float dist = length(uv);
     if (dist > 0.5) discard;
-
     float core = 1.0 - smoothstep(0.0, 0.05, dist);
     float ember = 1.0 - smoothstep(0.05, 0.18, dist);
     float shape = core + ember * 0.15;
-
     vec3 color = vColor;
     color = mix(color, vec3(1.0), core * 0.85);
-
     float alpha = pow(shape, 8.0) * (0.4 + vLife * 1.5);
     gl_FragColor = vec4(color, alpha);
   }
