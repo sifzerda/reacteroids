@@ -104,7 +104,7 @@ float expand = 1.0 + (1.0 - life) * 12.0;
     fragmentShader: `
       varying float vLife;
       varying vec3  vColor;
-              varying float vHeat;
+      varying float vHeat;
 
       void main() {
 

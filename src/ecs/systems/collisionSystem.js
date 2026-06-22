@@ -8,7 +8,7 @@ import { releaseBullet } from '../pools/bulletPool';
 
 import { releaseBeam } from '../pools/beamPool';
 import { releaseMissile } from '../pools/missilePool';
- 
+
 import { spawnSpark } from '../spawn';
 
 export function collisionSystem() {
@@ -35,7 +35,11 @@ export function collisionSystem() {
             y: bullet.y,
 
             vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed
+            vy: Math.sin(angle) * speed,
+
+            colorR: bullet.colorR,
+            colorG: bullet.colorG,
+            colorB: bullet.colorB
 
           });
         }
@@ -60,7 +64,29 @@ export function collisionSystem() {
       const side = Math.abs(dx * -fy + dy * fx);
 
       if (along > 0 && along < beam.length && side < asteroid.radius + beam.width) {
+
+        for (let i = 0; i < 24; i++) {
+
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 3 + Math.random() * 8;
+
+          spawnSpark({
+
+            x: asteroid.x,
+            y: asteroid.y,
+
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+
+            colorR: beam.colorR,
+            colorG: beam.colorG,
+            colorB: beam.colorB
+
+          });
+        }
+
         destroyAsteroid(asteroid, beam.damage, 100);
+
         world.remove(beam);
         releaseBeam(beam);
       }
@@ -76,7 +102,29 @@ export function collisionSystem() {
       const dist = Math.hypot(dx, dy);
 
       if (dist < missile.radius + asteroid.radius) {
+
+        for (let i = 0; i < 24; i++) {
+
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 3 + Math.random() * 8;
+
+          spawnSpark({
+
+            x: missile.x,
+            y: missile.y,
+
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+
+            colorR: 1,
+            colorG: 0.6,
+            colorB: 0.1
+
+          });
+        }
+
         destroyAsteroid(asteroid, missile.damage, 100);
+
         world.remove(missile);
         releaseMissile(missile);
 

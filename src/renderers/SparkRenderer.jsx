@@ -30,26 +30,45 @@ const fragmentShader = `
   varying vec3 vColor;
 
   void main() {
+
     vec2 uv = gl_PointCoord - 0.5;
+
     float dist = length(uv);
+
     if (dist > 0.5) discard;
 
-    // Very tight bright core, rapid falloff
-float core = 1.0 - smoothstep(0.0, 0.05, dist);
-float ember = 1.0 - smoothstep(0.05, 0.15, dist);
-float shape = core + ember * 0.1;
 
-    // White-hot core fades to orange-red as life drops
-    vec3 white  = vec3(1.0, 1.0, 0.9);
-    vec3 yellow = vec3(1.0, 0.75, 0.1);
-    vec3 red    = vec3(0.9, 0.2, 0.02);
+    // tight spark core
+    float core = 1.0 - smoothstep(0.0, 0.05, dist);
 
-    vec3 color = mix(red, yellow, smoothstep(0.0, 0.4, vLife));
-    color      = mix(color, white, core * smoothstep(0.5, 1.0, vLife));
+    float ember = 1.0 - smoothstep(0.05, 0.18, dist);
 
-float alpha = pow(shape, 8.0) * (0.4 + vLife * 1.5);
+    float shape = core + ember * 0.15;
 
-    gl_FragColor = vec4(color, alpha);
+
+    // gun color
+    vec3 color = vColor;
+
+
+    // white hot center
+    color = mix(
+      color,
+      vec3(1.0),
+      core * 0.85
+    );
+
+
+    // fade brightness with life
+    float alpha =
+      pow(shape, 8.0) *
+      (0.4 + vLife * 1.5);
+
+
+    gl_FragColor = vec4(
+      color,
+      alpha
+    );
+
   }
 `;
 

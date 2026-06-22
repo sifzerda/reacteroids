@@ -353,7 +353,7 @@ export function spawnFlash({
 |--------------------------------------------------------------------------
 */
 
-export function spawnSpark({ x, y, vx, vy }) {
+export function spawnSpark({ x, y, vx, vy, colorR = 1, colorG = 1, colorB = 1 }) {
 
   const spark = acquireSpark();
 
@@ -364,9 +364,9 @@ export function spawnSpark({ x, y, vx, vy }) {
     x, y, vx, vy,
     size: 16,
     life: 0.35,
-    colorR: 1,
-    colorG: 1,
-    colorB: 1,
+    colorR,
+    colorG,
+    colorB,
 
   });
 
