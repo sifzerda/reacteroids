@@ -16,25 +16,18 @@ import { acquireBeam } from './pools/beamPool';
 export function spawnShip() {
 
   return world.add({
-
     ship: true,
     wrap: true,
-
     lives: 3,
     invulnerable: 2,
-
     weapon: 'raygun',
     cooldown: 0,
-
     x: 0,
     y: 0,
     rotation: 0,
-
     vx: 0,
     vy: 0,
-
     radius: 0.45,
-
     chargeTime: 0,
     charging: false,
   });
@@ -46,27 +39,16 @@ export function spawnShip() {
 |--------------------------------------------------------------------------
 */
 
-export function spawnAsteroid({
-  x,
-  y,
-  vx = 0,
-  vy = 0,
-  radius = 1,
-  size = 3
-}) {
+export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
   return world.add({
     asteroid: true,
     size,
     wrap: true,
-
     x,
     y,
-
     vx,
     vy,
-
     radius,
-
     rotation: Math.random() * Math.PI * 2,
     rotationSpeed: (Math.random() - 0.5) * 1.5,
   });
@@ -78,29 +60,7 @@ export function spawnAsteroid({
 |--------------------------------------------------------------------------
 */
 
-export function spawnBullet({
-  x,
-  y,
-  rotation,
-
-  muzzleOffset = 0,
-
-  speed = 20,
-  damage = 100,
-  radius = 0.15,
-
-  colorR = 1,
-  colorG = 0,
-  colorB = 1,
-  rainbow = false,
-
-  life = 1.2,
-  bulletType = 'normal',
-
-  length = 1.5,
-  width = 0.2,
-  glow = 1,
-}) {
+export function spawnBullet({ x, y, rotation, muzzleOffset = 0, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, rainbow = false, life = 1.2, bulletType = 'normal', length = 1.5, width = 0.2, glow = 1 }) {
 
   // move spawn point to muzzle
   const cos = Math.cos(rotation);
@@ -112,31 +72,21 @@ export function spawnBullet({
   const bullet = acquireBullet();
 
   Object.assign(bullet, {
-
     bullet: true,
     bulletType,
-
     x,
     y,
-
     rotation,
-
     vx: cos * speed,
     vy: sin * speed,
-
     radius,
-
     life,
-
     colorR,
     colorG,
     colorB,
-
     rainbow,
-
     damage,
     speed,
-
     length,
     width,
     glow,
@@ -151,53 +101,23 @@ export function spawnBullet({
 |--------------------------------------------------------------------------
 */
 
-export function spawnBeam({
-
-  beamType = 'laser',
-
-  x,
-  y,
-
-  rotation,
-
-  damage,
-
-  length,
-  width,
-
-  colorR = 1,
-  colorG = 0,
-  colorB = 0,
-
-  glow = 1,
-
-  life = 0.1
-
-}) {
+export function spawnBeam({ beamType = 'laser', x, y, rotation, damage, length, width, colorR = 1, colorG = 0, colorB = 0, glow = 1, life = 0.1 }) {
 
   const beam = acquireBeam();
 
   Object.assign(beam, {
     beam: true,
-
     beamType,
-
     x,
     y,
-
     rotation,
-
     damage,
-
     length,
     width,
-
     colorR,
     colorG,
     colorB,
-
     glow,
-
     life,
   });
 
@@ -210,12 +130,7 @@ export function spawnBeam({
 |--------------------------------------------------------------------------
 */
 
-export function spawnMissile({
-  x,
-  y,
-  rotation,
-  target
-}) {
+export function spawnMissile({ x, y, rotation, target }) {
 
   const cos = Math.cos(rotation);
   const sin = Math.sin(rotation);
@@ -224,19 +139,15 @@ export function spawnMissile({
 
   Object.assign(missile, {
     missile: true,
-
     x,
     y,
-
     rotation,
     target,
-
     speed: 10,
     turnRate: 5,
     damage: 1000,
     radius: 0.4,
     life: 12,
-
     vx: cos * 10,
     vy: sin * 10,
   });
@@ -256,20 +167,14 @@ export function spawnExhaust({ x, y, vx, vy }) {
   const exhaust = acquireExhaust();
 
   Object.assign(exhaust, {
-    particle:        true,
+    particle: true,
     particleExhaust: true,
-
     x,
     y,
-
-    // drift straight back at slow speed, no sideways scatter
     vx: vx * 0.3,
     vy: vy * 0.3,
-
-    life:     1.0,
-
+    life: 1.0,
     size: 14 + Math.random() * 8,
-
     colorR: 0.2,
     colorG: 0.7,
     colorB: 2.0,
@@ -284,15 +189,7 @@ export function spawnExhaust({ x, y, vx, vy }) {
 |--------------------------------------------------------------------------
 */
 
-export function spawnFlash({
-  x,
-  y,
-  rotation,
-  size = 1,
-  colorR = 1,
-  colorG = 0.8,
-  colorB = 0.2
-}) {
+export function spawnFlash({ x, y, rotation, size = 1, colorR = 1, colorG = 0.8, colorB = 0.2 }) {
 
   const flash = acquireFlash();
 
@@ -322,7 +219,6 @@ export function spawnSpark({ x, y, vx, vy, colorR = 1, colorG = 1, colorB = 1 })
   const spark = acquireSpark();
 
   Object.assign(spark, {
-
     particle: true,
     particleSpark: true,
     x, y, vx, vy,
@@ -331,7 +227,6 @@ export function spawnSpark({ x, y, vx, vy, colorR = 1, colorG = 1, colorB = 1 })
     colorR,
     colorG,
     colorB,
-
   });
 
   return world.add(spark);

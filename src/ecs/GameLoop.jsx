@@ -12,21 +12,19 @@ import { gameSystems } from './systems/gameSystems';
 export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();
 
-useFrame((_, delta) => {
+  useFrame((_, delta) => {
 
-  shipControlSystem(delta);
-  weaponSystem(delta);
+    shipControlSystem(delta);
+    weaponSystem(delta);
 
-  for (const system of gameSystems) {
-    system(delta);
-  }
+    for (const system of gameSystems) {
+      system(delta);
+    }
 
-  wrapSystem(viewport);
-
-  shipCollisionSystem(delta, onGameOver);
-
-  inputSystem();
-});
+    wrapSystem(viewport);
+    shipCollisionSystem(delta, onGameOver);
+    inputSystem();
+  });
 
   return null;
 }
