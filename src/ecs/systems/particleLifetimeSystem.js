@@ -3,7 +3,6 @@
 import { particles } from '../core/queries';
 import { world } from '../core/world';
 import { releaseExhaust } from '../pools/exhaustPool';
-import { releaseFlash } from '../pools/flashPool';
 import { releaseSpark } from '../pools/sparkPool';
 
 export function particleLifetimeSystem(delta) {
@@ -21,9 +20,6 @@ export function particleLifetimeSystem(delta) {
 
     if (particle.particleExhaust) {
       releaseExhaust(particle);
-    }
-    else if (particle.particleFlash) {
-      releaseFlash(particle);
     }
     else if (particle.particleSpark) {
       releaseSpark(particle);

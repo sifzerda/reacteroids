@@ -19,7 +19,6 @@ import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
 
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
-import FlashRenderer from '../renderers/FlashRenderer';
 import SparkRenderer from '../renderers/SparkRenderer';
 
 // firing effects
@@ -59,7 +58,6 @@ export default function PlayScreen({ onGameOver }) {
         <MissileRenderer />
 
         <ExhaustRenderer />
-        <FlashRenderer />
         <SparkRenderer />
         
         <AsteroidRenderer />

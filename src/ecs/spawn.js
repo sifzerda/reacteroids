@@ -3,7 +3,7 @@
 import { world } from './core/world';
 import { acquireBullet } from './pools/bulletPool';
 import { acquireExhaust } from './pools/exhaustPool';
-import { acquireFlash } from './pools/flashPool';
+ 
 import { acquireSpark } from './pools/sparkPool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
@@ -181,31 +181,6 @@ export function spawnExhaust({ x, y, vx, vy }) {
   });
 
   return world.add(exhaust);
-}
-
-/*
-|--------------------------------------------------------------------------
-| MUZZLE FLASH
-|--------------------------------------------------------------------------
-*/
-
-export function spawnFlash({ x, y, rotation, size = 1, colorR = 1, colorG = 0.8, colorB = 0.2 }) {
-
-  const flash = acquireFlash();
-
-  Object.assign(flash, {
-    particle: true,
-    particleFlash: true,
-    x, y,
-    rotation,
-    size: 12 * size,
-    colorR,
-    colorG,
-    colorB,
-    life: 0.05,
-  });
-
-  return world.add(flash);
 }
 
 /*

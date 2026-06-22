@@ -1,8 +1,8 @@
 // ecs/content/weapons.js
 
-import { spawnBullet, spawnBeam, spawnMissile, spawnFlash, spawnSpark } from '../spawn';
+import { spawnBullet, spawnBeam, spawnMissile, spawnSpark } from '../spawn';
 import { findNearestAsteroid } from '../shared/findNearestAsteroid';
-import { flashParticles, sparkParticles, exhaustParticles } from '../core/queries';
+import { sparkParticles, exhaustParticles } from '../core/queries';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
 
@@ -31,17 +31,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.6,
-
-        colorR: 0,
-        colorG: 1,
-        colorB: 1
-      });
 
       spawnBullet({
 
@@ -77,16 +66,6 @@ export const weapons = {
 
       for (let i = -2; i <= 2; i++) {
 
-        spawnFlash({
-          x: muzzleX,
-          y: muzzleY,
-          rotation: ship.rotation,
-          size: 1.6,
-          colorR: 1,
-          colorG: 0,
-          colorB: 0
-        });
-
         spawnBullet({
 
           x: ship.x,
@@ -116,16 +95,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.6,
-        colorR: 1,
-        colorG: 0,
-        colorB: 1
-      });
 
       spawnBullet({
 
@@ -157,16 +126,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.6,
-        colorR: 0,
-        colorG: 1,
-        colorB: 0
-      });
 
       spawnBullet({
 
@@ -202,16 +161,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.8,
-        colorR: 1,
-        colorG: 0,
-        colorB: 0,
-      });
 
       spawnBullet({
 
@@ -249,16 +198,6 @@ export const weapons = {
 
       const charge = Math.min(chargeTime, 3);
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 2.0,
-        colorR: 0,
-        colorG: 1,
-        colorB: 1
-      });
 
       spawnBeam({
 
@@ -302,17 +241,6 @@ export const weapons = {
       const target = findNearestAsteroid(ship.x, ship.y);
       if (!target) return;
 
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 2.5,
-
-        colorR: 1,
-        colorG: 0.6,
-        colorB: 0.1
-      });
-
       spawnMissile({
         x: ship.x,
         y: ship.y,
@@ -336,16 +264,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.4,
-        colorR: 1,
-        colorG: 0,
-        colorB: 0
-      });
 
       spawnBeam({
 
@@ -388,16 +306,6 @@ export const weapons = {
     fire(ship) {
 
       const { x: muzzleX, y: muzzleY } = getMuzzlePosition(ship);
-
-      spawnFlash({
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        size: 1.8,
-        colorR: 0.3,
-        colorG: 0.8,
-        colorB: 1
-      });
 
       spawnBeam({
 
