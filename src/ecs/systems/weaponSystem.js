@@ -76,14 +76,10 @@ export function weaponSystem(delta) {
         if (!ship.chargeEffect) {
 
           ship.chargeEffect = world.add({
-
             chargeEffect: true,
-
             x: muzzleX,
             y: muzzleY,
-
             rotation: ship.rotation,
-
             charge,
           });
 
@@ -119,11 +115,9 @@ export function weaponSystem(delta) {
     */
 
     if (ship.weapon === 'laserGun') {
-
       if (firing) {
         weapon.fire(ship);
       }
-
       continue;
     }
 

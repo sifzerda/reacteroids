@@ -15,20 +15,19 @@ export function particleLifetimeSystem(delta) {
 
     particle.life -= delta;
 
-if (particle.life > 0)
-  continue;
+    if (particle.life > 0) continue;
 
-world.remove(particle);
+    world.remove(particle);
 
-if (particle.particleExhaust) {
-  releaseExhaust(particle);
-}
-else if (particle.particleFlash) {
-  releaseFlash(particle);
-}
-else if (particle.particleSpark) {
-  releaseSpark(particle);
-}
+    if (particle.particleExhaust) {
+      releaseExhaust(particle);
+    }
+    else if (particle.particleFlash) {
+      releaseFlash(particle);
+    }
+    else if (particle.particleSpark) {
+      releaseSpark(particle);
+    }
 
   }
 }

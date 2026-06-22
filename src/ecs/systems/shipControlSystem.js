@@ -8,14 +8,11 @@ import { spawnExhaust } from '../spawn';
 
 const THRUST = 28;
 const REVERSE_THRUST = 18;
-
 const TURN_ACCEL = 42;
 const TURN_DRAG = 0.94;
 const MAX_TURN_SPEED = 10;
-
 const DRAG = 0.992;
 const TRACTION = 0.03;
-
 const MAX_SPEED = 32;
 const MAX_REVERSE_SPEED = 18;
 
@@ -32,7 +29,6 @@ export function shipControlSystem(delta) {
       const dy = mouse.worldY - ship.y;
 
       ship.rotation = Math.atan2(dy, dx);
-
       ship.angularVelocity = 0;
 
     } else {
@@ -105,8 +101,6 @@ export function shipControlSystem(delta) {
     // DRIFT / TRACTION
     const forwardSpeed = ship.vx * forward.x + ship.vy * forward.y;
     const sideSpeed = ship.vx * right.x + ship.vy * right.y;
-
-    // Reduce sideways sliding while keeping most momentum
     const newSideSpeed = sideSpeed * (1 - TRACTION);
 
     ship.vx = forward.x * forwardSpeed + right.x * newSideSpeed;

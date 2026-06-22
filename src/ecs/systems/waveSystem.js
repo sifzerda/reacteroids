@@ -9,22 +9,16 @@ let waveCooldown = 0;
 
 export function waveSystem() {
   waveCooldown--;
-
   if (waveCooldown > 0) return;
-  // count living asteroids
 
-  // wave still active
   if (gameState.waveProgress < gameState.waveProgressRequired) {
     return;
   }
-
   // NEXT WAVE
   gameState.wave++;
   const count = 7 + gameState.wave;
-
   // reset progress
   gameState.waveProgress = 0;
-
   // each asteroid tree = 3
   gameState.waveProgressRequired = count * 3;
 
