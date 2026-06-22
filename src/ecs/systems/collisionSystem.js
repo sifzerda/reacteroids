@@ -5,10 +5,8 @@ import { world } from '../core/world';
 import { gameState } from '../core/gameState';
 import { destroyAsteroid } from '../shared/destroyAsteroid';
 import { releaseBullet } from '../pools/bulletPool';
-
 import { releaseBeam } from '../pools/beamPool';
 import { releaseMissile } from '../pools/missilePool';
-
 import { spawnSpark } from '../spawn';
 
 export function collisionSystem() {
@@ -19,7 +17,6 @@ export function collisionSystem() {
 
       const dx = bullet.x - asteroid.x;
       const dy = bullet.y - asteroid.y;
-
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < bullet.radius + asteroid.radius) {
@@ -33,10 +30,8 @@ export function collisionSystem() {
 
             x: bullet.x,
             y: bullet.y,
-
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
-
             colorR: bullet.colorR,
             colorG: bullet.colorG,
             colorB: bullet.colorB
@@ -74,19 +69,15 @@ export function collisionSystem() {
 
             x: asteroid.x,
             y: asteroid.y,
-
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
-
             colorR: beam.colorR,
             colorG: beam.colorG,
             colorB: beam.colorB
 
           });
         }
-
         destroyAsteroid(asteroid, beam.damage, 100);
-
         world.remove(beam);
         releaseBeam(beam);
       }
@@ -112,22 +103,17 @@ export function collisionSystem() {
 
             x: missile.x,
             y: missile.y,
-
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
-
             colorR: 1,
             colorG: 0.6,
             colorB: 0.1
 
           });
         }
-
         destroyAsteroid(asteroid, missile.damage, 100);
-
         world.remove(missile);
         releaseMissile(missile);
-
         break;
       }
     }
