@@ -15,7 +15,6 @@ export const wrappable = world.with('wrap', 'x', 'y');
 export const particles = world.with('particle');
 
 export const exhaustParticles = world.with('particleExhaust');
-export const smokeParticles = world.with('particleSmoke');
 export const flashParticles = world.with('particleFlash');
 export const sparkParticles = world.with('particleSpark');
 

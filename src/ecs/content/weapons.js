@@ -1,8 +1,8 @@
 // ecs/content/weapons.js
 
-import { spawnBullet, spawnBeam, spawnMissile, spawnFlash, spawnSmoke, spawnSpark } from '../spawn';
+import { spawnBullet, spawnBeam, spawnMissile, spawnFlash, spawnSpark } from '../spawn';
 import { findNearestAsteroid } from '../shared/findNearestAsteroid';
-import { flashParticles, sparkParticles, exhaustParticles, smokeParticles } from '../core/queries';
+import { flashParticles, sparkParticles, exhaustParticles } from '../core/queries';
 
 const SHIP_MUZZLE_OFFSET = 1.10;
 
@@ -87,11 +87,6 @@ export const weapons = {
           colorB: 0
         });
 
-        spawnSmoke({
-          x: muzzleX,
-          y: muzzleY
-        });
-
         spawnBullet({
 
           x: ship.x,
@@ -130,11 +125,6 @@ export const weapons = {
         colorR: 1,
         colorG: 0,
         colorB: 1
-      });
-
-      spawnSmoke({
-        x: muzzleX,
-        y: muzzleY
       });
 
       spawnBullet({
@@ -321,11 +311,6 @@ export const weapons = {
         colorR: 1,
         colorG: 0.6,
         colorB: 0.1
-      });
-
-      spawnSmoke({
-        x: muzzleX,
-        y: muzzleY
       });
 
       spawnMissile({

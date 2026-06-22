@@ -20,7 +20,6 @@ import BeamRenderer from '../renderers/BeamRenderer';
 import MissileRenderer from '../renderers/MissileRenderer';
 
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
-import SmokeRenderer from '../renderers/SmokeRenderer';
 import FlashRenderer from '../renderers/FlashRenderer';
 import SparkRenderer from '../renderers/SparkRenderer';
 
@@ -61,7 +60,6 @@ export default function PlayScreen({ onGameOver }) {
         <MissileRenderer />
 
         <ExhaustRenderer />
-        <SmokeRenderer />
         <FlashRenderer />
         <SparkRenderer />
 

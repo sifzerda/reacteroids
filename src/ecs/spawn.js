@@ -5,7 +5,6 @@ import { enemyDefs } from './content/enemyDefs';
 import { acquireBullet } from './pools/bulletPool';
 import { acquireExhaust } from './pools/exhaustPool';
 import { acquireFlash } from './pools/flashPool';
-import { acquireSmoke } from './pools/smokePool';
 import { acquireSpark } from './pools/sparkPool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
@@ -346,32 +345,6 @@ export function spawnFlash({
   });
 
   return world.add(flash);
-}
-
-/*
-|--------------------------------------------------------------------------
-| SMOKE
-|--------------------------------------------------------------------------
-*/
-
-export function spawnSmoke({ x, y, vx = 0, vy = 0 }) {
-
-  const smoke = acquireSmoke();
-
-  Object.assign(smoke, {
-
-    particle: true,
-    particleSmoke: true,
-    x, y, vx, vy,
-    size: 12,
-    life: 1.5,
-    colorR: 0.5,
-    colorG: 0.5,
-    colorB: 0.5,
-
-  });
-
-  return world.add(smoke);
 }
 
 /*

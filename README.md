@@ -187,16 +187,14 @@ ecs/
 - [ ] make the ion beam send any asteroid it touches into the nearest asteroid (and collision destroys both)
 - [ ] fix appearance of some guns, missile launcher, beams, etc
 
-- [ ] refine and optimize sparks renderer, smoke renderer, muzzleflash renderer
+- [ ] refine and optimize sparks renderer, muzzleflash renderer
 
-- [x] smoke is rendering as a demo green circle (missilegun key 7)
 - [x] muzzleflash is rendering as a demo yellow circle (shotgun key 2)
 - [x] add Object assigns to other particle spawns in spawn.js
 
 - [ ] particle shaders are in debug mode:
 + exhaust = blue, smoky
 + sparks = yellow
-+ smoke = pink, smoky
 + muzzle flash = green flash
 
 - [x] go back to separate particle renderers

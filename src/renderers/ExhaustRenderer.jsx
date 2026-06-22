@@ -54,7 +54,7 @@ export default function ExhaustRenderer() {
 
     vertexShader: `
 
-            uniform float uTime;
+        uniform float uTime;
         uniform float uPixelRatio;
         uniform float uViewportHeight;
 
@@ -63,20 +63,20 @@ export default function ExhaustRenderer() {
       attribute vec3  particleColor;
 
       varying float vLife;
-              varying float vHeat;
-                      varying vec2 vStretchUv;
+      varying float vHeat;
+      varying vec2 vStretchUv;
       varying vec3  vColor;
 
       void main() {
 
         vLife  = life;
-                  vec3 pos = position;
+        vec3 pos = position;
         vColor = particleColor;
 
         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
 
                   // animated distortion
-float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
+        float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
 
           pos.x += (n - 0.5) * 0.08;
           pos.y += (n - 0.5) * 0.08;
@@ -87,8 +87,8 @@ float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
            // velocity stretch amount
           float speed = particleSize;
 
-          // much larger so particles are visible
-          float sizeBase = mix(2.0, 8.0, life);
+          // base size
+          float sizeBase = mix(2.0, 4.0, life);
 
           // scale uv by speed and heat
           vStretchUv = vec2(1.0, 1.0) * (speed * 0.5 + 0.5) * (vHeat * 0.6 + 0.4);
@@ -112,11 +112,10 @@ float expand = 1.0 + (1.0 - life) * 12.0;
         float dist = length(uv);
 
                   // circular mask
-          float alpha = smoothstep(0.5, 0.0, dist);
+          float alpha = smoothstep(0.35, 0.0, dist);
 
           // tapered flame shape
 alpha *= 1.2 + uv.y * 1.1;
-
 
           // hotter core
           float core = smoothstep(0.18, 0.0, dist);
