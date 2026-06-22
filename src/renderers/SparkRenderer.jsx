@@ -16,11 +16,8 @@ const vertexShader = `
   void main() {
     vLife = life;
     vColor = particleColor;
-
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-
-    // Shrink as they die — sparks burn out, not expand
-gl_PointSize = size * (0.3 + life * 0.7) * (300.0 / -mvPosition.z);
+    gl_PointSize = size * (0.3 + life * 0.7) * (300.0 / -mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -34,41 +31,17 @@ const fragmentShader = `
     vec2 uv = gl_PointCoord - 0.5;
 
     float dist = length(uv);
-
     if (dist > 0.5) discard;
 
-
-    // tight spark core
     float core = 1.0 - smoothstep(0.0, 0.05, dist);
-
     float ember = 1.0 - smoothstep(0.05, 0.18, dist);
-
     float shape = core + ember * 0.15;
 
-
-    // gun color
     vec3 color = vColor;
+    color = mix(color, vec3(1.0), core * 0.85);
 
-
-    // white hot center
-    color = mix(
-      color,
-      vec3(1.0),
-      core * 0.85
-    );
-
-
-    // fade brightness with life
-    float alpha =
-      pow(shape, 8.0) *
-      (0.4 + vLife * 1.5);
-
-
-    gl_FragColor = vec4(
-      color,
-      alpha
-    );
-
+    float alpha = pow(shape, 8.0) * (0.4 + vLife * 1.5);
+    gl_FragColor = vec4(color, alpha);
   }
 `;
 
