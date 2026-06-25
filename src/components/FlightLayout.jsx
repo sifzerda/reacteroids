@@ -43,14 +43,14 @@ export default function FlightLayout({title, footer, children}) {
                 <div className="absolute left-10 top-1/2 -translate-y-1/2">
                     {[...Array(11)].map((_, i) => (
                         <div key={i} className="absolute left-0 h-px bg-[#39ff14]"
-                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)",}} />))}
+                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)" }} />))}
                 </div>
 
                 {/* RIGHT TICKS */}
                 <div className="absolute right-10 top-1/2 -translate-y-1/2">
                     {[...Array(11)].map((_, i) => (
                         <div key={i} className="absolute right-0 h-px bg-[#39ff14]"
-                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)",}} />))}
+                            style={{width: i % 2 === 0 ? "34px" : "18px", top: `${i * 52}px`, transform: "translateY(-260px)" }} />))}
                 </div>
 
                 {/* TOP LABELS */}
@@ -61,22 +61,12 @@ export default function FlightLayout({title, footer, children}) {
                 </div>
 
                 {/* LEFT NUMBERS */}
-                <div className="absolute left-5 top-[28%] font-mono text-2xl tracking-widest text-[#39ff14]/90">
-                    168
-                </div>
-
-                <div className="absolute left-14 top-[50%] font-mono text-xl tracking-widest text-[#39ff14]/80">
-                    GS170
-                </div>
+                <div className="absolute left-5 top-[28%] font-mono text-2xl tracking-widest text-[#39ff14]/90">168</div>
+                <div className="absolute left-14 top-[50%] font-mono text-xl tracking-widest text-[#39ff14]/80">GS170</div>
 
                 {/* RIGHT NUMBERS */}
-                <div className="absolute right-5 top-[28%] font-mono text-2xl tracking-widest text-[#39ff14]/90">
-                    140
-                </div>
-
-                <div className="absolute right-14 top-[50%] font-mono text-xl tracking-widest text-[#39ff14]/80">
-                    BARO
-                </div>
+                <div className="absolute right-5 top-[28%] font-mono text-2xl tracking-widest text-[#39ff14]/90">140</div>
+                <div className="absolute right-14 top-[50%] font-mono text-xl tracking-widest text-[#39ff14]/80">BARO</div>
 
                 {/* ================= CALIBRATED DISPLAY ================= */}
 
@@ -181,17 +171,12 @@ export default function FlightLayout({title, footer, children}) {
                         { n: "30", d: 70 },
                         { n: "35", d: 100 },
                     ].map((item, i) => (
-                        <div
-                            key={i}
-                            className="absolute left-1/2 top-1/2 font-mono text-[16px] text-[#39ff14]"
-                            style={{
-                                transform: `
+                        <div key={i} className="absolute left-1/2 top-1/2 font-mono text-[16px] text-[#39ff14]"
+                            style={{ transform: `
                                     translate(-50%, -50%)
                                     rotate(${item.d}deg)
                                     translateY(-127px)
-                                    rotate(-${item.d}deg)
-                                `,
-                            }}>
+                                    rotate(-${item.d}deg)` }}>
                             {item.n}
                         </div>
                     ))}
@@ -199,7 +184,6 @@ export default function FlightLayout({title, footer, children}) {
                     {/* top marker */}
                     <div className="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center">
                         <div className="-mt-18.75 border-l-10 border-r-10 border-t-20 border-l-transparent border-r-transparent border-t-[#39ff14]" />
-
                         <div className="mt-5 h-30 w-0.5 bg-[#39ff14]" />
                     </div>
 
