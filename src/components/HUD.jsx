@@ -26,7 +26,6 @@ export default function HUD() {
         score: gameState.score,
         wave: gameState.wave,
         waveProgress: Math.min(gameState.waveProgress / gameState.waveProgressRequired, 1),
-
       });
     }, 50);
 
