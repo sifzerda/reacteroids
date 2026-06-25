@@ -6,15 +6,15 @@ import { forwardVector, rightVector } from '../core/direction';
 import { settings } from '../core/settings';
 import { spawnExhaust } from '../spawn';
 
-const THRUST = 28;
-const REVERSE_THRUST = 18;
-const TURN_ACCEL = 42;
-const TURN_DRAG = 0.94;
-const MAX_TURN_SPEED = 10;
-const DRAG = 0.992;
-const TRACTION = 0.03;
+const THRUST = 30;
+const REVERSE_THRUST = 20;
+const TURN_ACCEL = 90;
+const TURN_DRAG = 0.96;
+const MAX_TURN_SPEED = 16;
+const DRAG = 0.998;
+const TRACTION = 0.025;
 const MAX_SPEED = 32;
-const MAX_REVERSE_SPEED = 18;
+const MAX_REVERSE_SPEED = 20;
 
 export function shipControlSystem(delta) {
 

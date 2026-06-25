@@ -12,9 +12,10 @@ import { gameSystems } from './systems/gameSystems';
 export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();
 
-  useFrame((_, delta) => {
+useFrame((_, delta) => {
+  delta = Math.min(delta, 1 / 60);
 
-    shipControlSystem(delta);
+  shipControlSystem(delta);
     weaponSystem(delta);
 
     for (const system of gameSystems) {
