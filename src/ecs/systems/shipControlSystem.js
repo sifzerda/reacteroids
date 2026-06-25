@@ -64,12 +64,10 @@ export function shipControlSystem(delta) {
       ship.vx += forward.x * THRUST * delta;
       ship.vy += forward.y * THRUST * delta;
 
-      const rearDistance = 0.4;
-
       if (ship.exhaustTimer <= 0) {
-        ship.exhaustTimer = 0.018;
+        ship.exhaustTimer = 0.025;
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
 
           spawnExhaust({
             // move spawn point closer — was 0.4
