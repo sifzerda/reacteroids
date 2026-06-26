@@ -14,10 +14,7 @@ export function collisionSystem() {
 
   for (const bullet of bullets) {
 
-    const nearby = getNearbyAsteroids(
-      bullet.x,
-      bullet.y
-    );
+    const nearby = getNearbyAsteroids(bullet.x, bullet.y);
 
     for (const asteroid of nearby) {
 
@@ -56,7 +53,9 @@ export function collisionSystem() {
     const fx = Math.cos(beam.rotation);
     const fy = Math.sin(beam.rotation);
 
-    for (const asteroid of asteroids) {
+    const nearby = getNearbyAsteroids(beam.x, beam.y);
+
+    for (const asteroid of nearby) {
 
       const dx = asteroid.x - beam.x;
       const dy = asteroid.y - beam.y;
@@ -92,7 +91,9 @@ export function collisionSystem() {
 
   for (const missile of missiles) {
 
-    for (const asteroid of asteroids) {
+    const nearby = getNearbyAsteroids(missile.x, missile.y);
+
+    for (const asteroid of nearby) {
 
       const dx = missile.x - asteroid.x;
       const dy = missile.y - asteroid.y;

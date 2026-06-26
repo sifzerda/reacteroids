@@ -1,6 +1,7 @@
 // ecs/spawn.js
 
 import { world } from './core/world';
+import { acquireAsteroid } from './pools/asteroidPool';
 import { acquireBullet } from './pools/bulletPool';
 import { acquireExhaust } from './pools/exhaustPool';
 import { acquireSpark } from './pools/sparkPool';
@@ -50,19 +51,47 @@ export function spawnShip() {
 |--------------------------------------------------------------------------
 */
 
-export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
-  return world.add({
-    asteroid: true,
-    size,
-    wrap: true,
-    x,
-    y,
-    vx,
-    vy,
-    radius,
-    rotation: Math.random() * Math.PI * 2,
-    rotationSpeed: (Math.random() - 0.5) * 1.5,
-  });
+export function spawnAsteroid({
+  x,
+  y,
+  vx = 0,
+  vy = 0,
+  radius = 1,
+  size = 3
+}) {
+
+
+  const asteroid = acquireAsteroid();
+
+
+  asteroid.asteroid = true;
+
+  asteroid.size = size;
+
+  asteroid.wrap = true;
+
+
+  asteroid.x = x;
+  asteroid.y = y;
+
+
+  asteroid.vx = vx;
+  asteroid.vy = vy;
+
+
+  asteroid.radius = radius;
+
+
+  asteroid.rotation =
+    Math.random() * Math.PI * 2;
+
+
+  asteroid.rotationSpeed =
+    (Math.random() - 0.5) * 1.5;
+
+
+  return world.add(asteroid);
+
 }
 
 /*
