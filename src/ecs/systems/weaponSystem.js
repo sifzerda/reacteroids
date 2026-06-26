@@ -3,8 +3,8 @@
 import { ships } from '../core/queries';
 import { keys, mouse } from '../core/input';
 import { settings } from '../core/settings';
-import { weapons } from '../content/weapons';
 import { world } from '../core/world';
+import { weapons } from '../content/weapons';
 
 const CHARGE_MAX_TIME = 3;
 const MUZZLE_OFFSET = 1.1;
@@ -21,11 +21,14 @@ export function weaponSystem(delta) {
 
     let previousWeapon = ship.weapon;
 
-    for (const [name, weapon] of Object.entries(weapons)) {
-      if (weapon.hotkey && keys[weapon.hotkey]) {
-        ship.weapon = name;
-      }
-    }
+    if (keys.Digit1) ship.weapon = 'raygun';
+    else if (keys.Digit2) ship.weapon = 'shotgun';
+    else if (keys.Digit3) ship.weapon = 'machinegun';
+    else if (keys.Digit4) ship.weapon = 'plasma';
+    else if (keys.Digit5) ship.weapon = 'flamethrower';
+    else if (keys.Digit6) ship.weapon = 'chargegun';
+    else if (keys.Digit7) ship.weapon = 'missilegun';
+    else if (keys.Digit8) ship.weapon = 'lasergun';
 
     /*
     -------------------------------------------------
