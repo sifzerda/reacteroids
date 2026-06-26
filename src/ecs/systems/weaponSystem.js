@@ -21,14 +21,38 @@ export function weaponSystem(delta) {
 
     let previousWeapon = ship.weapon;
 
-    if (keys.Digit1) ship.weapon = 'raygun';
-    else if (keys.Digit2) ship.weapon = 'shotgun';
-    else if (keys.Digit3) ship.weapon = 'machinegun';
-    else if (keys.Digit4) ship.weapon = 'plasma';
-    else if (keys.Digit5) ship.weapon = 'flamethrower';
-    else if (keys.Digit6) ship.weapon = 'chargegun';
-    else if (keys.Digit7) ship.weapon = 'missilegun';
-    else if (keys.Digit8) ship.weapon = 'lasergun';
+    if (keys.Digit1) {
+      ship.weapon = 'raygun';
+      ship.currentWeapon = weapons.raygun;
+    }
+    else if (keys.Digit2) {
+      ship.weapon = 'shotgun';
+      ship.currentWeapon = weapons.shotgun;
+    }
+    else if (keys.Digit3) {
+      ship.weapon = 'machinegun';
+      ship.currentWeapon = weapons.machinegun;
+    }
+    else if (keys.Digit4) {
+      ship.weapon = 'plasma';
+      ship.currentWeapon = weapons.plasma;
+    }
+    else if (keys.Digit5) {
+      ship.weapon = 'flamethrower';
+      ship.currentWeapon = weapons.flamethrower;
+    }
+    else if (keys.Digit6) {
+      ship.weapon = 'chargegun';
+      ship.currentWeapon = weapons.chargegun;
+    }
+    else if (keys.Digit7) {
+      ship.weapon = 'missilegun';
+      ship.currentWeapon = weapons.missilegun;
+    }
+    else if (keys.Digit8) {
+      ship.weapon = 'lasergun';
+      ship.currentWeapon = weapons.lasergun;
+    }
 
     /*
     -------------------------------------------------
@@ -50,7 +74,11 @@ export function weaponSystem(delta) {
 
     ship.cooldown -= delta;
 
-    const weapon = weapons[ship.weapon];
+    if (!ship.currentWeapon) {
+      ship.currentWeapon = weapons[ship.weapon];
+    }
+
+    const weapon = ship.currentWeapon;
     if (!weapon) continue;
 
     const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);

@@ -6,6 +6,7 @@ import { acquireExhaust } from './pools/exhaustPool';
 import { acquireSpark } from './pools/sparkPool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
+import { weapons } from './content/weapons';
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,13 @@ import { acquireBeam } from './pools/beamPool';
 */
 export function spawnShip() {
 
-  return world.add({
+  const ship = {
     ship: true,
     wrap: true,
     lives: 3,
     invulnerable: 2,
     weapon: 'raygun',
+    currentWeapon: weapons.raygun,
     cooldown: 0,
     x: 0,
     y: 0,
@@ -36,7 +38,10 @@ export function spawnShip() {
     radius: 0.45,
     chargeTime: 0,
     charging: false,
-  });
+  };
+
+  return world.add(ship);
+
 }
 
 /*
@@ -77,26 +82,24 @@ export function spawnBullet({ x, y, rotation, muzzleOffset = 0, speed = 20, dama
 
   const bullet = acquireBullet();
 
-  Object.assign(bullet, {
-    bullet: true,
-    bulletType,
-    x,
-    y,
-    rotation,
-    vx: cos * speed,
-    vy: sin * speed,
-    radius,
-    life,
-    colorR,
-    colorG,
-    colorB,
-    rainbow,
-    damage,
-    speed,
-    length,
-    width,
-    glow,
-  });
+  bullet.bullet = true;
+  bullet.bulletType = bulletType;
+  bullet.x = x;
+  bullet.y = y;
+  bullet.rotation = rotation;
+  bullet.vx = cos * speed;
+  bullet.vy = sin * speed;
+  bullet.radius = radius;
+  bullet.life = life;
+  bullet.colorR = colorR;
+  bullet.colorG = colorG;
+  bullet.colorB = colorB;
+  bullet.rainbow = rainbow;
+  bullet.damage = damage;
+  bullet.speed = speed;
+  bullet.length = length;
+  bullet.width = width;
+  bullet.glow = glow;
 
   return world.add(bullet);
 }
@@ -111,21 +114,19 @@ export function spawnBeam({ beamType = 'laser', x, y, rotation, damage, length, 
 
   const beam = acquireBeam();
 
-  Object.assign(beam, {
-    beam: true,
-    beamType,
-    x,
-    y,
-    rotation,
-    damage,
-    length,
-    width,
-    colorR,
-    colorG,
-    colorB,
-    glow,
-    life,
-  });
+  beam.beam = true;
+  beam.beamType = beamType;
+  beam.x = x;
+  beam.y = y;
+  beam.rotation = rotation;
+  beam.damage = damage;
+  beam.length = length;
+  beam.width = width;
+  beam.colorR = colorR;
+  beam.colorG = colorG;
+  beam.colorB = colorB;
+  beam.glow = glow;
+  beam.life = life;
 
   return world.add(beam);
 }
@@ -143,24 +144,21 @@ export function spawnMissile({ x, y, rotation, target }) {
 
   const missile = acquireMissile();
 
-  Object.assign(missile, {
-    missile: true,
-    x,
-    y,
-    rotation,
-    target,
-    speed: 10,
-    turnRate: 5,
-    damage: 1000,
-    radius: 0.4,
-    life: 12,
-    vx: cos * 10,
-    vy: sin * 10,
-  });
+  missile.missile = true;
+  missile.x = x;
+  missile.y = y;
+  missile.rotation = rotation;
+  missile.target = target;
+  missile.speed = 10;
+  missile.turnRate = 5;
+  missile.damage = 1000;
+  missile.radius = 0.4;
+  missile.life = 12;
+  missile.vx = cos * 10;
+  missile.vy = sin * 10;
 
   return world.add(missile);
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -172,19 +170,17 @@ export function spawnExhaust({ x, y, vx, vy }) {
 
   const exhaust = acquireExhaust();
 
-  Object.assign(exhaust, {
-    particle: true,
-    particleExhaust: true,
-    x,
-    y,
-    vx: vx * 0.3,
-    vy: vy * 0.3,
-    life: 1.0,
-    size: 14 + Math.random() * 8,
-    colorR: 0.2,
-    colorG: 0.7,
-    colorB: 2.0,
-  });
+  exhaust.particle = true;
+  exhaust.particleExhaust = true;
+  exhaust.x = x;
+  exhaust.y = y;
+  exhaust.vx = vx * 0.3;
+  exhaust.vy = vy * 0.3;
+  exhaust.life = 1.0;
+  exhaust.size = 14 + Math.random() * 8;
+  exhaust.colorR = 0.2;
+  exhaust.colorG = 0.7;
+  exhaust.colorB = 2.0;
 
   return world.add(exhaust);
 }
@@ -199,16 +195,21 @@ export function spawnSpark({ x, y, vx, vy, colorR = 1, colorG = 1, colorB = 1 })
 
   const spark = acquireSpark();
 
-  Object.assign(spark, {
-    particle: true,
-    particleSpark: true,
-    x, y, vx, vy,
-    size: 16,
-    life: 0.35,
-    colorR,
-    colorG,
-    colorB,
-  });
+  spark.particle = true;
+  spark.particleSpark = true;
+
+  spark.x = x;
+  spark.y = y;
+
+  spark.vx = vx;
+  spark.vy = vy;
+
+  spark.size = 16;
+  spark.life = 0.35;
+
+  spark.colorR = colorR;
+  spark.colorG = colorG;
+  spark.colorB = colorB;
 
   return world.add(spark);
 }
