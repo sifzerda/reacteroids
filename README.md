@@ -164,3 +164,191 @@ Framebuffer Object (FBO)    =	up to ~10k–1M particles fluid systems
 - [x] go back to separate particle renderers
 
 - [ ] make an asteroid pool if more optimized
+
+
+
+////////////////////////
+
+Optimization 8
+Remove duplicate muzzle calculations
+Current
+weaponSystem
+computes
+muzzleX
+muzzleY
+Weapon
+computes
+muzzleX
+muzzleY
+again.
+Just compute once.
+Store
+ship.muzzleX
+
+ship.muzzleY
+Reuse.
+________________________________________
+Optimization 9
+Cache query lengths
+Current
+for(const asteroid of asteroids)
+If Miniplex iterator checks each time.
+Instead
+const list = asteroids;
+
+for(const asteroid of list)
+Small gain.
+________________________________________
+Optimization 10
+Separate fixed update
+Physics
+Weapons
+Collision
+should run at
+60Hz
+Rendering
+144Hz
+GameLoop becomes
+let accumulator = 0;
+
+useFrame((_,delta)=>{
+
+    accumulator+=delta;
+
+    while(accumulator>=FIXED){
+
+        physics(FIXED);
+
+        accumulator-=FIXED;
+
+    }
+
+});
+Much smoother.
+________________________________________
+Optimization 11
+Build a System Scheduler
+Instead of
+shipControl
+
+weapon
+
+gameSystems
+
+wrap
+
+collision
+
+input
+every frame
+Create
+const systems=[
+
+shipControlSystem,
+
+weaponSystem,
+
+movementSystem,
+
+collisionSystem,
+
+...
+
+]
+Then
+for(const system of systems){
+
+system(delta);
+
+}
+Cleaner and allows enabling/disabling systems.
+________________________________________
+Optimization 12
+Only update visible particles
+If particle
+life<0.02
+skip rendering.
+Or if
+distance > viewport + margin
+
+remove
+Don't waste rendering.
+________________________________________
+Optimization 13
+Precompute weapon hotkeys
+Current
+Every frame
+for Object.entries(weapons)
+Instead
+const weaponHotkeys={
+
+Digit1:"raygun",
+
+Digit2:"shotgun",
+
+...
+}
+Then
+if(keys.Digit1) ship.weapon="raygun";
+No iteration.
+________________________________________
+Optimization 14
+Use typed arrays for particles
+Instead of ECS entities
+particle.x
+particle.y
+particle.life
+Use
+Float32Array
+
+Float32Array
+
+Float32Array
+Like
+particleX[]
+
+particleY[]
+
+particleLife[]
+This is how professional bullet-hell games work.
+It is much faster for tens of thousands of particles, but it's a larger architectural change and probably unnecessary unless you're targeting extremely high particle counts.
+________________________________________
+Optimization 15
+Batch world.add
+Current
+spawnSpark()
+
+spawnSpark()
+
+spawnSpark()
+
+spawnSpark()
+Each
+world.add()
+updates queries.
+Instead
+const entities=[];
+
+entities.push(...)
+
+world.addMany(entities)
+If Miniplex supports bulk insertion, query updates happen once instead of repeatedly. If it doesn't, you can still collect entities and add them in a single helper to reduce repeated setup code.
+________________________________________
+Optimization 16
+Remove unnecessary renderer rerenders
+Your PlayScreen is mostly static, but you can still avoid re-creating constant objects:
+const camera = {
+    position: [0, 0, 10]
+};
+Move that outside the component.
+Likewise:
+const bloomProps = {
+    intensity: 2.5,
+    luminanceThreshold: 0.02,
+    luminanceSmoothing: 0.2,
+    mipmapBlur: true,
+};
+Then:
+<Bloom {...bloomProps} />
+It's a small optimization, but it keeps React from seeing new object identities every render.
+
