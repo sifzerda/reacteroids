@@ -9,7 +9,6 @@ import { releaseAsteroid } from '../pools/asteroidPool';
 export function destroyAsteroid(asteroid, scoreValue = 100) {
 
   // SAVE DATA BEFORE RETURNING TO POOL
-
   const x = asteroid.x;
   const y = asteroid.y;
   const size = asteroid.size;
