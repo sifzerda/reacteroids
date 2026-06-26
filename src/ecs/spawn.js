@@ -3,7 +3,6 @@
 import { world } from './core/world';
 import { acquireBullet } from './pools/bulletPool';
 import { acquireExhaust } from './pools/exhaustPool';
- 
 import { acquireSpark } from './pools/sparkPool';
 import { acquireMissile } from './pools/missilePool';
 import { acquireBeam } from './pools/beamPool';
@@ -25,6 +24,13 @@ export function spawnShip() {
     x: 0,
     y: 0,
     rotation: 0,
+
+    // Cached direction vectors
+    forwardX: 1,
+    forwardY: 0,
+    rightX: 0,
+    rightY: 1,
+
     vx: 0,
     vy: 0,
     radius: 0.45,

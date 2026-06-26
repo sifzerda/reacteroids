@@ -63,8 +63,8 @@ export function weaponSystem(delta) {
       ship.chargeTime ??= 0;
       ship.charging ??= false;
 
-      const muzzleX = ship.x + Math.cos(ship.rotation) * MUZZLE_OFFSET;
-      const muzzleY = ship.y + Math.sin(ship.rotation) * MUZZLE_OFFSET;
+      const muzzleX = ship.x + ship.forwardX * MUZZLE_OFFSET;
+      const muzzleY = ship.y + ship.forwardY * MUZZLE_OFFSET;
 
       if (firing) {
 

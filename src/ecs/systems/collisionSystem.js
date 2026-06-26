@@ -8,19 +8,24 @@ import { releaseBullet } from '../pools/bulletPool';
 import { releaseBeam } from '../pools/beamPool';
 import { releaseMissile } from '../pools/missilePool';
 import { spawnSpark } from '../spawn';
+import { getNearbyAsteroids } from '../shared/spatialGrid';
 
 export function collisionSystem() {
 
   for (const bullet of bullets) {
 
-    for (const asteroid of asteroids) {
+    const nearby = getNearbyAsteroids(
+      bullet.x,
+      bullet.y
+    );
+
+    for (const asteroid of nearby) {
 
       const dx = bullet.x - asteroid.x;
       const dy = bullet.y - asteroid.y;
-      
-      const dist = Math.sqrt(dx * dx + dy * dy);
+      const r = bullet.radius + asteroid.radius;
 
-      if (dist < bullet.radius + asteroid.radius) {
+      if (dx * dx + dy * dy < r * r) {
 
         for (let i = 0; i < 24; i++) {
 

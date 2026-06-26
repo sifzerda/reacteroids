@@ -18,4 +18,3 @@ export const sparkParticles = world.with('particleSpark');
 export const beams = world.with('beam');
 export const chargeEffects = world.with('chargeEffect');
 export const missiles = world.with('missile');
-

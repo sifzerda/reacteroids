@@ -8,6 +8,8 @@ import { wrapSystem } from './systems/wrapSystem';
 import { shipCollisionSystem } from './systems/shipCollisionSystem';
 import { inputSystem } from './systems/inputSystem';
 import { gameSystems } from './systems/gameSystems';
+import { asteroids } from './core/queries';
+import { clearSpatialGrid, insertIntoSpatialGrid } from './shared/spatialGrid.js';
 
 export default function GameLoop({ onGameOver }) {
   const { viewport } = useThree();
@@ -20,6 +22,11 @@ useFrame((_, delta) => {
 
     for (const system of gameSystems) {
       system(delta);
+    }
+    
+    clearSpatialGrid();
+    for (const asteroid of asteroids) {
+      insertIntoSpatialGrid(asteroid);
     }
 
     wrapSystem(viewport);

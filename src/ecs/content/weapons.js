@@ -10,8 +10,8 @@ const SHIP_MUZZLE_OFFSET = 1.10;
 function getMuzzlePosition(ship) {
 
   return {
-    x: ship.x + Math.cos(ship.rotation) * SHIP_MUZZLE_OFFSET,
-    y: ship.y + Math.sin(ship.rotation) * SHIP_MUZZLE_OFFSET,
+    x: ship.x + ship.forwardX * SHIP_MUZZLE_OFFSET,
+    y: ship.y + ship.forwardY * SHIP_MUZZLE_OFFSET,
   };
 }
 
