@@ -163,7 +163,7 @@ Framebuffer Object (FBO)    =	up to ~10k–1M particles fluid systems
 - [x] add Object assigns to other particle spawns in spawn.js
 - [x] go back to separate particle renderers
 
-- [ ] make an asteroid pool if more optimized
+- [x] make an asteroid pool if more optimized
 
 
 
