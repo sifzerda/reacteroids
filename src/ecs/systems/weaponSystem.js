@@ -81,6 +81,9 @@ export function weaponSystem(delta) {
     const weapon = ship.currentWeapon;
     if (!weapon) continue;
 
+    const muzzleX = ship.x + ship.forwardX * MUZZLE_OFFSET;
+    const muzzleY = ship.y + ship.forwardY * MUZZLE_OFFSET;
+
     const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);
 
     /*
@@ -125,7 +128,7 @@ export function weaponSystem(delta) {
 
       else if (ship.charging) {
 
-        weapon.release(ship, ship.chargeTime);
+        weapon.release(ship, ship.chargeTime, muzzleX, muzzleY);
 
         ship.chargeTime = 0;
         ship.charging = false;
@@ -147,7 +150,7 @@ export function weaponSystem(delta) {
 
     if (ship.weapon === 'laserGun') {
       if (firing) {
-        weapon.fire(ship);
+        weapon.fire(ship, muzzleX, muzzleY);
       }
       continue;
     }
@@ -160,7 +163,7 @@ export function weaponSystem(delta) {
 
     if (firing && ship.cooldown <= 0 && weapon.fire) {
       ship.cooldown = weapon.cooldown;
-      weapon.fire(ship);
+      weapon.fire(ship, muzzleX, muzzleY);
     }
   }
 }
