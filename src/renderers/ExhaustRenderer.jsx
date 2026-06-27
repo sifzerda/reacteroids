@@ -70,7 +70,6 @@ export default function ExhaustRenderer() {
 
       varying float vLife;
       varying float vHeat;
-      varying vec2 vStretchUv;
       varying vec3  vColor;
 
       void main() {
@@ -98,11 +97,7 @@ export default function ExhaustRenderer() {
           // base size
           float sizeBase = mix(2.0, 4.0, life);
 
-          // scale uv by speed and heat
-          vStretchUv = vec2(1.0, 1.0) * (speed * 0.5 + 0.5) * (vHeat * 0.6 + 0.4);
-
- gl_PointSize = sizeBase * particleSize * uPixelRatio;
-
+        gl_PointSize = sizeBase * particleSize * uPixelRatio;
         gl_Position = projectionMatrix * mvPosition;
       }
     `,
