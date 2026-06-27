@@ -63,7 +63,7 @@ export default function ExhaustRenderer() {
 
         vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
-          float sizeBase = mix(3.0, 6.0, life);
+          float sizeBase = mix(2.0, 4.0, life);
 
         gl_PointSize = sizeBase * particleSize * uPixelRatio;
         gl_Position = projectionMatrix * mvPosition;
@@ -87,7 +87,7 @@ void main() {
 
   float dist = length(uv);
   if (dist > 0.5) discard;
-  float alpha = smoothstep(0.35, 0.0, dist);
+  float alpha = smoothstep(0.5, 0.0, dist);
   alpha *= 1.2 + uv.y * 1.1;
 
   float t = 1.0 - vLife;
@@ -99,14 +99,14 @@ void main() {
 
   alpha *= vLife;
 
-  float puff = 1.0 - clamp(dist * dist * 10.0, 0.0, 1.0);
+  float puff = 1.0 - clamp(dist * dist * 4.0, 0.0, 1.0);
   float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
   float fadeOut = vLife * vLife;
 
   alpha *= puff * fadeIn * fadeOut;
   color *= 2.2;
 
-  gl_FragColor = vec4(color, alpha);
+  gl_FragColor = vec4(color, clamp(alpha * 1.8, 0.0, 1.0));
 }
     `,
 
