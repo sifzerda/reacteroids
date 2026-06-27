@@ -1,7 +1,7 @@
 // src/renderers/ExhaustRenderer.jsx
 
 import { useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { exhaustParticles } from '../ecs/core/queries';
 
@@ -10,7 +10,6 @@ const MAX = 200;
 export default function ExhaustRenderer() {
 
   const lastCount = useRef(0);
-  const pointsRef = useRef();
 
   const { geometry, positionAttr, particleDataAttr } = useMemo(() => {
 
@@ -25,7 +24,11 @@ export default function ExhaustRenderer() {
     positionAttr.setUsage(THREE.DynamicDrawUsage);
     particleDataAttr.setUsage(THREE.DynamicDrawUsage);
 
-    return { geometry, positionAttr, particleDataAttr }}, []);
+    return { geometry, positionAttr, particleDataAttr }
+  }, []);
+
+  const posArr = positionAttr.array;
+  const pdArr = particleDataAttr.array;
 
   const material = useMemo(() => new THREE.ShaderMaterial({
 
@@ -35,7 +38,7 @@ export default function ExhaustRenderer() {
     vertexColors: false,
     toneMapped: false,
 
-    uniforms: { uTime: { value: 0 }, uPixelRatio: { value: Math.min(window.devicePixelRatio, 2)}},
+    uniforms: { uTime: { value: 0 }, uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) } },
 
     vertexShader: `
 
@@ -69,47 +72,41 @@ export default function ExhaustRenderer() {
 
     fragmentShader: `
       varying float vLife;
-      varying vec3  vColor;
 
-      void main() {
+void main() {
 
-        vec2 uv = gl_PointCoord - 0.5;
+  vec2 uv = gl_PointCoord - 0.5;
 
-        uv.x += sin(uv.y*20.0+vLife*15.0)*0.03;
-        float dist = length(uv);
-        float alpha = smoothstep(0.35, 0.0, dist);
+  float wave = sin(uv.y * 20.0 + vLife * 15.0) * 0.03;
+  uv.x += wave;
 
-alpha *= 1.2 + uv.y * 1.1;
+  float dist = length(uv);
+  float alpha = smoothstep(0.35, 0.0, dist);
+  alpha *= 1.2 + uv.y * 1.1;
 
-vec3 hot = vec3(0.3,0.9,4.0);
-vec3 blue = vec3(0.1,0.4,1.6);
-vec3 orange = vec3(1.2,0.4,0.1);
-vec3 smoke = vec3(0.2);
+  vec3 hot    = vec3(0.3, 0.9, 4.0);
+  vec3 blue   = vec3(0.1, 0.4, 1.6);
+  vec3 orange = vec3(1.2, 0.4, 0.1);
+  vec3 smoke  = vec3(0.2);
 
-float t=1.0-vLife;
+  float t = 1.0 - vLife;
+  vec3 color = hot;
+  color = mix(color, blue,   smoothstep(0.0,  0.15, t));
+  color = mix(color, orange, smoothstep(0.25, 0.6,  t));
+  color = mix(color, smoke,  smoothstep(0.7,  1.0,  t));
+  color += wave;
 
-vec3 color=hot;
+  alpha *= vLife;
 
-color=mix(color,blue,smoothstep(0.0,0.15,t));
-color=mix(color,orange,smoothstep(0.25,0.6,t));
-color=mix(color,smoke,smoothstep(0.7,1.0,t));
+  float puff    = exp(-dist * dist * 10.0);
+  float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
+  float fadeOut = vLife * vLife;
 
-float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
+  alpha *= puff * fadeIn * fadeOut;
+  color *= 2.2;
 
-    color += shimmer;
-
-          alpha *= vLife;
-
-        float puff = exp(-dist * dist * 10.0);
-        float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
-        float fadeOut = vLife * vLife;
-
-        alpha *= puff * fadeIn * fadeOut;
-        color *= 2.2;
-
-        gl_FragColor = vec4(color, alpha);
-
-      }
+  gl_FragColor = vec4(color, alpha);
+}
     `,
 
   }), []);
@@ -117,10 +114,6 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
   useFrame((state) => {
 
     material.uniforms.uTime.value = state.clock.elapsedTime;
-
-    const positions = positionAttr.array;
-    const particleData = particleDataAttr.array;
- 
 
     let i = 0;
 
@@ -130,13 +123,13 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
       const i3 = i * 3;
 
-      positions[i3 + 0] = p.x;
-      positions[i3 + 1] = p.y;
-      positions[i3 + 2] = 0;
+      posArr[i3 + 0] = p.x;
+      posArr[i3 + 1] = p.y;
+      posArr[i3 + 2] = 0;
 
       const i2 = i * 2;
-      particleData[i2] = p.size ?? 10;
-      particleData[i2 + 1] = p.life ?? 1;
+      pdArr[i2] = p.size;
+      pdArr[i2 + 1] = p.life;
 
       i++;
     }
@@ -152,7 +145,6 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
   return (
     <points
-      ref={pointsRef}
       geometry={geometry}
       material={material}
       frustumCulled={false}
