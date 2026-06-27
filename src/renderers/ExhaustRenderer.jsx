@@ -7,7 +7,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { exhaustParticles } from '../ecs/core/queries';
 
-const MAX = 12000;
+const MAX = 3000;
 
 export default function ExhaustRenderer() {
 
@@ -73,7 +73,7 @@ export default function ExhaustRenderer() {
         vec3 pos = position;
         vColor = particleColor;
 
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
                   // animated distortion
         float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
@@ -204,7 +204,6 @@ float shimmer =
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.particleSize.needsUpdate = true;
     geometry.attributes.life.needsUpdate = true;
-    geometry.attributes.particleColor.needsUpdate = true;
   });
 
   return (
