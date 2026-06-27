@@ -26,7 +26,7 @@ export default function BulletRenderer() {
     const widths = new Float32Array(MAX);
     const glows = new Float32Array(MAX);
     const forwards = new Float32Array(MAX * 2);
-    // for plasma gun
+    // for plasma torch
     const rainbows = new Float32Array(MAX);
 
     const offsetAttr = new THREE.InstancedBufferAttribute(offsets, 3);

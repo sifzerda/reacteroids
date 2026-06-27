@@ -86,11 +86,11 @@ export const weapons = {
 
   /*
   -------------------------------------------------
-  PLASMA GUN
+  PLASMA TORCH
   -------------------------------------------------
   */
 
-  plasma: {
+  plasmatorch: {
 
     hotkey: 'Digit4',
     cooldown: 0.03,
@@ -145,7 +145,7 @@ export const weapons = {
   -------------------------------------------------
   */
 
-  chargegun: {
+  chargebeam: {
 
     hotkey: 'Digit6',
     cooldown: 0,
@@ -177,7 +177,7 @@ export const weapons = {
   -------------------------------------------------
   */
 
-  missilegun: {
+  missilelauncher: {
 
     hotkey: 'Digit7',
     cooldown: 0.35,
@@ -198,11 +198,11 @@ export const weapons = {
 
   /*
   -------------------------------------------------
-  LASER GUN (special case)
+  LASER BEAM (special case)
   -------------------------------------------------
   */
 
-  laserGun: {
+  laserbeam: {
 
     hotkey: 'Digit8',
 

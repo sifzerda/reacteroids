@@ -105,27 +105,17 @@ function HudBlock({ label, value, color }) {
 
       <div className="px-2 py-0 text-center font-mono leading-none">
 
-        <div
-          className="
-    text-[12px] sm:text-[16px] md:text-[18px]
-    font-semibold
-    tracking-[0.18em]
-    uppercase
-    text-cyan-300/70
-  "
-        >
+        <div className="text-[12px] sm:text-[16px] md:text-[18px]
+    font-semibold tracking-[0.18em] uppercase text-cyan-300/70">
           {label}
         </div>
 
-        <div
-          className={`
+        <div className={`
     text-sm sm:text-base md:text-lg
     font-bold
     tracking-[0.08em]
     drop-shadow-[0_0_5px_currentColor]
-    ${color}
-  `}
-        >
+    ${color}`}>
           {value}
         </div>
 

@@ -34,8 +34,8 @@ export function weaponSystem(delta) {
       ship.currentWeapon = weapons.machinegun;
     }
     else if (keys.Digit4) {
-      ship.weapon = 'plasma';
-      ship.currentWeapon = weapons.plasma;
+      ship.weapon = 'plasmatorch';
+      ship.currentWeapon = weapons.plasmatorch;
     }
     else if (keys.Digit5) {
       ship.weapon = 'flamethrower';
@@ -46,12 +46,12 @@ export function weaponSystem(delta) {
       ship.currentWeapon = weapons.chargegun;
     }
     else if (keys.Digit7) {
-      ship.weapon = 'missilegun';
-      ship.currentWeapon = weapons.missilegun;
+      ship.weapon = 'missilelauncher';
+      ship.currentWeapon = weapons.missilelauncher;
     }
     else if (keys.Digit8) {
-      ship.weapon = 'lasergun';
-      ship.currentWeapon = weapons.lasergun;
+      ship.weapon = 'laserbeam';
+      ship.currentWeapon = weapons.laserbeam;
     }
 
     /*
@@ -148,7 +148,7 @@ export function weaponSystem(delta) {
     -------------------------------------------------
     */
 
-    if (ship.weapon === 'laserGun') {
+    if (ship.weapon === 'laserbeam') {
       if (firing) {
         weapon.fire(ship, muzzleX, muzzleY);
       }
