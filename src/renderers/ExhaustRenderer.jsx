@@ -110,18 +110,15 @@ export default function ExhaustRenderer() {
       void main() {
 
         vec2 uv = gl_PointCoord - 0.5;
+
+        uv.x += sin(uv.y*20.0+vLife*15.0)*0.03;
         float dist = length(uv);
 
                   // circular mask
           float alpha = smoothstep(0.35, 0.0, dist);
 
-uv.x += sin(uv.y*20.0+vLife*15.0)*0.03;
-
           // tapered flame shape
 alpha *= 1.2 + uv.y * 1.1;
-
-          // hotter core
-          float core = exp(-dist*dist*60.0);
 
 // gas flame colors
 vec3 hot = vec3(0.3,0.9,4.0);
@@ -154,6 +151,8 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
         alpha *= puff * fadeIn * fadeOut;
         color *= 2.2;
+
+        
         gl_FragColor = vec4(color, alpha);
 
       }
