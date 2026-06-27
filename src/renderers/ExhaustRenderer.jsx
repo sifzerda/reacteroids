@@ -12,7 +12,7 @@ export default function ExhaustRenderer() {
   const lastCount = useRef(0);
   const pointsRef = useRef();
 
-  const { size, viewport } = useThree();
+  const { size } = useThree();
 
   const {
     geometry,
@@ -57,15 +57,13 @@ export default function ExhaustRenderer() {
 
     uniforms: {
       uTime: { value: 0 },
-      uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-      uViewportHeight: { value: size.height }
+      uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) }
     },
 
     vertexShader: `
 
         uniform float uTime;
         uniform float uPixelRatio;
-        uniform float uViewportHeight;
 
       attribute vec2 particleData;
       attribute vec3  particleColor;
