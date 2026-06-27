@@ -11,26 +11,21 @@ export default function ExhaustRenderer() {
 
   const lastCount = useRef(0);
   const pointsRef = useRef();
-  const { size } = useThree();
 
-  const { geometry, positionAttr, particleDataAttr, colorAttr } = useMemo(() => {
+  const { geometry, positionAttr, particleDataAttr } = useMemo(() => {
 
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(MAX * 3);
     const particleData = new Float32Array(MAX * 2);
-    const colors = new Float32Array(MAX * 3);
     const positionAttr = new THREE.BufferAttribute(positions, 3);
-    const colorAttr = new THREE.BufferAttribute(colors, 3);
 
     geometry.setAttribute("position", positionAttr);
     const particleDataAttr = new THREE.BufferAttribute(particleData, 2);
     geometry.setAttribute("particleData", particleDataAttr);
-    geometry.setAttribute("particleColor", colorAttr);
     positionAttr.setUsage(THREE.DynamicDrawUsage);
     particleDataAttr.setUsage(THREE.DynamicDrawUsage);
-    colorAttr.setUsage(THREE.DynamicDrawUsage);
 
-    return { geometry, positionAttr, particleDataAttr, colorAttr }}, []);
+    return { geometry, positionAttr, particleDataAttr }}, []);
 
   const material = useMemo(() => new THREE.ShaderMaterial({
 
@@ -48,10 +43,8 @@ export default function ExhaustRenderer() {
         uniform float uPixelRatio;
 
       attribute vec2 particleData;
-      attribute vec3  particleColor;
 
       varying float vLife;
-      varying vec3  vColor;
 
       void main() {
 
@@ -60,7 +53,6 @@ export default function ExhaustRenderer() {
 
         vLife  = life;
         vec3 pos = position;
-        vColor = particleColor;
 
         float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
         pos.x += (n - 0.5) * 0.08;
@@ -68,7 +60,6 @@ export default function ExhaustRenderer() {
 
         vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
-          float speed = particleSize;
           float sizeBase = mix(2.0, 4.0, life);
 
         gl_PointSize = sizeBase * particleSize * uPixelRatio;
