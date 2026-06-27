@@ -73,10 +73,10 @@ export default function ExhaustRenderer() {
     fragmentShader: `
       varying float vLife;
 
-      const vec3 hot    = vec3(0.3, 0.9, 4.0);
-const vec3 blue   = vec3(0.1, 0.4, 1.6);
-const vec3 orange = vec3(1.2, 0.4, 0.1);
-const vec3 smoke  = vec3(0.2, 0.2, 0.2);
+      const vec3 hot = vec3(0.3, 0.9, 4.0);
+      const vec3 blue = vec3(0.1, 0.4, 1.6);
+      const vec3 orange = vec3(1.2, 0.4, 0.1);
+      const vec3 smoke  = vec3(0.2, 0.2, 0.2);
 
 void main() {
 
@@ -108,7 +108,7 @@ void main() {
 
   gl_FragColor = vec4(color, clamp(alpha * 1.8, 0.0, 1.0));
 }
-    `,
+`,
 
   }), []);
 
@@ -146,10 +146,6 @@ void main() {
   });
 
   return (
-    <points
-      geometry={geometry}
-      material={material}
-      frustumCulled={false}
-    />
+    <points geometry={geometry} material={material} frustumCulled={false} />
   );
 }
