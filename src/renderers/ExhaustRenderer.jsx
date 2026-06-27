@@ -63,7 +63,7 @@ export default function ExhaustRenderer() {
 
         vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
-          float sizeBase = mix(2.0, 4.0, life);
+          float sizeBase = mix(3.0, 6.0, life);
 
         gl_PointSize = sizeBase * particleSize * uPixelRatio;
         gl_Position = projectionMatrix * mvPosition;
