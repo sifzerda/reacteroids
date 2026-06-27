@@ -98,7 +98,7 @@ void main() {
 
   alpha *= vLife;
 
-  float puff    = exp(-dist * dist * 10.0);
+  float puff = smoothstep(0.0, 0.3, vLife);
   float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
   float fadeOut = vLife * vLife;
 
