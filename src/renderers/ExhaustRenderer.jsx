@@ -5,7 +5,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { exhaustParticles } from '../ecs/core/queries';
 
-const MAX = 3000;
+const MAX = 200;
 
 export default function ExhaustRenderer() {
 
