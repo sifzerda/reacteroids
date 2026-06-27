@@ -27,20 +27,16 @@ export function spawnShip() {
     x: 0,
     y: 0,
     rotation: 0,
-
-    // Cached direction vectors
     forwardX: 1,
     forwardY: 0,
     rightX: 0,
     rightY: 1,
-
     vx: 0,
     vy: 0,
     radius: 0.45,
   };
 
   return world.add(ship);
-
 }
 
 /*
@@ -49,47 +45,22 @@ export function spawnShip() {
 |--------------------------------------------------------------------------
 */
 
-export function spawnAsteroid({
-  x,
-  y,
-  vx = 0,
-  vy = 0,
-  radius = 1,
-  size = 3
-}) {
-
+export function spawnAsteroid({ x, y, vx = 0, vy = 0, radius = 1, size = 3 }) {
 
   const asteroid = acquireAsteroid();
 
-
   asteroid.asteroid = true;
-
   asteroid.size = size;
-
   asteroid.wrap = true;
-
-
   asteroid.x = x;
   asteroid.y = y;
-
-
   asteroid.vx = vx;
   asteroid.vy = vy;
-
-
   asteroid.radius = radius;
-
-
-  asteroid.rotation =
-    Math.random() * Math.PI * 2;
-
-
-  asteroid.rotationSpeed =
-    (Math.random() - 0.5) * 1.5;
-
+  asteroid.rotation = Math.random() * Math.PI * 2;
+  asteroid.rotationSpeed = (Math.random() - 0.5) * 1.5;
 
   return world.add(asteroid);
-
 }
 
 /*
@@ -98,23 +69,7 @@ export function spawnAsteroid({
 |--------------------------------------------------------------------------
 */
 
-export function spawnBullet({
-  x,
-  y,
-  rotation,
-  speed = 20,
-  damage = 100,
-  radius = 0.15,
-  colorR = 1,
-  colorG = 0,
-  colorB = 1,
-  rainbow = false,
-  life = 1.2,
-  bulletType = 'normal',
-  length = 1.5,
-  width = 0.2,
-  glow = 1,
-}) {
+export function spawnBullet({ x, y, rotation, speed = 20, damage = 100, radius = 0.15, colorR = 1, colorG = 0, colorB = 1, rainbow = false, life = 1.2, bulletType = 'normal', length = 1.5, width = 0.2, glow = 1 }) {
 
   const bullet = acquireBullet();
 
@@ -233,16 +188,12 @@ export function spawnSpark({ x, y, vx, vy, colorR = 1, colorG = 1, colorB = 1 })
 
   spark.particle = true;
   spark.particleSpark = true;
-
   spark.x = x;
   spark.y = y;
-
   spark.vx = vx;
   spark.vy = vy;
-
   spark.size = 16;
   spark.life = 0.35;
-
   spark.colorR = colorR;
   spark.colorG = colorG;
   spark.colorB = colorB;
