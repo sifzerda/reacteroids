@@ -50,13 +50,6 @@ npm install
 npm run start
 ```
 
-### Add a new gun
-
-1. Create a new folder inside ecs/features
-2. add the required files
-3. update index.js in ecs/features
-4. new guns are automatically iterated in from the index.js inside GameLoop.jsx
-
 ## Tech
 
 - React
@@ -93,16 +86,6 @@ Distributed under the MIT License. See LICENSE.txt for more information.
 ## Project status
 
 This project is incomplete and requires further development. Currently the highscores page, if any, is just for display, further development is needed to allow users to submit their scores.
-
-## ECS structure
-
-Layer	            Responsibility
-...................................
-Components	        Data only
-Systems	            Behavior
-Factories       	Create entities
-Renderers	        Visuals only
-Weapons	Modular     firing logic
 
 ## Tasks
 
