@@ -15,27 +15,29 @@ export default function ExhaustRenderer() {
 
   const { size, viewport } = useThree();
 
-  const geometry = useMemo(() => {
+  const { geometry, positionAttr, sizeAttr, lifeAttr, colorAttr, } = useMemo(() => {
 
-    const geo = new THREE.BufferGeometry();
+    const geometry = new THREE.BufferGeometry();
 
     const positions = new Float32Array(MAX * 3);
     const sizes = new Float32Array(MAX);
     const lifes = new Float32Array(MAX);
     const colors = new Float32Array(MAX * 3);
+    const positionAttr = new THREE.BufferAttribute(positions, 3);
+    const sizeAttr = new THREE.BufferAttribute(sizes, 1);
+    const lifeAttr = new THREE.BufferAttribute(lifes, 1);
+    const colorAttr = new THREE.BufferAttribute(colors, 3);
 
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('particleSize', new THREE.BufferAttribute(sizes, 1));
-    geo.setAttribute('life', new THREE.BufferAttribute(lifes, 1));
-    geo.setAttribute('particleColor', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("position", positionAttr);
+    geometry.setAttribute("particleSize", sizeAttr);
+    geometry.setAttribute("life", lifeAttr);
+    geometry.setAttribute("particleColor", colorAttr);
+    positionAttr.setUsage(THREE.DynamicDrawUsage);
+    sizeAttr.setUsage(THREE.DynamicDrawUsage);
+    lifeAttr.setUsage(THREE.DynamicDrawUsage);
+    colorAttr.setUsage(THREE.DynamicDrawUsage);
 
-    geo.attributes.position.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.particleSize.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.life.setUsage(THREE.DynamicDrawUsage);
-    geo.attributes.particleColor.setUsage(THREE.DynamicDrawUsage);
-
-    return geo;
-
+    return { geometry, positionAttr, sizeAttr, lifeAttr, colorAttr, };
   }, []);
 
   const material = useMemo(() => new THREE.ShaderMaterial({
@@ -95,7 +97,7 @@ export default function ExhaustRenderer() {
 
         // expand as life depletes — puff grows over time
 float expand = 1.0 + (1.0 - life) * 12.0;
- gl_PointSize = sizeBase * (1.0 + speed * 1.0) * uPixelRatio;
+ gl_PointSize = sizeBase * particleSize * uPixelRatio;
 
         gl_Position = projectionMatrix * mvPosition;
       }
@@ -114,39 +116,30 @@ float expand = 1.0 + (1.0 - life) * 12.0;
                   // circular mask
           float alpha = smoothstep(0.35, 0.0, dist);
 
+uv.x += sin(uv.y*20.0+vLife*15.0)*0.03;
+
           // tapered flame shape
 alpha *= 1.2 + uv.y * 1.1;
 
           // hotter core
-          float core = smoothstep(0.18, 0.0, dist);
+          float core = exp(-dist*dist*60.0);
 
 // gas flame colors
-vec3 blue = vec3(0.05, 0.35, 2.0);
-vec3 deepBlue = vec3(0.0, 0.10, 0.60);
-vec3 red = vec3(1.15, 0.06, 0.02);
+vec3 hot = vec3(0.3,0.9,4.0);
+vec3 blue = vec3(0.1,0.4,1.6);
+vec3 orange = vec3(1.2,0.4,0.1);
+vec3 smoke = vec3(0.2);
 
-// radial core
-float inner = smoothstep(0.22, 0.0, dist);
-// life stages
-float t = 1.0 - vLife;
+float t=1.0-vLife;
 
-// start blue
-vec3 color = blue;
+vec3 color=hot;
 
-// blue -> darker blue first
-color = mix(color, deepBlue, smoothstep(0.0, 0.25, t));
-
-// darker blue -> red
-color = mix(color, red, smoothstep(0.15, 0.60, t));
-
-// subtle blue core
-color += blue * inner * 0.15;
-
+color=mix(color,blue,smoothstep(0.0,0.15,t));
+color=mix(color,orange,smoothstep(0.25,0.6,t));
+color=mix(color,smoke,smoothstep(0.7,1.0,t));
 
 // flicker
-float shimmer =
-    sin(gl_PointCoord.y * 20.0 + vLife * 12.0)
-    * 0.03;
+float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
     color += shimmer;
 
@@ -163,6 +156,8 @@ float shimmer =
         alpha *= puff * fadeIn * fadeOut;
 
         gl_FragColor = vec4(color, alpha);
+
+        color *= 2.2;
       }
     `,
 
@@ -172,10 +167,10 @@ float shimmer =
 
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
-    const positions = geometry.attributes.position.array;
-    const sizes = geometry.attributes.particleSize.array;
-    const lifes = geometry.attributes.life.array;
-    const colors = geometry.attributes.particleColor.array;
+    const positions = positionAttr.array;
+    const sizes = sizeAttr.array;
+    const lifes = lifeAttr.array;
+    const colors = colorAttr.array;
 
     let i = 0;
 
@@ -201,9 +196,9 @@ float shimmer =
 
     geometry.setDrawRange(0, i);
 
-    geometry.attributes.position.needsUpdate = true;
-    geometry.attributes.particleSize.needsUpdate = true;
-    geometry.attributes.life.needsUpdate = true;
+    positionAttr.needsUpdate = true;
+    sizeAttr.needsUpdate = true;
+    lifeAttr.needsUpdate = true;
   });
 
   return (
