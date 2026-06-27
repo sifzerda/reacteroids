@@ -73,6 +73,11 @@ export default function ExhaustRenderer() {
     fragmentShader: `
       varying float vLife;
 
+      const vec3 hot    = vec3(0.3, 0.9, 4.0);
+const vec3 blue   = vec3(0.1, 0.4, 1.6);
+const vec3 orange = vec3(1.2, 0.4, 0.1);
+const vec3 smoke  = vec3(0.2, 0.2, 0.2);
+
 void main() {
 
   vec2 uv = gl_PointCoord - 0.5;
@@ -81,13 +86,9 @@ void main() {
   uv.x += wave;
 
   float dist = length(uv);
+  if (dist > 0.5) discard;
   float alpha = smoothstep(0.35, 0.0, dist);
   alpha *= 1.2 + uv.y * 1.1;
-
-  vec3 hot    = vec3(0.3, 0.9, 4.0);
-  vec3 blue   = vec3(0.1, 0.4, 1.6);
-  vec3 orange = vec3(1.2, 0.4, 0.1);
-  vec3 smoke  = vec3(0.2);
 
   float t = 1.0 - vLife;
   vec3 color = hot;
