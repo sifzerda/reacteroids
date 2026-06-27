@@ -69,7 +69,6 @@ export default function ExhaustRenderer() {
       attribute vec3  particleColor;
 
       varying float vLife;
-      varying float vHeat;
       varying vec3  vColor;
 
       void main() {
@@ -88,9 +87,6 @@ export default function ExhaustRenderer() {
 
                 vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
-          // heat value
-          vHeat = smoothstep(1.0, 0.0, life);
-
            // velocity stretch amount
           float speed = particleSize;
 
@@ -105,7 +101,6 @@ export default function ExhaustRenderer() {
     fragmentShader: `
       varying float vLife;
       varying vec3  vColor;
-      varying float vHeat;
 
       void main() {
 
@@ -166,7 +161,7 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
     const positions = positionAttr.array;
     const particleData = particleDataAttr.array;
-    const colors = colorAttr.array;
+ 
 
     let i = 0;
 
