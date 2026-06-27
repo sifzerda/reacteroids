@@ -140,8 +140,10 @@ void main() {
       lastCount.current = i;
     }
 
-    positionAttr.needsUpdate = true;
-    particleDataAttr.needsUpdate = true;
+    if (i > 0) {
+      positionAttr.needsUpdate = true;
+      particleDataAttr.needsUpdate = true;
+    }
   });
 
   return (
