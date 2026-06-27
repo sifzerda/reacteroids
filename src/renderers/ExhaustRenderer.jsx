@@ -1,7 +1,5 @@
 // src/renderers/ExhaustRenderer.jsx
 
-// src/renderers/ExhaustRenderer.jsx
-
 import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -11,33 +9,42 @@ const MAX = 3000;
 
 export default function ExhaustRenderer() {
 
+  const lastCount = useRef(0);
   const pointsRef = useRef();
 
   const { size, viewport } = useThree();
 
-  const { geometry, positionAttr, sizeAttr, lifeAttr, colorAttr, } = useMemo(() => {
+  const {
+    geometry,
+    positionAttr,
+    particleDataAttr,
+    colorAttr,
+  } = useMemo(() => {
 
     const geometry = new THREE.BufferGeometry();
 
     const positions = new Float32Array(MAX * 3);
-    const sizes = new Float32Array(MAX);
-    const lifes = new Float32Array(MAX);
+    const particleData = new Float32Array(MAX * 2);
     const colors = new Float32Array(MAX * 3);
     const positionAttr = new THREE.BufferAttribute(positions, 3);
-    const sizeAttr = new THREE.BufferAttribute(sizes, 1);
-    const lifeAttr = new THREE.BufferAttribute(lifes, 1);
     const colorAttr = new THREE.BufferAttribute(colors, 3);
 
     geometry.setAttribute("position", positionAttr);
-    geometry.setAttribute("particleSize", sizeAttr);
-    geometry.setAttribute("life", lifeAttr);
+
+    const particleDataAttr = new THREE.BufferAttribute(particleData, 2);
+    geometry.setAttribute("particleData", particleDataAttr);
+
     geometry.setAttribute("particleColor", colorAttr);
     positionAttr.setUsage(THREE.DynamicDrawUsage);
-    sizeAttr.setUsage(THREE.DynamicDrawUsage);
-    lifeAttr.setUsage(THREE.DynamicDrawUsage);
+    particleDataAttr.setUsage(THREE.DynamicDrawUsage);
     colorAttr.setUsage(THREE.DynamicDrawUsage);
 
-    return { geometry, positionAttr, sizeAttr, lifeAttr, colorAttr, };
+    return {
+      geometry,
+      positionAttr,
+      particleDataAttr,
+      colorAttr
+    };
   }, []);
 
   const material = useMemo(() => new THREE.ShaderMaterial({
@@ -60,8 +67,7 @@ export default function ExhaustRenderer() {
         uniform float uPixelRatio;
         uniform float uViewportHeight;
 
-      attribute float particleSize;
-      attribute float life;
+      attribute vec2 particleData;
       attribute vec3  particleColor;
 
       varying float vLife;
@@ -71,17 +77,19 @@ export default function ExhaustRenderer() {
 
       void main() {
 
+        float particleSize = particleData.x;
+        float life = particleData.y;
+
         vLife  = life;
         vec3 pos = position;
         vColor = particleColor;
 
-        vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
-
                   // animated distortion
         float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
+        pos.x += (n - 0.5) * 0.08;
+        pos.y += (n - 0.5) * 0.08;
 
-          pos.x += (n - 0.5) * 0.08;
-          pos.y += (n - 0.5) * 0.08;
+                vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
           // heat value
           vHeat = smoothstep(1.0, 0.0, life);
@@ -95,8 +103,6 @@ export default function ExhaustRenderer() {
           // scale uv by speed and heat
           vStretchUv = vec2(1.0, 1.0) * (speed * 0.5 + 0.5) * (vHeat * 0.6 + 0.4);
 
-        // expand as life depletes — puff grows over time
-float expand = 1.0 + (1.0 - life) * 12.0;
  gl_PointSize = sizeBase * particleSize * uPixelRatio;
 
         gl_Position = projectionMatrix * mvPosition;
@@ -110,7 +116,7 @@ float expand = 1.0 + (1.0 - life) * 12.0;
 
       void main() {
 
-        vec2  uv   = gl_PointCoord - 0.5;
+        vec2 uv = gl_PointCoord - 0.5;
         float dist = length(uv);
 
                   // circular mask
@@ -154,10 +160,9 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
         float fadeOut = vLife * vLife;
 
         alpha *= puff * fadeIn * fadeOut;
-
+        color *= 2.2;
         gl_FragColor = vec4(color, alpha);
 
-        color *= 2.2;
       }
     `,
 
@@ -168,8 +173,7 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
     const positions = positionAttr.array;
-    const sizes = sizeAttr.array;
-    const lifes = lifeAttr.array;
+    const particleData = particleDataAttr.array;
     const colors = colorAttr.array;
 
     let i = 0;
@@ -184,21 +188,20 @@ float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
       positions[i3 + 1] = p.y;
       positions[i3 + 2] = 0;
 
-      sizes[i] = p.size ?? 10;
-      lifes[i] = p.life ?? 1;
-
-      colors[i3] = p.colorR ?? 0.2;
-      colors[i3 + 1] = p.colorG ?? 0.7;
-      colors[i3 + 2] = p.colorB ?? 2.0;
+      const i2 = i * 2;
+      particleData[i2] = p.size ?? 10;
+      particleData[i2 + 1] = p.life ?? 1;
 
       i++;
     }
 
-    geometry.setDrawRange(0, i);
+    if (lastCount.current !== i) {
+      geometry.setDrawRange(0, i);
+      lastCount.current = i;
+    }
 
     positionAttr.needsUpdate = true;
-    sizeAttr.needsUpdate = true;
-    lifeAttr.needsUpdate = true;
+    particleDataAttr.needsUpdate = true;
   });
 
   return (
