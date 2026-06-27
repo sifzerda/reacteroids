@@ -1,7 +1,7 @@
 // src/ecs/systems/missileSystem.js
 
 import { missiles } from '../core/queries';
-import { findNearestAsteroid } from '../shared/findNearestAsteroid';
+import { findNearestAsteroid } from '../shared/spatialGrid';
 import { world } from '../core/world';
 import { releaseMissile } from '../pools/missilePool';
 

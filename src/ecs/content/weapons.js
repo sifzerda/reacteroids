@@ -1,7 +1,7 @@
 // ecs/content/weapons.js
 
 import { spawnBullet, spawnBeam, spawnMissile, spawnSpark } from '../spawn';
-import { findNearestAsteroid } from '../shared/findNearestAsteroid';
+import { findNearestAsteroid } from '../shared/spatialGrid';
 import { sparkParticles, exhaustParticles } from '../core/queries';
 
 export const weapons = {

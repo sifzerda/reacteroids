@@ -9,9 +9,12 @@ import { bulletLifetimeSystem } from './bulletLifetimeSystem';
 import { beamLifetimeSystem } from './beamLifetimeSystem';
 import { particleLifetimeSystem } from './particleLifetimeSystem';
 
-export const gameSystems = [
+export const gameSystemsBeforeGrid = [
   asteroidSystem,
   movementSystem,
+];
+
+export const gameSystemsAfterGrid = [
   collisionSystem,
   missileSystem,
   waveSystem,
