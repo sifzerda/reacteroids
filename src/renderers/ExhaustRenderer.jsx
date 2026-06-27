@@ -62,17 +62,13 @@ export default function ExhaustRenderer() {
         vec3 pos = position;
         vColor = particleColor;
 
-                  // animated distortion
         float n = sin(pos.x * 8.0 + uTime * 3.0) * cos(pos.y * 8.0 + uTime * 3.0);
         pos.x += (n - 0.5) * 0.08;
         pos.y += (n - 0.5) * 0.08;
 
-                vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
+        vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
 
-           // velocity stretch amount
           float speed = particleSize;
-
-          // base size
           float sizeBase = mix(2.0, 4.0, life);
 
         gl_PointSize = sizeBase * particleSize * uPixelRatio;
@@ -90,14 +86,10 @@ export default function ExhaustRenderer() {
 
         uv.x += sin(uv.y*20.0+vLife*15.0)*0.03;
         float dist = length(uv);
+        float alpha = smoothstep(0.35, 0.0, dist);
 
-                  // circular mask
-          float alpha = smoothstep(0.35, 0.0, dist);
-
-          // tapered flame shape
 alpha *= 1.2 + uv.y * 1.1;
 
-// gas flame colors
 vec3 hot = vec3(0.3,0.9,4.0);
 vec3 blue = vec3(0.1,0.4,1.6);
 vec3 orange = vec3(1.2,0.4,0.1);
@@ -111,25 +103,19 @@ color=mix(color,blue,smoothstep(0.0,0.15,t));
 color=mix(color,orange,smoothstep(0.25,0.6,t));
 color=mix(color,smoke,smoothstep(0.7,1.0,t));
 
-// flicker
 float shimmer = sin(gl_PointCoord.y * 20.0 + vLife * 12.0) * 0.03;
 
     color += shimmer;
 
-              // edge fade
           alpha *= vLife;
 
-        // gaussian puff — no hard edge, just soft falloff
         float puff = exp(-dist * dist * 10.0);
-
-        // fade in briefly then fade out over life
         float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
         float fadeOut = vLife * vLife;
 
         alpha *= puff * fadeIn * fadeOut;
         color *= 2.2;
 
-        
         gl_FragColor = vec4(color, alpha);
 
       }
