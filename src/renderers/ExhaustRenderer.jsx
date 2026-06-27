@@ -11,18 +11,11 @@ export default function ExhaustRenderer() {
 
   const lastCount = useRef(0);
   const pointsRef = useRef();
-
   const { size } = useThree();
 
-  const {
-    geometry,
-    positionAttr,
-    particleDataAttr,
-    colorAttr,
-  } = useMemo(() => {
+  const { geometry, positionAttr, particleDataAttr, colorAttr } = useMemo(() => {
 
     const geometry = new THREE.BufferGeometry();
-
     const positions = new Float32Array(MAX * 3);
     const particleData = new Float32Array(MAX * 2);
     const colors = new Float32Array(MAX * 3);
@@ -30,35 +23,24 @@ export default function ExhaustRenderer() {
     const colorAttr = new THREE.BufferAttribute(colors, 3);
 
     geometry.setAttribute("position", positionAttr);
-
     const particleDataAttr = new THREE.BufferAttribute(particleData, 2);
     geometry.setAttribute("particleData", particleDataAttr);
-
     geometry.setAttribute("particleColor", colorAttr);
     positionAttr.setUsage(THREE.DynamicDrawUsage);
     particleDataAttr.setUsage(THREE.DynamicDrawUsage);
     colorAttr.setUsage(THREE.DynamicDrawUsage);
 
-    return {
-      geometry,
-      positionAttr,
-      particleDataAttr,
-      colorAttr
-    };
-  }, []);
+    return { geometry, positionAttr, particleDataAttr, colorAttr }}, []);
 
   const material = useMemo(() => new THREE.ShaderMaterial({
 
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-    //vertexColors: false,
+    vertexColors: false,
     toneMapped: false,
 
-    uniforms: {
-      uTime: { value: 0 },
-      uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) }
-    },
+    uniforms: { uTime: { value: 0 }, uPixelRatio: { value: Math.min(window.devicePixelRatio, 2)}},
 
     vertexShader: `
 
