@@ -110,14 +110,7 @@ void main() {
     glow *= 0.25;
   }
 
-  // Charge beam
-  if (vBeamType > 1.5) {
-    glow *= 2.5;
-    core *= 2.0;
-  }
-
   float pulse = 0.8 + 0.2 * sin(uTime * 25.0 + vUv.x * 30.0);
-
   vec3 color = vColor * glow * 4.0 * pulse + vec3(4.0) * core;
 
   float alpha = glow * pulse;
@@ -176,8 +169,6 @@ void main() {
       colors[i3 + 0] = beam.colorR ?? 0;
       colors[i3 + 1] = beam.colorG ?? 1;
       colors[i3 + 2] = beam.colorB ?? 1;
-
-      types[count] = beam.beamType === 'ion' ? 1 : beam.beamType === 'charge' ? 2 : 0;
 
       count++;
     }

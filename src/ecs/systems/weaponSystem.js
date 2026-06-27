@@ -6,7 +6,6 @@ import { settings } from '../core/settings';
 import { world } from '../core/world';
 import { weapons } from '../content/weapons';
 
-const CHARGE_MAX_TIME = 3;
 const MUZZLE_OFFSET = 1.1;
 
 export function weaponSystem(delta) {
@@ -42,34 +41,12 @@ export function weaponSystem(delta) {
       ship.currentWeapon = weapons.flamethrower;
     }
     else if (keys.Digit6) {
-      ship.weapon = 'chargegun';
-      ship.currentWeapon = weapons.chargegun;
-    }
-    else if (keys.Digit7) {
       ship.weapon = 'missilelauncher';
       ship.currentWeapon = weapons.missilelauncher;
     }
-    else if (keys.Digit8) {
+    else if (keys.Digit7) {
       ship.weapon = 'laserbeam';
       ship.currentWeapon = weapons.laserbeam;
-    }
-
-    /*
-    -------------------------------------------------
-    CLEANUP CHARGE EFFECT IF WEAPON CHANGED
-    -------------------------------------------------
-    */
-
-    if (
-      previousWeapon === 'chargegun' && ship.weapon !== 'chargegun'
-    ) {
-      ship.chargeTime = 0;
-      ship.charging = false;
-
-      if (ship.chargeEffect) {
-        world.remove(ship.chargeEffect);
-        ship.chargeEffect = null;
-      }
     }
 
     ship.cooldown -= delta;
@@ -85,62 +62,6 @@ export function weaponSystem(delta) {
     const muzzleY = ship.y + ship.forwardY * MUZZLE_OFFSET;
 
     const firing = keys.Space || (settings.controlScheme === 'keyboardMouse' && mouse.down);
-
-    /*
-    -------------------------------------------------
-    CHARGE GUN
-    -------------------------------------------------
-    */
-
-    if (ship.weapon === 'chargegun') {
-
-      ship.chargeTime ??= 0;
-      ship.charging ??= false;
-
-      const muzzleX = ship.x + ship.forwardX * MUZZLE_OFFSET;
-      const muzzleY = ship.y + ship.forwardY * MUZZLE_OFFSET;
-
-      if (firing) {
-
-        ship.charging = true;
-        ship.chargeTime += delta;
-
-        const charge = Math.min(ship.chargeTime / CHARGE_MAX_TIME, 1);
-
-        if (!ship.chargeEffect) {
-
-          ship.chargeEffect = world.add({
-            chargeEffect: true,
-            x: muzzleX,
-            y: muzzleY,
-            rotation: ship.rotation,
-            charge,
-          });
-
-        } else {
-
-          ship.chargeEffect.x = muzzleX;
-          ship.chargeEffect.y = muzzleY;
-          ship.chargeEffect.rotation = ship.rotation;
-          ship.chargeEffect.charge = charge;
-        }
-      }
-
-      else if (ship.charging) {
-
-        weapon.release(ship, ship.chargeTime, muzzleX, muzzleY);
-
-        ship.chargeTime = 0;
-        ship.charging = false;
-
-        if (ship.chargeEffect) {
-          world.remove(ship.chargeEffect);
-          ship.chargeEffect = null;
-        }
-      }
-
-      continue;
-    }
 
     /*
     -------------------------------------------------

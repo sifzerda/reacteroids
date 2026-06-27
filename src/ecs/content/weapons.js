@@ -141,45 +141,13 @@ export const weapons = {
 
   /*
   -------------------------------------------------
-  CHARGE BEAM 
-  -------------------------------------------------
-  */
-
-  chargebeam: {
-
-    hotkey: 'Digit6',
-    cooldown: 0,
-
-    release(ship, chargeTime, muzzleX, muzzleY) {
-
-      const charge = Math.min(chargeTime, 3);
-
-      spawnBeam({
-        beamType: 'charge',
-        x: muzzleX,
-        y: muzzleY,
-        rotation: ship.rotation,
-        damage: 200 + charge * 800,
-        length: 6 + charge * 25,
-        width: 0.3 + charge * 1.8,
-        colorR: 0,
-        colorG: 1,
-        colorB: 1,
-        glow: 5,
-        life: 0.20
-      });
-    }
-  },
-
-  /*
-  -------------------------------------------------
   MISSILE GUN 
   -------------------------------------------------
   */
 
   missilelauncher: {
 
-    hotkey: 'Digit7',
+    hotkey: 'Digit6',
     cooldown: 0.35,
 
     fire(ship, muzzleX, muzzleY) {
@@ -204,7 +172,7 @@ export const weapons = {
 
   laserbeam: {
 
-    hotkey: 'Digit8',
+    hotkey: 'Digit7',
 
     fire(ship, muzzleX, muzzleY) {
 

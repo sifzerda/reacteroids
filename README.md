@@ -103,7 +103,7 @@ This project is incomplete and requires further development. Currently the highs
 
 Extras once full base game working:
 - [x] more guns types
- - [x] homing missiles, flamethrower, laser, charge beam, small round delay explosion bombs which stick to asteroids, rocket launcher, 
+ - [x] homing missiles, flamethrower, laser, small round delay explosion bombs which stick to asteroids, rocket launcher, 
 
 - [ ] powerups, ship health etc
 - [ ] add damage bar which when it goes down, ship loses a life

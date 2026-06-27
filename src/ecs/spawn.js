@@ -37,8 +37,6 @@ export function spawnShip() {
     vx: 0,
     vy: 0,
     radius: 0.45,
-    chargeTime: 0,
-    charging: false,
   };
 
   return world.add(ship);

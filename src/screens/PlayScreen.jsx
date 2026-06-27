@@ -21,9 +21,6 @@ import MissileRenderer from '../renderers/MissileRenderer';
 import ExhaustRenderer from '../renderers/ExhaustRenderer';
 import SparkRenderer from '../renderers/SparkRenderer';
 
-// firing effects
-import ChargeEffectRenderer from '../renderers/ChargeEffectRenderer';
-
 import MouseWorldTracker from '../ecs/core/MouseWorldTracker';
 
 import HUD from '../components/HUD';
@@ -54,7 +51,6 @@ export default function PlayScreen({ onGameOver }) {
         <BulletRenderer />
 
         <BeamRenderer />
-        <ChargeEffectRenderer />
         <MissileRenderer />
 
         <ExhaustRenderer />
