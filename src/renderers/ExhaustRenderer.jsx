@@ -99,7 +99,7 @@ void main() {
 
   alpha *= vLife;
 
-  float puff = smoothstep(0.0, 0.3, vLife);
+  float puff = 1.0 - clamp(dist * dist * 10.0, 0.0, 1.0);
   float fadeIn  = smoothstep(0.0, 0.3, 1.0 - vLife);
   float fadeOut = vLife * vLife;
 
@@ -113,7 +113,6 @@ void main() {
   }), []);
 
   useFrame((state) => {
-
     material.uniforms.uTime.value = state.clock.elapsedTime;
 
     let i = 0;
